@@ -5,7 +5,6 @@ if (! class_exists('AVH_DB')) {
 
 	final class AVH_DB
 	{
-		private $_data_cache;
 
 		/**
 		 * Fetch MySQL Field Names
@@ -14,23 +13,26 @@ if (! class_exists('AVH_DB')) {
 		 * @param	string	the table name
 		 * @return	array
 		 */
-		public function list_fields ($table = '')
+		public function getFieldNames ($table = '')
 		{
 			global $wpdb;
 			
-			$sql = $this->_getQueryShowColumns($table);
-			
-			$query = $wpdb->get_results($sql, ARRAY_A);
-			
-			$retval = array ();
-			foreach ($query->result_array() as $row) {
-				if (isset($row['Field'])) {
-					$retval[] = $row['Field'];
+			$retval = wp_cache_get('field_names_' . $table, 'avhec');
+			if (false === $retval) {
+				$sql = $this->_getQueryShowColumns($table);
+				
+				$result = $wpdb->get_results($sql, ARRAY_A);
+				
+				$retval = array ();
+				foreach ($result as $row) {
+					if (isset($row['Field'])) {
+						$retval[] = $row['Field'];
+					}
 				}
+				wp_cache_set('field_names_' . $table, $retval,'avhec',3600);
 			}
 			
-			$this->data_cache['field_names'][$table] = $retval;
-			return $this->data_cache['field_names'][$table];
+			return $retval;
 		}
 
 		/**
@@ -42,7 +44,7 @@ if (! class_exists('AVH_DB')) {
 		 */
 		public function field_exists ($field_name, $table_name)
 		{
-			return (in_array($field_name, $this->list_fields($table_name)));
+			return (in_array($field_name, $this->getFieldNames($table_name)));
 		}
 
 		/**
