@@ -1,4 +1,4 @@
 == Changelog
 
-= Version 1.0.0-dev.1 =
+= Version 1.0.0-rc.1 =
 * Initial start
