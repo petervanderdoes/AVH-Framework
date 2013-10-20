@@ -1,0 +1,36 @@
+{
+	"name" : "AVH Framework",
+	"type" : "wordpress-plugin",
+	"authors" : [{
+			"name" : "Peter van der Does",
+			"email" : "peter@avirtualhome.com",
+			"homepage" : "blog.avirtualhome.com",
+			"role" : "Project Manager"
+		}
+	],
+	"keywords" : [
+		"framework"
+	],
+	"license" : [
+		"MIT"
+	],
+	"autoload" : {
+		"psr-0" : {
+			"Avh\\" : "libs/"
+		},
+		"files" : [
+			"libs/Avh/Support/helpers.php"
+		]
+	},
+	"support" : {
+		"source" : "https://github.com/petervanderdoes/AVH-Framework",
+		"issues" : "https://github.com/petervanderdoes/AVH-Framework/issues",
+		"wiki" : "https://github.com/petervanderdoes/AVH-Framework/wiki"
+	},
+	"repositories" : [{
+			"name" : "master",
+			"type" : "git",
+			"url" : "https://github.com/petervanderdoes/AVH-Framework.git"
+		}
+	]
+}
