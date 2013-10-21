@@ -22,7 +22,8 @@
 			"Avh\\" : "libs/"
 		},
 		"files" : [
-			"libs/Avh/Support/helpers.php"
+			"libs/Avh/Support/helpers.php",
+			"libs/Avh/Support/version.php"
 		]
 	},
 	"support" : {
