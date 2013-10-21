@@ -6,21 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Avh\\Controller\\PluginController' => $baseDir . '/libs/Avh/Controller/PluginController.php',
-    'Avh\\Db\\Db' => $baseDir . '/libs/Avh/Db/Db.php',
-    'Avh\\Di\\Container' => $baseDir . '/libs/Avh/Di/Container.php',
-    'Avh\\Di\\ContainerInterface' => $baseDir . '/libs/Avh/Di/ContainerInterface.php',
-    'Avh\\Di\\Definition' => $baseDir . '/libs/Avh/Di/Definition.php',
-    'Avh\\Html\\FormBuilder' => $baseDir . '/libs/Avh/Html/FormBuilder.php',
-    'Avh\\Html\\HtmlBuilder' => $baseDir . '/libs/Avh/Html/HtmlBuilder.php',
-    'Avh\\Mail\\Mailer' => $baseDir . '/libs/Avh/Mail/Mailer.php',
-    'Avh\\Network\\Security' => $baseDir . '/libs/Avh/Network/Security.php',
-    'Avh\\Network\\Visitor' => $baseDir . '/libs/Avh/Network/Visitor.php',
-    'Avh\\Support\\Str' => $baseDir . '/libs/Avh/Support/Str.php',
-    'Avh\\Support\\Url' => $baseDir . '/libs/Avh/Support/Url.php',
-    'Avh\\Utility\\Common' => $baseDir . '/libs/Avh/Utility/Common.php',
-    'Avh\\Utility\\Loader' => $baseDir . '/libs/Avh/Utility/Loader.php',
-    'Avh\\Utility\\Options' => $baseDir . '/libs/Avh/Utility/Options.php',
-    'Avh\\Utility\\Settings' => $baseDir . '/libs/Avh/Utility/Settings.php',
-    'Avh\\Utility\\ShortcodesAbstract' => $baseDir . '/libs/Avh/Utility/ShortcodesAbstract.php',
 );
