@@ -43,7 +43,7 @@ final class Common
     /**
      * Get the base directory of a directory structure
      *
-     * @param string $directory
+     * @param  string $directory
      * @return string
      *
      */
@@ -91,7 +91,7 @@ final class Common
      * WordPress only allows one callback for the uninstall hook.
      * The AVH_Options class needs one and you probably need more wehn writing a plugin.
      *
-     * @param string $file
+     * @param string   $file
      * @param callback $callback
      *            The callback to run when the hook is called. Must be a static method or function.
      */

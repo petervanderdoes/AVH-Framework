@@ -1,11 +1,11 @@
 <?php
-if ( ! function_exists('starts_with'))
-{
+if (!function_exists('avh_starts_with')) {
+
     /**
      * Determine if a string starts with a given needle.
      *
-     * @param  string  $haystack
-     * @param  string|array  $needle
+     * @param  string       $haystack
+     * @param  string|array $needle
      * @return bool
      */
     function avh_starts_with($haystack, $needle)

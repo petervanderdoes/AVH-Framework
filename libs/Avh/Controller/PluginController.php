@@ -447,6 +447,6 @@ class PluginController
 
     public function tinyMceVersion($version)
     {
-        return ++ $version;
+        return ++$version;
     }
 }
