@@ -11,6 +11,7 @@ It's not intended to be used by itself and it probably will not be made availabl
 ## Installation
 * Download the [zip file](https://github.com/petervanderdoes/AVH-Framework/archive/master.zip).
 * Extract the zip file in the `mu-plugins` directory.
+* Copy the file `avh-framework.php` to the directory `mu-plugins`
 
 ## License
 AVH Framework is released under the [MIT License](http://www.opensource.org/licenses/MIT).
