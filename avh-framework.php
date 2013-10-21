@@ -1,0 +1,13 @@
+<?php
+/**
+ * Plugin Name: AVH Framework
+ * Plugin URI: http://blog.avirtualhome.com/wordpress-plugins
+ * Description: This plugin was written to support all other AVH plugins
+ * Version: 1.1.0-dev.8
+ * Author: Peter van der Does
+ * Author URI: http://blog.avirtualhome.com/
+ *
+ * Copyright 2013 Peter van der Does (email : peter@avirtualhome.com)
+ */
+
+require WPMU_PLUGIN_DIR.'/avh-framework/bootstrap.php';
