@@ -9,5 +9,6 @@
  *
  * Copyright 2013 Peter van der Does (email : peter@avirtualhome.com)
  */
-
-require WPMU_PLUGIN_DIR.'/avh-framework/bootstrap.php';
+if (!defined('AVH_FRAMEWORK')) {
+    require WPMU_PLUGIN_DIR . '/avh-framework/bootstrap.php';
+}

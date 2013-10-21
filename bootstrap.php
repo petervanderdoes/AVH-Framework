@@ -10,6 +10,4 @@
  * | loading of any our classes "manually". Feels great to relax.
  * |
  */
-if (!defined('AVH_FRAMEWORK')) {
-    require __DIR__ . '/vendor/autoload.php';
-}
+require __DIR__ . '/vendor/autoload.php';
