@@ -16,9 +16,9 @@ final class Security
      */
     public static function createNonce($action = -1)
     {
-        $_tick = wp_nonce_tick();
+        $tick = wp_nonce_tick();
 
-        return substr(wp_hash($_tick . $action, 'nonce'), -12, 10);
+        return substr(wp_hash($tick . $action, 'nonce'), -12, 10);
     }
 
     /**
@@ -37,15 +37,15 @@ final class Security
      */
     public static function verifyNonce($nonce, $action = -1)
     {
-        $_return = false;
-        $_tick = wp_nonce_tick();
+        $return = false;
+        $tick = wp_nonce_tick();
         // Nonce generated 0-12 hours ago
-        if (substr(wp_hash($_tick . $action, 'nonce'), -12, 10) == $nonce) {
-            $_return = 1;
-        } elseif (substr(wp_hash(($_tick - 1) . $action, 'nonce'), -12, 10) == $nonce) { // Nonce generated 12-24 hours ago
-            $_return = 2;
+        if (substr(wp_hash($tick . $action, 'nonce'), -12, 10) == $nonce) {
+            $return = 1;
+        } elseif (substr(wp_hash(($tick - 1) . $action, 'nonce'), -12, 10) == $nonce) { // Nonce generated 12-24 hours ago
+            $return = 2;
         }
 
-        return $_return;
+        return $return;
     }
 }

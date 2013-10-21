@@ -51,12 +51,12 @@ final class Options
      */
     public function getOptions($field = '')
     {
-        $_data = get_option($this->option_key, false);
-        if (false === $_data) {
-            $_data = array_merge($this->option_defaults, $_data);
+        $data = get_option($this->option_key, false);
+        if (false === $data) {
+            $data = array_merge($this->option_defaults, $data);
         }
 
-        return $this->get($field, $_data);
+        return $this->get($field, $data);
     }
 
     /**
@@ -71,12 +71,12 @@ final class Options
     public function setOptions($field, $value = '')
     {
         if (is_array($field)) {
-            $_newdata = $field;
+            $new_data = $field;
         } else {
-            $_newdata = array($field => $value);
+            $new_data = array($field => $value);
         }
 
-        $this->update($_newdata);
+        $this->update($new_data);
     }
 
     /**
@@ -94,9 +94,9 @@ final class Options
      */
     public function cleanupOptions()
     {
-        $_data = $this->getOptions();
-        $_data = $this->clean($_data);
-        update_option($this->option_key, $_data);
+        $data = $this->getOptions();
+        $data = $this->clean($data);
+        update_option($this->option_key, $data);
     }
 
     /**
@@ -106,8 +106,8 @@ final class Options
      */
     private function update($newdata)
     {
-        $_all_data = array_merge($this->getOptions(), $newdata);
-        update_option($this->option_key, $_all_data);
+        $all_data = array_merge($this->getOptions(), $newdata);
+        update_option($this->option_key, $all_data);
     }
 
     /**
@@ -156,10 +156,10 @@ final class Options
 
         foreach ($field as $key) {
             if (isset($data[$key])) {
-                $_result[] = $data[$key];
+                $result[] = $data[$key];
             }
         }
 
-        return $_result;
+        return $result;
     }
 }

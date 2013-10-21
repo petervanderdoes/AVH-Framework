@@ -98,34 +98,34 @@ class FormBuilder
 
     public function text($label, $description, $name, $value = null, array $attributes = null)
     {
-        $_label = $this->label($name, $label);
-        $_field = $this->input($name, $value, $attributes);
+        $text_label = $this->label($name, $label);
+        $text_field = $this->input($name, $value, $attributes);
 
-        return $this->output($_label, $_field);
+        return $this->output($text_label, $text_field);
     }
 
     public function checkboxes($label, $descripton, $name, array $options, array $attributes = null)
     {
-        $_label = $this->label($name, $label);
-        $_return = $this->outputLabel($_label);
-        $_field = '';
+        $cb_label = $this->label($name, $label);
+        $return = $this->outputLabel($cb_label);
+        $cb_field = '';
         foreach ($options as $value => $attr) {
-            $_checked = (isset($attr['checked']) ? $attr['checked'] : false);
-            $_field .= $this->checkbox($value, true, $_checked, $attributes);
-            $_field .= $this->label($value, $attr['text']);
-            $_field .= '<br>';
+            $cb_checked = (isset($attr['checked']) ? $attr['checked'] : false);
+            $cb_field .= $this->checkbox($value, true, $cb_checked, $attributes);
+            $cb_field .= $this->label($value, $attr['text']);
+            $cb_field .= '<br>';
         }
-        $_return .= $this->outputField($_field);
+        $return .= $this->outputField($cb_field);
 
-        return $_return;
+        return $return;
     }
 
     public function select($label, $description, $name, array $options = null, $selected = null, array $attributes = null)
     {
-        $_label = $this->label($name, $label);
-        $_field = $this->getSelect($name, $options, $selected, $attributes);
+        $select_label = $this->label($name, $label);
+        $select_field = $this->getSelect($name, $options, $selected, $attributes);
 
-        return $this->output($_label, $_field);
+        return $this->output($select_label, $select_field);
     }
 
     /**
@@ -413,28 +413,28 @@ class FormBuilder
                     $group = array('label' => $value);
 
                     // Create a new list of options
-                    $_options = array();
+                    $group_options = array();
 
-                    foreach ($name as $_value => $_name) {
+                    foreach ($name as $group_value => $group_name) {
                         // Force value to be string
-                        $_value = (string) $_value;
+                        $group_value = (string) $group_value;
 
                         // Create a new attribute set for this option
-                        $option = array('value' => $_value);
+                        $option = array('value' => $group_value);
 
-                        if (in_array($_value, $selected)) {
+                        if (in_array($group_value, $selected)) {
                             // This option is selected
                             $option[] = 'selected';
                         }
 
                         // Change the option to the HTML string
-                        $_options[] = '<option' . HtmlBuilder::attributes($option) . '>' . esc_html($name) . '</option>';
+                        $group_options[] = '<option' . HtmlBuilder::attributes($option) . '>' . esc_html($name) . '</option>';
                     }
 
                     // Compile the options into a string
-                    $_options = "\n" . implode("\n", $_options) . "\n";
+                    $group_options = "\n" . implode("\n", $group_options) . "\n";
 
-                    $options[$value] = '<optgroup' . HtmlBuilder::attributes($group) . '>' . $_options . '</optgroup>';
+                    $options[$value] = '<optgroup' . HtmlBuilder::attributes($group) . '>' . $group_options . '</optgroup>';
                 } else {
                     // Force value to be string
                     $value = (string) $value;
@@ -519,10 +519,10 @@ class FormBuilder
 
     private function output($label, $field)
     {
-        $_return = $this->outputLabel($label);
-        $_return .= $this->outputField($field);
+        $output_return = $this->outputLabel($label);
+        $output_return .= $this->outputField($field);
 
-        return $_return;
+        return $output_return;
     }
 
     private function outputLabel($label)
@@ -550,9 +550,9 @@ class FormBuilder
      *
      * @param field_type $option_name
      */
-    public function setOptionName($_option_name)
+    public function setOptionName($option_name)
     {
-        $this->option_name = $_option_name;
+        $this->option_name = $option_name;
     }
 
     public function getOptionName()
@@ -560,9 +560,9 @@ class FormBuilder
         return $this->option_name;
     }
 
-    public function setNonceAction($_nonce)
+    public function setNonceAction($nonce)
     {
-        $this->nonce = $this->option_name . '-' . $_nonce;
+        $this->nonce = $this->option_name . '-' . $nonce;
     }
 
     public function getNonceAction()

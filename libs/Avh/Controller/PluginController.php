@@ -83,8 +83,8 @@ class PluginController
 
         // Register Styles and Scripts
 
-        $_style = $this->getStyleName();
-        wp_register_style($_style . '-css', $this->settings->plugin_url . '/css/' . $_style . '.css', array(), $this->settings->plugin_version, 'screen');
+        $style = $this->getStyleName();
+        wp_register_style($style . '-css', $this->settings->plugin_url . '/css/' . $style . '.css', array(), $this->settings->plugin_version, 'screen');
     }
 
     /**
@@ -111,15 +111,15 @@ class PluginController
         }
         if (empty($style)) {
             if (is_admin()) {
-                $_full_style_name = $this->settings->file_prefix . 'admin' . $minified;
+                $full_style_name = $this->settings->file_prefix . 'admin' . $minified;
             } else {
-                $_full_style_name = $this->settings->file_prefix . 'public' . $minified;
+                $full_style_name = $this->settings->file_prefix . 'public' . $minified;
             }
         } else {
-            $_full_style_name = $this->settings->file_prefix . $style . $minified;
+            $full_style_name = $this->settings->file_prefix . $style . $minified;
         }
 
-        return $_full_style_name;
+        return $full_style_name;
     }
 
     /**
@@ -132,18 +132,18 @@ class PluginController
      */
     protected function getJsName($script = '')
     {
-        $_minified = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.closure';
+        $minified = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.closure';
         if (empty($script)) {
             if (is_admin()) {
-                $_full_script_name = $this->settings->file_prefix . 'admin' . $_minified;
+                $full_script_name = $this->settings->file_prefix . 'admin' . $minified;
             } else {
-                $_full_script_name = $this->settings->file_prefix . 'public' . $_minified;
+                $full_script_name = $this->settings->file_prefix . 'public' . $minified;
             }
         } else {
-            $_full_script_name = $this->settings->file_prefix . $script . $_minified;
+            $full_script_name = $this->settings->file_prefix . $script . $minified;
         }
 
-        return $_full_script_name;
+        return $full_script_name;
     }
 
     public function deactivation()
@@ -179,36 +179,36 @@ class PluginController
      */
     public function actionInPluginUpdateMessage()
     {
-        $_response = wp_remote_get($this->settings->plugin_readme_url, array('user-agent' => 'WordPress/' . Common::getWordpressVersion() . ' ' . $this->settings->plugin_name . '/' . $this->settings->plugin_version));
-        if (!is_wp_error($_response) || is_array($_response)) {
-            $_data = $_response['body'];
-            $_matches = null;
-            if (preg_match('~==\s*Changelog\s*==\s*=\s*Version\s*[0-9.]+\s*=(.*)(=\s*Version\s*[0-9.]+\s*=|$)~Uis', $_data, $_matches)) {
-                $_changelog = (array) preg_split('~[\r\n]+~', trim($_matches[1]));
-                $_prev_version = null;
-                preg_match('([0-9.]+)', $_matches[2], $_prev_version);
+        $response = wp_remote_get($this->settings->plugin_readme_url, array('user-agent' => 'WordPress/' . Common::getWordpressVersion() . ' ' . $this->settings->plugin_name . '/' . $this->settings->plugin_version));
+        if (!is_wp_error($response) || is_array($response)) {
+            $response_data = $response['body'];
+            $matches = null;
+            if (preg_match('~==\s*Changelog\s*==\s*=\s*Version\s*[0-9.]+\s*=(.*)(=\s*Version\s*[0-9.]+\s*=|$)~Uis', $response_data, $matches)) {
+                $changelog = (array) preg_split('~[\r\n]+~', trim($matches[1]));
+                $prev_version = null;
+                preg_match('([0-9.]+)', $matches[2], $prev_version);
                 echo '<div style="color: #f00;">What\'s new in this version:</div><div style="font-weight: normal;">';
-                $_ul = false;
-                foreach ($_changelog as $_index => $_line) {
-                    if (preg_match('~^\s*\*\s*~', $_line)) {
-                        if (!$_ul) {
+                $ul = false;
+                foreach ($changelog as $index => $line) {
+                    if (preg_match('~^\s*\*\s*~', $line)) {
+                        if (!$ul) {
                             echo '<ul style="list-style: disc; margin-left: 20px;">';
-                            $_ul = true;
+                            $ul = true;
                         }
-                        $_line = preg_replace('~^\s*\*\s*~', '', htmlspecialchars($_line));
-                        echo '<li style="width: 50%; margin: 0; float: left; ' . ($_index % 2 == 0 ? 'clear: left;' : '') . '">' . $_line . '</li>';
+                        $line = preg_replace('~^\s*\*\s*~', '', htmlspecialchars($line));
+                        echo '<li style="width: 50%; margin: 0; float: left; ' . ($index % 2 == 0 ? 'clear: left;' : '') . '">' . $line . '</li>';
                     } else {
-                        if ($_ul) {
+                        if ($ul) {
                             echo '</ul><div style="clear: left;"></div>';
-                            $_ul = false;
+                            $ul = false;
                         }
-                        echo '<p style="margin: 5px 0;">' . htmlspecialchars($_line) . '</p>';
+                        echo '<p style="margin: 5px 0;">' . htmlspecialchars($line) . '</p>';
                     }
                 }
-                if ($_ul) {
+                if ($ul) {
                     echo '</ul><div style="clear: left;"></div>';
                 }
-                if ($_prev_version[0] != $this->settings->plugin_version) {
+                if ($prev_version[0] != $this->settings->plugin_version) {
                     echo '<div style="color: #f00; font-weight: bold;">';
                     echo '<br />';
                     echo sprintf(__('The installed version, %s, is more than one version behind.', $this->textdomain), $this->settings->plugin_version);
@@ -240,8 +240,8 @@ class PluginController
     public function filterPluginActions($links)
     {
         if ($this->options_page_id != '') {
-            $_settings_link = '<a href="' . admin_url('options-general.php?page=' . $this->options_page_id) . '">' . __('Settings') . '</a>';
-            array_unshift($links, $_settings_link);
+            $settings_link = '<a href="' . admin_url('options-general.php?page=' . $this->options_page_id) . '">' . __('Settings') . '</a>';
+            array_unshift($links, $settings_link);
         }
 
         return $links;
@@ -279,7 +279,7 @@ class PluginController
     {
 
         // @formatter:off
-        $_default_args = array(
+        $default_args = array(
             'id' => '',
             'parent_id' => '',
             'type' => 'options',
@@ -296,14 +296,14 @@ class PluginController
         );
         // @formatter:on
 
-        $_values = wp_parse_args($args, $_default_args);
-        if ($_values['id'] != '' && $_values['display_callback'] != '') {
-            $this->pages[$_values['id']] = $_values;
-            if ($_values['option_link']) {
-                $this->options_page_id = $_values['id'];
+        $values = wp_parse_args($args, $default_args);
+        if ($values['id'] != '' && $values['display_callback'] != '') {
+            $this->pages[$values['id']] = $values;
+            if ($values['option_link']) {
+                $this->options_page_id = $values['id'];
             }
 
-            return ($_values['id']);
+            return ($values['id']);
         } else {
             return (false);
         }
@@ -316,7 +316,7 @@ class PluginController
     {
 
         // @formatter:off
-        $_page_list = array(
+        $page_list = array(
             'dashboard' => 'index.php',
             'posts' => 'edit.php',
             'options' => 'options-general.php',
@@ -333,38 +333,38 @@ class PluginController
 
         // Add a new submenu under Options:
         if (sizeof($this->pages) > 0) {
-            foreach ($this->pages as $_id => $_page) {
+            foreach ($this->pages as $id => $page) {
 
                 // Create the menu
-                if ($_page['type'] == 'menu') {
-                    $_hook = add_menu_page(__($_page['page_title'], $this->textdomain), __($_page['menu_title'], $this->textdomain), $_page['access_level'], $_id, array($this, $_page['display_callback']), $_page['icon_url'], $_page['position']);
+                if ($page['type'] == 'menu') {
+                    $hook = add_menu_page(__($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']), $page['icon_url'], $page['position']);
                 } else {
-                    if ($_page['type'] != 'submenu') {
-                        $_page['parent_id'] = $_page_list[$_page['type']];
+                    if ($page['type'] != 'submenu') {
+                        $page['parent_id'] = $page_list[$page['type']];
                     }
 
-                    $_hook = add_submenu_page($_page['parent_id'], __($_page['page_title'], $this->textdomain), __($_page['menu_title'], $this->textdomain), $_page['access_level'], $_id, array($this, $_page['display_callback']));
+                    $hook = add_submenu_page($page['parent_id'], __($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']));
 
-                    if (isset($this->pages[$_page['parent_id']]) && $this->pages[$_page['parent_id']]['shortname'] != '') {
+                    if (isset($this->pages[$page['parent_id']]) && $this->pages[$page['parent_id']]['shortname'] != '') {
                         global $submenu;
-                        $submenu[$_page['parent_id']][0][0] = $this->pages[$_page['parent_id']]['shortname'];
-                        $this->pages[$_page['parent_id']]['shortname'] = '';
+                        $submenu[$page['parent_id']][0][0] = $this->pages[$page['parent_id']]['shortname'];
+                        $this->pages[$page['parent_id']]['shortname'] = '';
                     }
                 }
 
                 // Get the hook of the page
-                $this->hooks[$_page['display_callback']][$_id] = $_hook;
+                $this->hooks[$page['display_callback']][$id] = $hook;
 
                 // Add load, and print_scripts functions (attached to the hook)
-                if ($_page['load_callback'] !== false) {
-                    add_action('load-' . $_hook, array($this, $_page['load_callback']));
+                if ($page['load_callback'] !== false) {
+                    add_action('load-' . $hook, array($this, $page['load_callback']));
                 }
-                if ($_page['load_scripts'] !== false) {
-                    add_action('admin_print_scripts-' . $_hook, array($this, $_page['load_scripts']));
+                if ($page['load_scripts'] !== false) {
+                    add_action('admin_print_scripts-' . $hook, array($this, $page['load_scripts']));
                 }
 
                 // Add the link into the plugin page
-                if ($this->options_page_id == $_id) {
+                if ($this->options_page_id == $id) {
                     add_filter('plugin_action_links_' . plugin_basename($this->pluginfile), array($this, 'filterPluginActions'));
                 }
             }
@@ -396,9 +396,9 @@ class PluginController
      */
     protected function addCapability($capability, $role)
     {
-        $_role_object = get_role($role);
-        if ($_role_object != null && !$_role_object->has_cap($capability)) {
-            $_role_object->add_cap($capability);
+        $role_object = get_role($role);
+        if ($role_object != null && !$role_object->has_cap($capability)) {
+            $role_object->add_cap($capability);
         }
     }
 
@@ -409,10 +409,10 @@ class PluginController
      */
     public function addTinyMceButton($button_name, $tinymce_plugin_path, $js_file_name = 'editor_plugin.js')
     {
-        $_index = sizeof($this->tinyMCE_buttons);
-        $this->tinyMCE_buttons[$_index]->name = $button_name;
-        $this->tinyMCE_buttons[$_index]->js_file = $js_file_name;
-        $this->tinyMCE_buttons[$_index]->path = $tinymce_plugin_path;
+        $index = sizeof($this->tinyMCE_buttons);
+        $this->tinyMCE_buttons[$index]->name = $button_name;
+        $this->tinyMCE_buttons[$index]->js_file = $js_file_name;
+        $this->tinyMCE_buttons[$index]->path = $tinymce_plugin_path;
     }
 
     /**
@@ -423,8 +423,8 @@ class PluginController
      */
     public function registerButton($buttons)
     {
-        foreach ($this->tinyMCE_buttons as $_value) {
-            array_push($buttons, $_value->name);
+        foreach ($this->tinyMCE_buttons as $value) {
+            array_push($buttons, $value->name);
         }
 
         return $buttons;
@@ -438,8 +438,8 @@ class PluginController
      */
     public function addTinyMcePlugin(array $plugin_array)
     {
-        foreach ($this->tinyMCE_buttons as $_value) {
-            $plugin_array[$_value->name] = $this->settings->plugin_url . $_value->path . '/' . $_value->js_file;
+        foreach ($this->tinyMCE_buttons as $value) {
+            $plugin_array[$value->name] = $this->settings->plugin_url . $value->path . '/' . $value->js_file;
         }
 
         return $plugin_array;

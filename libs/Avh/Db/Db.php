@@ -20,10 +20,10 @@ final class Db
         if (false === $return) {
             $sql = $this->getQueryShowColumns($table);
 
-            $_result = $wpdb->get_results($sql, ARRAY_A);
+            $result = $wpdb->get_results($sql, ARRAY_A);
 
             $return = array();
-            foreach ($_result as $row) {
+            foreach ($result as $row) {
                 if (isset($row['Field'])) {
                     $return[] = $row['Field'];
                 }

@@ -12,14 +12,14 @@ final class Common
      */
     public static function getWordpressVersion()
     {
-        static $_version = null;
-        if (!isset($_version)) {
+        static $version = null;
+        if (!isset($version)) {
             // Include WordPress version
             require (ABSPATH . WPINC . '/version.php');
-            $_version = (float) $wp_version;
+            $version = (float) $wp_version;
         }
 
-        return $_version;
+        return $version;
     }
 
     /**
@@ -31,13 +31,13 @@ final class Common
      */
     public static function isPHP($version = '5.0.0')
     {
-        static $_is_php = null;
+        static $is_php = null;
         $version = (string) $version;
-        if (!isset($_is_php[$version])) {
-            $_is_php[$version] = (version_compare(PHP_VERSION, $version) < 0) ? false : true;
+        if (!isset($is_php[$version])) {
+            $is_php[$version] = (version_compare(PHP_VERSION, $version) < 0) ? false : true;
         }
 
-        return $_is_php[$version];
+        return $is_php[$version];
     }
 
     /**
@@ -50,11 +50,11 @@ final class Common
     public static function getBaseDirectory($directory)
     {
         // get public directory structure eg "/top/second/third"
-        $_public_directory = dirname($directory);
+        $public_directory = dirname($directory);
         // place each directory into array
-        $_directory_array = explode('/', $_public_directory);
+        $directory_array = explode('/', $public_directory);
         // get highest or top level in array of directory strings
-        $_public_base = end($_directory_array);
+        $_public_base = end($directory_array);
 
         return $_public_base;
     }
@@ -78,12 +78,12 @@ final class Common
     public static function getIp2long($ip)
     {
         if (is_numeric($ip)) {
-            $_return = sprintf("%u", floatval($ip));
+            $return = sprintf("%u", floatval($ip));
         } else {
-            $_return = sprintf("%u", floatval(ip2long($ip)));
+            $return = sprintf("%u", floatval(ip2long($ip)));
         }
 
-        return $_return;
+        return $return;
     }
 
     /**

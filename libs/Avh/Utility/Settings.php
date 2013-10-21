@@ -14,12 +14,12 @@ abstract class Settings
     public function __get($key)
     {
         if (isset($this->settings[$key])) {
-            $_return = $this->settings[$key];
+            $return = $this->settings[$key];
         } else {
-            $_return = null;
+            $return = null;
         }
 
-        return $_return;
+        return $return;
     }
 
     public function __set($key, $data)

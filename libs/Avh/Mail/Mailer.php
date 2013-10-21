@@ -18,8 +18,8 @@ class Mailer
     {
         // The blogname option is escaped with esc_html on the way into the database in sanitize_option
         // we want to reverse this for the plain text arena of emails.
-        $_blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-        $subject = sprintf('[%s] ', $_blogname) . $subject;
+        $blog_name = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+        $subject = sprintf('[%s] ', $blog_name) . $subject;
         $message = array_merge($message, $footer);
         $msg = '';
         foreach ($message as $line) {
