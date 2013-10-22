@@ -91,7 +91,7 @@ class HtmlBuilder
             $uri = home_url('/');
         } else {
             if (strpos($uri, '://') !== false) {
-                if ($this->$windowed_urls === true and empty($attributes['target'])) {
+                if ($this->windowed_urls === true and empty($attributes['target'])) {
                     // Make the link open in a new window
                     $attributes['target'] = '_blank';
                 }
@@ -171,7 +171,7 @@ class HtmlBuilder
         }
 
         $sorted = array();
-        foreach ($this->$attribute_order as $key) {
+        foreach ($this->attribute_order as $key) {
             if (isset($attributes[$key])) {
                 // Add the attribute to the sorted list
                 $sorted[$key] = $attributes[$key];
