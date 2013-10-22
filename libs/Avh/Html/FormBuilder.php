@@ -13,6 +13,13 @@ class FormBuilder
 
     private $nonce;
 
+    private $html;
+
+    public function __construct(\Avh\Html\HtmlBuilder $html) {
+
+        $this->html=$html;
+    }
+
     /**
      * Generates an opening HTML form tag.
      *
@@ -30,7 +37,7 @@ class FormBuilder
      * @param array $attributes
      *            html attributes
      * @return string
-     * @uses HtmlBuilder::attributes
+     * @uses HtmlBuilder->attributes
      */
     public function open($action = null, array $attributes = null)
     {
@@ -39,7 +46,7 @@ class FormBuilder
             $attributes['method'] = 'post';
         }
 
-        return '<form action="' . $action . '"' . HtmlBuilder::attributes($attributes) . '>';
+        return '<form action="' . $action . '"' . $this->html->attributes($attributes) . '>';
     }
 
     /**
@@ -163,14 +170,14 @@ class FormBuilder
      * @param array $attributes
      *            html attributes
      * @return string
-     * @uses HtmlBuilder::attributes
+     * @uses HtmlBuilder->attributes
      */
     public function button($name, $body, array $attributes = null)
     {
         // Set the input name
         $attributes['name'] = $name;
 
-        return '<button' . HtmlBuilder::attributes($attributes) . '>' . $body . '</button>';
+        return '<button' . $this->html->attributes($attributes) . '>' . $body . '</button>';
     }
 
     /**
@@ -210,7 +217,7 @@ class FormBuilder
      * @param array $attributes
      *            html attributes
      * @return string
-     * @uses HtmlBuilder::attributes
+     * @uses HtmlBuilder->attributes
      */
     private function input($name, $value = null, array $attributes = null, $use_option_name = true)
     {
@@ -233,7 +240,7 @@ class FormBuilder
             $attributes['id'] = $name;
         }
 
-        return '<input' . HtmlBuilder::attributes($attributes) . ' />';
+        return '<input' . $this->html->attributes($attributes) . ' />';
     }
 
     /**
@@ -348,7 +355,7 @@ class FormBuilder
      * @param boolean $double_encode
      *            encode existing HTML characters
      * @return string
-     * @uses HtmlBuilder::attributes
+     * @uses HtmlBuilder->attributes
      */
     private function textarea($name, $body = '', array $attributes = null, $double_encode = true)
     {
@@ -358,7 +365,7 @@ class FormBuilder
         // Add default rows and cols attributes (required)
         $attributes += array('rows' => 10, 'cols' => 50);
 
-        return '<textarea' . HtmlBuilder::attributes($attributes) . '>' . esc_textarea($body) . '</textarea>';
+        return '<textarea' . $this->html->attributes($attributes) . '>' . esc_textarea($body) . '</textarea>';
     }
 
     /**
@@ -377,7 +384,7 @@ class FormBuilder
      * @param array $attributes
      *            html attributes
      * @return string
-     * @uses HtmlBuilder::attributes
+     * @uses HtmlBuilder->attributes
      */
     private function getSelect($name, array $options = null, $selected = null, array $attributes = null)
     {
@@ -428,13 +435,13 @@ class FormBuilder
                         }
 
                         // Change the option to the HTML string
-                        $group_options[] = '<option' . HtmlBuilder::attributes($option) . '>' . esc_html($name) . '</option>';
+                        $group_options[] = '<option' . $this->html->attributes($option) . '>' . esc_html($name) . '</option>';
                     }
 
                     // Compile the options into a string
                     $group_options = "\n" . implode("\n", $group_options) . "\n";
 
-                    $options[$value] = '<optgroup' . HtmlBuilder::attributes($group) . '>' . $group_options . '</optgroup>';
+                    $options[$value] = '<optgroup' . $this->html->attributes($group) . '>' . $group_options . '</optgroup>';
                 } else {
                     // Force value to be string
                     $value = (string) $value;
@@ -448,7 +455,7 @@ class FormBuilder
                     }
 
                     // Change the option to the HTML string
-                    $options[$value] = '<option' . HtmlBuilder::attributes($option) . '>' . esc_html($name) . '</option>';
+                    $options[$value] = '<option' . $this->html->attributes($option) . '>' . esc_html($name) . '</option>';
                 }
             }
 
@@ -456,7 +463,7 @@ class FormBuilder
             $options = "\n" . implode("\n", $options) . "\n";
         }
 
-        return '<select' . HtmlBuilder::attributes($attributes) . '>' . $options . '</select>';
+        return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
     }
 
     /**
@@ -502,7 +509,7 @@ class FormBuilder
      * @param array $attributes
      *            html attributes
      * @return string
-     * @uses HtmlBuilder::attributes
+     * @uses HtmlBuilder->attributes
      */
     private function label($input, $text = null, array $attributes = null)
     {
@@ -514,7 +521,7 @@ class FormBuilder
         // Set the label target
         $attributes['for'] = $input;
 
-        return '<label' . HtmlBuilder::attributes($attributes) . '>' . $text . '</label>';
+        return '<label' . $this->html->attributes($attributes) . '>' . $text . '</label>';
     }
 
     private function output($label, $field)
