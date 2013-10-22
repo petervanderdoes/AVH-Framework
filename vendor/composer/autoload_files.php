@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     $baseDir . '/libs/Avh/Support/helpers.php',
+    $baseDir . '/libs/Avh/Support/version.php',
 );
