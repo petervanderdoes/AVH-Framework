@@ -1,7 +1,7 @@
 <?php
 namespace Avh\Utility;
 
-abstract class Settings
+abstract class SettingsAbstract
 {
 
     /**
