@@ -9,12 +9,14 @@ use Avh\Utility\Common;
 final class Options
 {
 
-    protected $option_key; // the option name
-    protected $option_defaults; // the default values
+    private $option_key; // the option name
+    private $option_defaults; // the default values
+    private $settings;
 
     // prevent directly access.
-    public function __construct()
+    public function __construct($settings)
     {
+        $this->settings = $settings;
     }
 
     // prevent clone.
@@ -27,19 +29,17 @@ final class Options
      *
      * @param string $key
      *            Option name
-     * @param string $file
+     * @param string $file The PLUGINNAME
      * @param array  $defaults
      *            An associative array of default values (optional)
      */
-    public function load($option_name, $file, $defaults = array())
+    public function load($option_name, $defaults = array())
     {
         $this->option_key = $option_name;
         $this->option_defaults = $defaults;
 
-        if ($file) {
-            register_activation_hook($file, array($this, 'handleActionActivate'));
-            Common::addUninstallHook($file, array('Options', 'delete'));
-        }
+        register_activation_hook($this->settings->plugin_file, array($this, 'handleActionActivate'));
+        Common::addUninstallHook($this->settings->plugin_file, array('Options', 'delete'));
     }
 
     /**
