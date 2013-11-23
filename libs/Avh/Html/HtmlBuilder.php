@@ -187,7 +187,7 @@ class HtmlBuilder
         foreach ($attributes as $key => $value) {
             $element = $this->attributeElement($key, $value);
             if (!is_null($element)) {
-                $compiled .= ' ' . $key . '="' . esc_attr($value) . '"';
+                $compiled .= ' ' . $element;
             }
         }
 
