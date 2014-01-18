@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.2.0-dev.1
+* Preparation for new development cycle.
+
 ### 1.1.0
 * Display of HTML elements not correctly implemented.
 * Check if the framework has been loaded earlier.
