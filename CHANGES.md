@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.1.0-dev.17
+### 1.1.0-rc.1
 * Display of HTML elements not correctly implemented.
 * Check if the framework has been loaded earlier.
 * Add mu-plugins file.
