@@ -83,8 +83,6 @@ class Container implements ContainerInterface, \ArrayAccess
         foreach ($config as $alias => $options) {
             $shared = (array_key_exists('shared', $options)) ?  : false;
 
-            $object = (array_key_exists('object', $options)) ? $options['object'] : $alias;
-
             $object = ($options instanceof Closure) ? $options : $alias;
 
             $object = $this->register($alias, $object, $shared);
@@ -166,8 +164,6 @@ class Container implements ContainerInterface, \ArrayAccess
     public function resolve($alias, array $args = array())
     {
         $object = null;
-        $closure = false;
-        $definition = false;
 
         // if the requested item is not registered with the container already
         // then we register it for easier resolution
@@ -183,13 +179,11 @@ class Container implements ContainerInterface, \ArrayAccess
         // if the item is a factory closure we call the function with args
         if ($this->values[$alias]['object'] instanceof Closure) {
             $object = call_user_func_array($this->values[$alias]['object'], $args);
-            $closure = true;
         }
 
         // if the item is an instance of Definition we invoke it
         if ($this->values[$alias]['object'] instanceof Definition) {
             $object = $this->values[$alias]['object']();
-            $definition = true;
         }
 
         // do we need to save it as a shared item?

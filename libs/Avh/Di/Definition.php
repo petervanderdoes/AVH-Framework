@@ -16,6 +16,13 @@ class Definition
 {
 
     /**
+     * The Container Interface
+     *
+     * @var object
+     */
+    protected $container;
+
+    /**
      * The fully qualified namespace of the instance to return
      *
      * @var string
@@ -66,7 +73,6 @@ class Definition
      */
     public function __invoke()
     {
-        $object = null;
 
         if (!$this->hasClass()) {
             throw new \RuntimeException('The definition has no class associated with it');
