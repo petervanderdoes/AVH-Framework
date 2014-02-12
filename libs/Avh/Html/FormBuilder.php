@@ -95,15 +95,17 @@ class FormBuilder
         return $nonce_field;
     }
 
-    public function fieldSettings($action, $nonce)
+    public function fieldSettings($action, $use_nonce = true)
     {
         $return = $this->hidden('action', $action);
-        $return .= $this->fieldNonce();
+        if ( $use_nonce ) {
+            $return .= $this->fieldNonce();
+        }
 
         return $return;
     }
 
-    public function text($label, $description, $name, $value = null, array $attributes = null)
+    public function text($label, $name, $value = null, array $attributes = null)
     {
         $text_label = $this->label($name, $label);
         $text_field = $this->input($name, $value, $attributes);
@@ -111,14 +113,14 @@ class FormBuilder
         return $this->output($text_label, $text_field);
     }
 
-    public function checkboxes($label, $descripton, $name, array $options, array $attributes = null)
+    public function checkboxes($label,$name, array $options, array $attributes = null)
     {
         $cb_label = $this->label($name, $label);
         $return = $this->outputLabel($cb_label);
         $cb_field = '';
         foreach ($options as $value => $attr) {
             $cb_checked = (isset($attr['checked']) ? $attr['checked'] : false);
-            $cb_field .= $this->checkbox($value, true, $cb_checked, $attributes);
+            $cb_field .= $this->checkbox($value, $cb_checked, $attributes);
             $cb_field .= $this->label($value, $attr['text']);
             $cb_field .= '<br>';
         }
@@ -127,7 +129,7 @@ class FormBuilder
         return $return;
     }
 
-    public function select($label, $description, $name, array $options = null, $selected = null, array $attributes = null)
+    public function select($label, $name, array $options = null, $selected = null, array $attributes = null)
     {
         $select_label = $this->label($name, $label);
         $select_field = $this->getSelect($name, $options, $selected, $attributes);
@@ -357,7 +359,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function textarea($name, $body = '', array $attributes = null, $double_encode = true)
+    private function textarea($name, $body = '', array $attributes = null)
     {
         // Set the input name
         $attributes['name'] = $name;
@@ -482,16 +484,9 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function image($name, $value, array $attributes = null, $index = false)
+    private function image($name, $value, array $attributes = null)
     {
-        if (!empty($attributes['src'])) {
-            if (strpos($attributes['src'], '://') === false) {
-                // @todo Add the base URL
-                // $attributes['src'] = URL::base($index) . $attributes['src'];
-            }
-        }
-
-        $attributes['type'] = 'image';
+       $attributes['type'] = 'image';
 
         return $this->input($name, $value, $attributes);
     }
