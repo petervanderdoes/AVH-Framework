@@ -16,10 +16,12 @@
 	</testsuites>
 	<filter>
         <whitelist addUncoveredFilesFromWhitelist="false">
-            <directory suffix=".php">libs</directory>
-            <exclude>
-                <directory suffix=".php">vendor</directory>
-            </exclude>
+            <directory suffix=".php">./libs</directory>
+            <file>bootstrap.php</file>
+            <file>avh-framework.php</file>
         </whitelist>
+        <blacklist>
+            <directory>./vendor</directory>
+        </blacklist>
     </filter>
 </phpunit>
