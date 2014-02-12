@@ -3,7 +3,7 @@
  * Plugin Name: AVH Framework
  * Plugin URI: http://blog.avirtualhome.com/wordpress-plugins
  * Description: This plugin was written to support all other AVH plugins
- * Version: 1.1.0-dev.17
+ * Version: 1.2.0-dev.7
  * Author: Peter van der Does
  * Author URI: http://blog.avirtualhome.com/
  *

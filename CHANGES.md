@@ -1,7 +1,7 @@
 # Changelog
 
-### 1.2.0-dev.1
-* Preparation for new development cycle.
+### 1.2.0-dev.7
+* Clean up code
 
 ### 1.1.0
 * Display of HTML elements not correctly implemented.
