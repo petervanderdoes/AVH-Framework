@@ -65,14 +65,14 @@ class FormBuilder
     {
         $this->use_table = true;
 
-        return "\n<table class='form-table'>\n";
+        return '<table class="form-table">';
     }
 
     public function closeTable()
     {
         $this->use_table = false;
 
-        return "\n</table>\n";
+        return '</table>';
     }
 
     /**
@@ -441,7 +441,7 @@ class FormBuilder
                     }
 
                     // Compile the options into a string
-                    $group_options = "\n" . implode("\n", $group_options) . "\n";
+                    $group_options = implode('', $group_options);
 
                     $options[$value] = '<optgroup' . $this->html->attributes($group) . '>' . $group_options . '</optgroup>';
                 } else {
@@ -462,7 +462,7 @@ class FormBuilder
             }
 
             // Compile the options into a single string
-            $options = "\n" . implode("\n", $options) . "\n";
+            $options =implode('', $options);
         }
 
         return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
@@ -530,18 +530,18 @@ class FormBuilder
     private function outputLabel($label)
     {
         if ($this->use_table) {
-            return "\n<tr>\n\t<th scope='row'>" . $label . "</th>";
+            return '<tr><th scope="row">' . $label . '</th>';
         } else {
-            return "\n" . $label;
+            return $label;
         }
     }
 
     private function outputField($field)
     {
         if ($this->use_table) {
-            return "\n\t<td>\n\t\t" . $field . "\n\t</td>";
+            return '<td>' . $field . '</td>';
         } else {
-            return "\n" . $field;
+            return $field;
         }
     }
 

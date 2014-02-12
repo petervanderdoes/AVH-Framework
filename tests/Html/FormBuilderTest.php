@@ -27,17 +27,17 @@ class FormBuilderTest extends WP_UnitTestCase  {
 	}
 
 	public function testOpenTable() {
-	    $this->assertEquals("\n<table class='form-table'>\n", $this->formBuilder->openTable());
+	    $this->assertEquals('<table class="form-table">', $this->formBuilder->openTable());
 	}
 
 	public function testCloseTable() {
-	    $this->assertEquals("\n</table>\n", $this->formBuilder->closeTable());
+	    $this->assertEquals('</table>', $this->formBuilder->closeTable());
 	}
 
 	public function testText() {
 	    $form1 = $this->formBuilder->text('Label text', 'label_name', 'value', array('maxlength' => '32'));
-        $form1_expect ="\n<label for=\"label_name\">Label text</label>\n<input type=\"text\" id=\"label_name\" name=\"label_name\" value=\"value\" maxlength=\"32\" />'";
-	    $this->assertEquals($form1_expect, $form1);
+
+	    $this->assertEquals('<label for="label_name">Label text</label><input type="text" id="label_name" name="label_name" value="value" maxlength="32" />', $form1);
 	}
 
 }
