@@ -52,8 +52,6 @@ class HtmlBuilder
      */
     public $windowed_urls = false;
 
-    private $base_uri;
-
     /**
      * Create a new HTML builder instance.
      *
