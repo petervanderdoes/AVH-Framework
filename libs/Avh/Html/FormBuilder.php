@@ -120,7 +120,7 @@ class FormBuilder
         $cb_field = '';
         foreach ($options as $value => $attr) {
             $cb_checked = (isset($attr['checked']) ? $attr['checked'] : false);
-            $cb_field .= $this->checkbox($value, $cb_checked, $attributes);
+            $cb_field .= $this->checkbox($name, $value, $cb_checked, $attributes);
             $cb_field .= $this->label($value, $attr['text']);
             $cb_field .= '<br>';
         }
