@@ -79,7 +79,8 @@ final class Common
     {
         if (is_numeric($ip)) {
             $return = sprintf("%u", floatval($ip));
-        } else {
+        }
+        if (is_string($ip)) {
             $return = sprintf("%u", floatval(ip2long($ip)));
         }
 
