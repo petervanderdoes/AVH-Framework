@@ -15,9 +15,9 @@ class FormBuilder
 
     private $html;
 
-    public function __construct(\Avh\Html\HtmlBuilder $html) {
-
-        $this->html=$html;
+    public function __construct(\Avh\Html\HtmlBuilder $html)
+    {
+        $this->html = $html;
     }
 
     /**
@@ -80,8 +80,8 @@ class FormBuilder
      * Instead of using the standard WordPress function, we duplicate the function but using the methods of this class.
      * This will create a more standard looking HTML output.
      *
-     * @param  string  $nonce
-     * @param  boolean $referer
+     * @param string $nonce
+     * @param boolean $referer
      * @return string
      */
     public function fieldNonce($referer = true)
@@ -98,7 +98,7 @@ class FormBuilder
     public function fieldSettings($action, $use_nonce = true)
     {
         $return = $this->hidden('action', $action);
-        if ( $use_nonce ) {
+        if ($use_nonce) {
             $return .= $this->fieldNonce();
         }
 
@@ -113,7 +113,7 @@ class FormBuilder
         return $this->output($text_label, $text_field);
     }
 
-    public function checkboxes($label,$name, array $options, array $attributes = null)
+    public function checkboxes($label, $name, array $options, array $attributes = null)
     {
         $cb_label = $this->label($name, $label);
         $return = $this->outputLabel($cb_label);
@@ -462,7 +462,7 @@ class FormBuilder
             }
 
             // Compile the options into a single string
-            $options =implode('', $options);
+            $options = implode('', $options);
         }
 
         return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
@@ -486,7 +486,7 @@ class FormBuilder
      */
     private function image($name, $value, array $attributes = null)
     {
-       $attributes['type'] = 'image';
+        $attributes['type'] = 'image';
 
         return $this->input($name, $value, $attributes);
     }
