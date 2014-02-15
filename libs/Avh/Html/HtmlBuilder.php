@@ -79,7 +79,7 @@ class HtmlBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    public function anchor($uri, $title = null, array $attributes = null)
+    public function anchor($uri, $title = null, $attributes = array())
     {
         if ($title === null) {
             // Use the URI as the title
@@ -123,7 +123,7 @@ class HtmlBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    public function mailto($email, $title = null, array $attributes = null)
+    public function mailto($email, $title = null, $attributes = array())
     {
         if ($title === null) {
             // Use the email address as the title
@@ -148,7 +148,7 @@ class HtmlBuilder
      * @uses URL::base
      * @uses HtmlBuilder->attributes
      */
-    public function image($file, array $attributes = null)
+    public function image($file, $attributes = array())
     {
         // Add the image link
         $attributes['src'] = $file;
@@ -166,7 +166,7 @@ class HtmlBuilder
      *            attribute list
      * @return string
      */
-    public function attributes(array $attributes = null)
+    public function attributes($attributes = array())
     {
         if (empty($attributes)) {
             return '';

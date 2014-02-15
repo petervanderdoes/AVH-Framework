@@ -39,7 +39,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    public function open($action = null, array $attributes = null)
+    public function open($action = null, $attributes = array())
     {
         if (!isset($attributes['method'])) {
             // Use POST method
@@ -61,7 +61,7 @@ class FormBuilder
         return '</form>';
     }
 
-    public function openTable(array $attributes = null)
+    public function openTable(array $attributes)
     {
         $this->use_table = true;
         $attributes = array_merge($attributes, array('class' => 'form-table'));
@@ -105,7 +105,7 @@ class FormBuilder
         return $return;
     }
 
-    public function text($label, $name, $value = null, array $attributes = null)
+    public function text($label, $name, $value = null, $attributes = array())
     {
         $text_label = $this->label($name, $label);
         $text_field = $this->input($name, $value, $attributes);
@@ -113,7 +113,7 @@ class FormBuilder
         return $this->output($text_label, $text_field);
     }
 
-    public function checkboxes($label, $name, array $options, array $attributes = null)
+    public function checkboxes($label, $name, array $options, $attributes = array())
     {
         $cb_label = $this->label($name, $label);
         $return = $this->outputLabel($cb_label);
@@ -129,7 +129,7 @@ class FormBuilder
         return $return;
     }
 
-    public function select($label, $name, array $options = null, $selected = null, array $attributes = null)
+    public function select($label, $name, array $options = null, $selected = null, $attributes = array())
     {
         $select_label = $this->label($name, $label);
         $select_field = $this->getSelect($name, $options, $selected, $attributes);
@@ -151,7 +151,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    public function hidden($name, $value = null, array $attributes = null, $use_option_name = false)
+    public function hidden($name, $value = null, $attributes = array(), $use_option_name = false)
     {
         $attributes['type'] = 'hidden';
 
@@ -174,7 +174,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    public function button($name, $body, array $attributes = null)
+    public function button($name, $body, $attributes = array())
     {
         // Set the input name
         $attributes['name'] = $name;
@@ -196,7 +196,7 @@ class FormBuilder
      * @return string
      * @uses FormBuilder::input
      */
-    public function submit($name, $value, array $attributes = null)
+    public function submit($name, $value, $attributes = array())
     {
         $attributes['type'] = 'submit';
 
@@ -221,7 +221,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function input($name, $value = null, array $attributes = null, $use_option_name = true)
+    private function input($name, $value = null, $attributes = array(), $use_option_name = true)
     {
         // Set the input name
         if (isset($this->option_name) && $use_option_name) {
@@ -259,7 +259,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function password($name, $value = null, array $attributes = null)
+    private function password($name, $value = null, $attributes = array())
     {
         $attributes['type'] = 'password';
 
@@ -279,7 +279,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function file($name, array $attributes = null)
+    private function file($name, $attributes = array())
     {
         $attributes['type'] = 'file';
 
@@ -302,7 +302,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function checkbox($name, $value = null, $checked = false, array $attributes = null)
+    private function checkbox($name, $value = null, $checked = false, $attributes = array())
     {
         $attributes['type'] = 'checkbox';
 
@@ -331,7 +331,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function radio($name, $value = null, $checked = false, array $attributes = null)
+    private function radio($name, $value = null, $checked = false, $attributes = array())
     {
         $attributes['type'] = 'radio';
 
@@ -359,7 +359,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function textarea($name, $body = '', array $attributes = null)
+    private function textarea($name, $body = '', $attributes = array())
     {
         // Set the input name
         $attributes['name'] = $name;
@@ -388,7 +388,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function getSelect($name, array $options = null, $selected = null, array $attributes = null)
+    private function getSelect($name, array $options = null, $selected = null, $attributes = array())
     {
         // Set the input name
         if (isset($this->option_name)) {
@@ -484,7 +484,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function image($name, $value, array $attributes = null)
+    private function image($name, $value, $attributes = array())
     {
         $attributes['type'] = 'image';
 
@@ -506,7 +506,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function label($input, $text = null, array $attributes = null)
+    private function label($input, $text = null, $attributes = array())
     {
         if ($text === null) {
             // Use the input name as the text
