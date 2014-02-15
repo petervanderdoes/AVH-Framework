@@ -79,21 +79,11 @@ class HtmlBuilder
      */
     public function anchor($uri, $title = null, $attributes = array())
     {
-        if ($title === null) {
-            // Use the URI as the title
-            $title = $uri;
-        }
-
         if ($uri === '') {
             // Only use the base URL
             $uri = home_url('/');
         } else {
-            if (strpos($uri, '://') !== false) {
-                if ($this->windowed_urls === true and empty($attributes['target'])) {
-                    // Make the link open in a new window
-                    $attributes['target'] = '_blank';
-                }
-            } elseif ($uri[0] !== '#') {
+            if (strpos($uri, '://') === false) {
                 // Make the URI absolute for non-id anchors
                 $uri = plugin_dir_url($uri);
             }
@@ -101,6 +91,10 @@ class HtmlBuilder
 
         // Add the sanitized link to the attributes
         $attributes['href'] = $uri;
+
+        if ($title === null) {
+            $title = $uri;
+        }
 
         return '<a' . $this->attributes($attributes) . '>' . $title . '</a>';
     }
