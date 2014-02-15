@@ -539,7 +539,7 @@ class FormBuilder
     private function outputField($field)
     {
         if ($this->use_table) {
-            return '<td>' . $field . '</td>';
+            return '<td>' . $field . '</td></tr>';
         } else {
             return $field;
         }
