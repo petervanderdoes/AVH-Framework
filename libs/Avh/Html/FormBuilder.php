@@ -61,7 +61,7 @@ class FormBuilder
         return '</form>';
     }
 
-    public function openTable(array $attributes)
+    public function openTable($attributes = array())
     {
         $this->use_table = true;
         $attributes = array_merge($attributes, array('class' => 'form-table'));
