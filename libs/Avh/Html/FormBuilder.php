@@ -65,7 +65,7 @@ class FormBuilder
     {
         $this->use_table = true;
         $attributes = array_merge($attributes, array('class' => 'form-table'));
-        return '<table ' . $this->html->attributes($attributes) . '>';
+        return '<table' . $this->html->attributes($attributes) . '>';
     }
 
     public function closeTable()
