@@ -61,11 +61,11 @@ class FormBuilder
         return '</form>';
     }
 
-    public function openTable()
+    public function openTable(array $attributes = null)
     {
         $this->use_table = true;
-
-        return '<table class="form-table">';
+        $attributes = array_merge($attributes, array('class' => 'form-table'));
+        return '<table ' . $this->html->attributes($attributes) . '>';
     }
 
     public function closeTable()
