@@ -129,7 +129,7 @@ class FormBuilder
         return $return;
     }
 
-    public function select($label, $name, array $options = null, $selected = null, $attributes = array())
+    public function select($label, $name, $options = array(), $selected = null, $attributes = array())
     {
         $select_label = $this->label($name, $label);
         $select_field = $this->getSelect($name, $options, $selected, $attributes);
@@ -388,7 +388,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function getSelect($name, array $options = null, $selected = null, $attributes = array())
+    private function getSelect($name, $options = array(), $selected = null, $attributes = array())
     {
         // Set the input name
         if (isset($this->option_name)) {
