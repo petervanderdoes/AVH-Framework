@@ -11,16 +11,14 @@
 	"keywords" : [
 		"framework"
 	],
-	"license" : [
-		"MIT"
-	],
+	"license" : "MIT",
 	"require" : {
 		"patchwork/utf8" : "~1",
 		"php" : ">=5.3.2"
 	},
 	"autoload" : {
-		"psr-0" : {
-			"Avh\\" : "libs/"
+		"psr-4" : {
+			"Avh\\" : "libs/Avh"
 		},
 		"files" : [
 			"libs/Avh/Support/helpers.php",
