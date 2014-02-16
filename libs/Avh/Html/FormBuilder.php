@@ -120,7 +120,7 @@ class FormBuilder
         $cb_field = '';
         foreach ($options as $value => $attr) {
             $cb_checked = (isset($attr['checked']) ? $attr['checked'] : false);
-            $cb_field .= $this->checkbox($name, $value, $cb_checked, $attributes);
+            $cb_field .= $this->checkbox(array($name => $value), $value, $cb_checked, $attributes);
             $cb_field .= $this->label($value, $attr['text']);
             $cb_field .= '<br>';
         }
@@ -203,48 +203,6 @@ class FormBuilder
         return '<p class="submit">' . $this->input($name, $value, $attributes) . '</p>';
     }
 
-    // ____________PRIVATE FUNCTIONS____________
-
-    /**
-     * Creates a form input.
-     * If no type is specified, a "text" type input will
-     * be returned.
-     *
-     * echo FormBuilder::input('username', $username);
-     *
-     * @param string $name
-     *            input name
-     * @param string $value
-     *            input value
-     * @param array $attributes
-     *            html attributes
-     * @return string
-     * @uses HtmlBuilder->attributes
-     */
-    private function input($name, $value = null, $attributes = array(), $use_option_name = true)
-    {
-        // Set the input name
-        if (isset($this->option_name) && $use_option_name) {
-            $attributes['name'] = $this->option_name . '[' . $name . ']';
-        } else {
-            $attributes['name'] = $name;
-        }
-
-        // Set the input value
-        $attributes['value'] = $value;
-
-        if (!isset($attributes['type'])) {
-            // Default type is text
-            $attributes['type'] = 'text';
-        }
-
-        if (!isset($attributes['id'])) {
-            $attributes['id'] = $name;
-        }
-
-        return '<input' . $this->html->attributes($attributes) . ' />';
-    }
-
     /**
      * Creates a password form input.
      *
@@ -259,7 +217,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function password($name, $value = null, $attributes = array())
+    public function password($name, $value = null, $attributes = array())
     {
         $attributes['type'] = 'password';
 
@@ -279,7 +237,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function file($name, $attributes = array())
+    public function file($name, $attributes = array())
     {
         $attributes['type'] = 'file';
 
@@ -302,7 +260,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function checkbox($name, $value = null, $checked = false, $attributes = array())
+    public function checkbox($name, $value = null, $checked = false, $attributes = array())
     {
         $attributes['type'] = 'checkbox';
 
@@ -331,7 +289,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function radio($name, $value = null, $checked = false, $attributes = array())
+    public function radio($name, $value = null, $checked = false, $attributes = array())
     {
         $attributes['type'] = 'radio';
 
@@ -359,7 +317,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function textarea($name, $body = '', $attributes = array())
+    public function textarea($name, $body = '', $attributes = array())
     {
         // Set the input name
         $attributes['name'] = $name;
@@ -368,6 +326,75 @@ class FormBuilder
         $attributes += array('rows' => 10, 'cols' => 50);
 
         return '<textarea' . $this->html->attributes($attributes) . '>' . esc_textarea($body) . '</textarea>';
+    }
+
+    /**
+     * Creates a image form input.
+     *
+     * echo FormBuilder::image(null, null, array('src' => 'media/img/login.png'));
+     *
+     * @param string $name
+     *            input name
+     * @param string $value
+     *            input value
+     * @param array $attributes
+     *            html attributes
+     * @param boolean $index
+     *            add index file to URL?
+     * @return string
+     * @uses $this->input
+     */
+    public function image($name, $value, $attributes = array())
+    {
+        $attributes['type'] = 'image';
+
+        return $this->input($name, $value, $attributes);
+    }
+
+    // ____________PRIVATE FUNCTIONS____________
+
+    /**
+     * Creates a form input.
+     * If no type is specified, a "text" type input will
+     * be returned.
+     *
+     * echo FormBuilder::input('username', $username);
+     *
+     * @param string $name
+     *            input name
+     * @param string $value
+     *            input value
+     * @param array $attributes
+     *            html attributes
+     * @return string
+     * @uses HtmlBuilder->attributes
+     */
+    private function input($name, $value = null, $attributes = array(), $use_option_name = true)
+    {
+        // Set the input name
+        if (isset($this->option_name) && $use_option_name) {
+            if (!is_array($name)) {
+                $attributes['name'] = $this->option_name . '[' . $name . ']';
+            } else {
+                $attributes['name'] = $this->option_name . '[' . key($name) . ']' . '[' . current($name) . ']';
+            }
+        } else {
+            $attributes['name'] = $name;
+        }
+
+        // Set the input value
+        $attributes['value'] = $value;
+
+        if (!isset($attributes['type'])) {
+            // Default type is text
+            $attributes['type'] = 'text';
+        }
+
+        if (!isset($attributes['id'])) {
+            $attributes['id'] = $name;
+        }
+
+        return '<input' . $this->html->attributes($attributes) . ' />';
     }
 
     /**
@@ -466,29 +493,6 @@ class FormBuilder
         }
 
         return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
-    }
-
-    /**
-     * Creates a image form input.
-     *
-     * echo FormBuilder::image(null, null, array('src' => 'media/img/login.png'));
-     *
-     * @param string $name
-     *            input name
-     * @param string $value
-     *            input value
-     * @param array $attributes
-     *            html attributes
-     * @param boolean $index
-     *            add index file to URL?
-     * @return string
-     * @uses $this->input
-     */
-    private function image($name, $value, $attributes = array())
-    {
-        $attributes['type'] = 'image';
-
-        return $this->input($name, $value, $attributes);
     }
 
     /**
