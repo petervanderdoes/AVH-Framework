@@ -1,8 +1,6 @@
 <?php
 namespace Avh\Network;
 
-use Avh\Utility\Common;
-
 final class Visitor
 {
 
