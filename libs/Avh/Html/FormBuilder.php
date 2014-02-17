@@ -111,7 +111,7 @@ class FormBuilder
         return $this->input($name, $value, $attributes);
     }
 
-    public function checkboxes($name, array $options, $attributes = array())
+    public function checkboxes($name, $options, $attributes = array())
     {
         $attributes['type'] = 'checkbox';
 
