@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Valitron' => array($vendorDir . '/vlucas/valitron/src'),
     'Patchwork' => array($vendorDir . '/patchwork/utf8/class'),
     'Normalizer' => array($vendorDir . '/patchwork/utf8/class'),
 );

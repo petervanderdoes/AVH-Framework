@@ -51,5 +51,50 @@
             "utf-8",
             "utf8"
         ]
+    },
+    {
+        "name": "vlucas/valitron",
+        "version": "1.1.5",
+        "version_normalized": "1.1.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vlucas/valitron.git",
+            "reference": "63695ad7d1d9c98f5ae67b535567006c8d1bba01"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/vlucas/valitron/zipball/63695ad7d1d9c98f5ae67b535567006c8d1bba01",
+            "reference": "63695ad7d1d9c98f5ae67b535567006c8d1bba01",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "time": "2013-11-11 21:11:45",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Valitron": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD"
+        ],
+        "authors": [
+            {
+                "name": "Vance Lucas",
+                "email": "vance@vancelucas.com",
+                "homepage": "http://www.vancelucas.com"
+            }
+        ],
+        "description": "Simple, elegant, stand-alone validation library with NO dependencies",
+        "homepage": "http://github.com/vlucas/valitron",
+        "keywords": [
+            "valid",
+            "validation",
+            "validator"
+        ]
     }
 ]

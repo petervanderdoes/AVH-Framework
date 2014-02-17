@@ -273,7 +273,8 @@ class FormBuilder
         if ($value === false) {
             $value = null;
         }
-        return $this->input($name, $value, $attributes);
+
+        return  $this->input($name, $value, $attributes);
     }
 
     /**
