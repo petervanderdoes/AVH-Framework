@@ -111,9 +111,8 @@ class FormBuilder
         return $this->input($name, $value, $attributes);
     }
 
-    public function checkboxes( $name, array $options, $attributes = array())
+    public function checkboxes($name, array $options, $attributes = array())
     {
-
         $attributes['type'] = 'checkbox';
 
         $output_field = '';
@@ -122,18 +121,20 @@ class FormBuilder
             if (isset($attr['checked']) && $attr['checked']) {
                 $attributes['checked'] = 'checked';
             }
-            $output_field .= $this->input(array($name => $value), $value, $attributes);
+            if ($attr['value'] === false) {
+                $attr['value'] = null;
+            }
+            $output_field .= $this->input(array($name => $value), $attr['value'], $attributes);
             $output_field .= $this->label($value, $attr['text']);
             $output_field .= '<br>';
         }
-        $return .= $this->outputField($output_field);
+        $return = $this->outputField($output_field);
 
         return $return;
     }
 
     public function select($name, $options = array(), $selected = null, $attributes = array())
     {
-
         return $this->getSelect($name, $options, $selected, $attributes);
     }
 
@@ -269,6 +270,9 @@ class FormBuilder
             $attributes['checked'] = 'checked';
         }
 
+        if ($value === false) {
+            $value = null;
+        }
         return $this->input($name, $value, $attributes);
     }
 
@@ -531,7 +535,7 @@ class FormBuilder
         return $output_return;
     }
 
-    public  function outputLabel($label)
+    public function outputLabel($label)
     {
         if ($this->use_table) {
             return '<tr><th scope="row">' . $label . '</th>';
