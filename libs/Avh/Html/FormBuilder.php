@@ -105,18 +105,15 @@ class FormBuilder
         return $return;
     }
 
-    public function text($label, $name, $value = null, $attributes = array())
+    public function text($name, $value = null, $attributes = array())
     {
-        $text_label = $this->label($name, $label);
-        $text_field = $this->input($name, $value, $attributes);
-
-        return $this->output($text_label, $text_field);
+        $attributes['type'] = 'text';
+        return $this->input($name, $value, $attributes);
     }
 
-    public function checkboxes($label, $name, array $options, $attributes = array())
+    public function checkboxes( $name, array $options, $attributes = array())
     {
-        $output_label = $this->label($name, $label);
-        $return = $this->outputLabel($output_label);
+
         $attributes['type'] = 'checkbox';
 
         $output_field = '';
@@ -134,12 +131,10 @@ class FormBuilder
         return $return;
     }
 
-    public function select($label, $name, $options = array(), $selected = null, $attributes = array())
+    public function select($name, $options = array(), $selected = null, $attributes = array())
     {
-        $select_label = $this->label($name, $label);
-        $select_field = $this->getSelect($name, $options, $selected, $attributes);
 
-        return $this->output($select_label, $select_field);
+        return $this->getSelect($name, $options, $selected, $attributes);
     }
 
     /**
@@ -265,7 +260,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    public function checkbox($label, $name, $value = null, $checked = null, $attributes = array())
+    public function checkbox($name, $value = null, $checked = null, $attributes = array())
     {
         $attributes['type'] = 'checkbox';
 
@@ -274,10 +269,7 @@ class FormBuilder
             $attributes['checked'] = 'checked';
         }
 
-        $output_label = $this->label($name, $label);
-        $output_field = $this->input($name, $value, $attributes);
-
-        return $this->output($output_label, $output_field);
+        return $this->input($name, $value, $attributes);
     }
 
     /**
@@ -383,11 +375,14 @@ class FormBuilder
         if (isset($this->option_name) && $use_option_name) {
             if (!is_array($name)) {
                 $attributes['name'] = $this->option_name . '[' . $name . ']';
+                $id = $name;
             } else {
                 $attributes['name'] = $this->option_name . '[' . key($name) . ']' . '[' . current($name) . ']';
+                $id = current($name);
             }
         } else {
             $attributes['name'] = $name;
+            $id = $name;
         }
 
         // Set the input value
@@ -399,7 +394,7 @@ class FormBuilder
         }
 
         if (!isset($attributes['id'])) {
-            $attributes['id'] = $name;
+            $attributes['id'] = $id;
         }
 
         return '<input' . $this->html->attributes($attributes) . ' />';
@@ -509,16 +504,13 @@ class FormBuilder
      *
      * echo FormBuilder::label('username', 'Username');
      *
-     * @param string $input
-     *            target input
+     * @param string $name
      * @param string $text
-     *            label text
      * @param array $attributes
-     *            html attributes
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function label($input, $text = null, $attributes = array())
+    public function label($name, $text = null, $attributes = array())
     {
         if ($text === null) {
             // Use the input name as the text
@@ -526,12 +518,12 @@ class FormBuilder
         }
 
         // Set the label target
-        $attributes['for'] = $input;
+        $attributes['for'] = $name;
 
         return '<label' . $this->html->attributes($attributes) . '>' . $text . '</label>';
     }
 
-    private function output($label, $field)
+    public function output($label, $field)
     {
         $output_return = $this->outputLabel($label);
         $output_return .= $this->outputField($field);
@@ -539,7 +531,7 @@ class FormBuilder
         return $output_return;
     }
 
-    private function outputLabel($label)
+    public  function outputLabel($label)
     {
         if ($this->use_table) {
             return '<tr><th scope="row">' . $label . '</th>';
@@ -548,7 +540,7 @@ class FormBuilder
         }
     }
 
-    private function outputField($field)
+    public function outputField($field)
     {
         if ($this->use_table) {
             return '<td>' . $field . '</td></tr>';
