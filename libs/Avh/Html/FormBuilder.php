@@ -115,16 +115,21 @@ class FormBuilder
 
     public function checkboxes($label, $name, array $options, $attributes = array())
     {
-        $cb_label = $this->label($name, $label);
-        $return = $this->outputLabel($cb_label);
-        $cb_field = '';
+        $output_label = $this->label($name, $label);
+        $return = $this->outputLabel($output_label);
+        $attributes['type'] = 'checkbox';
+
+        $output_field = '';
         foreach ($options as $value => $attr) {
-            $cb_checked = (isset($attr['checked']) ? $attr['checked'] : false);
-            $cb_field .= $this->checkbox(array($name => $value), $value, $cb_checked, $attributes);
-            $cb_field .= $this->label($value, $attr['text']);
-            $cb_field .= '<br>';
+            unset($attributes['checked']);
+            if (isset($attr['checked']) && $attr['checked']) {
+                $attributes['checked'] = 'checked';
+            }
+            $output_field .= $this->input(array($name => $value), $value, $attributes);
+            $output_field .= $this->label($value, $attr['text']);
+            $output_field .= '<br>';
         }
-        $return .= $this->outputField($cb_field);
+        $return .= $this->outputField($output_field);
 
         return $return;
     }
@@ -260,16 +265,19 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    public function checkbox($name, $value = null, $checked = false, $attributes = array())
+    public function checkbox($label, $name, $value = null, $checked = null, $attributes = array())
     {
         $attributes['type'] = 'checkbox';
 
         if ($checked === true) {
             // Make the checkbox active
-            $attributes[] = 'checked';
+            $attributes['checked'] = 'checked';
         }
 
-        return $this->input($name, $value, $attributes);
+        $output_label = $this->label($name, $label);
+        $output_field = $this->input($name, $value, $attributes);
+
+        return $this->output($output_label, $output_field);
     }
 
     /**
@@ -571,8 +579,8 @@ class FormBuilder
         $this->nonce = $this->option_name . '-' . $nonce;
     }
 
-    public function getNonceAction()
+    public function getNonceAction($nonce)
     {
-        return $this->nonce;
+        return $this->option_name . '-' . $nonce;
     }
 }
