@@ -368,7 +368,7 @@ class FormBuilder
      *
      * echo FormBuilder::input('username', $username);
      *
-     * @param string $name
+     * @param string|array $name
      *            input name
      * @param string $value
      *            input value
