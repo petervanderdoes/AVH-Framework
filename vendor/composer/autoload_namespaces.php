@@ -9,4 +9,5 @@ return array(
     'Valitron' => array($vendorDir . '/vlucas/valitron/src'),
     'Patchwork' => array($vendorDir . '/patchwork/utf8/class'),
     'Normalizer' => array($vendorDir . '/patchwork/utf8/class'),
+    'Illuminate\\Container' => array($vendorDir . '/illuminate/container'),
 );

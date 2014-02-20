@@ -8,9 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'Avh\\Controller\\PluginController' => $baseDir . '/libs/Avh/Controller/PluginController.php',
     'Avh\\Db\\Db' => $baseDir . '/libs/Avh/Db/Db.php',
-    'Avh\\Di\\Container' => $baseDir . '/libs/Avh/Di/Container.php',
-    'Avh\\Di\\ContainerInterface' => $baseDir . '/libs/Avh/Di/ContainerInterface.php',
-    'Avh\\Di\\Definition' => $baseDir . '/libs/Avh/Di/Definition.php',
     'Avh\\Html\\FormBuilder' => $baseDir . '/libs/Avh/Html/FormBuilder.php',
     'Avh\\Html\\HtmlBuilder' => $baseDir . '/libs/Avh/Html/HtmlBuilder.php',
     'Avh\\Mail\\Mailer' => $baseDir . '/libs/Avh/Mail/Mailer.php',
@@ -21,6 +18,8 @@ return array(
     'Avh\\Utility\\Options' => $baseDir . '/libs/Avh/Utility/Options.php',
     'Avh\\Utility\\SettingsAbstract' => $baseDir . '/libs/Avh/Utility/SettingsAbstract.php',
     'Avh\\Utility\\ShortcodesAbstract' => $baseDir . '/libs/Avh/Utility/ShortcodesAbstract.php',
+    'Illuminate\\Container\\BindingResolutionException' => $vendorDir . '/illuminate/container/Illuminate/Container/Container.php',
+    'Illuminate\\Container\\Container' => $vendorDir . '/illuminate/container/Illuminate/Container/Container.php',
     'Normalizer' => $vendorDir . '/patchwork/utf8/class/Normalizer.php',
     'Patchwork\\PHP\\Shim\\Iconv' => $vendorDir . '/patchwork/utf8/class/Patchwork/PHP/Shim/Iconv.php',
     'Patchwork\\PHP\\Shim\\Intl' => $vendorDir . '/patchwork/utf8/class/Patchwork/PHP/Shim/Intl.php',

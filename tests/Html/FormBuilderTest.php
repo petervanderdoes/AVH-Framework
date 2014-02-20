@@ -1,7 +1,7 @@
 <?php
 use Avh\Html\FormBuilder;
 use Avh\Html\HtmlBuilder;
-use Avh\Di\Container;
+use Illuminate\Container\Container;
 
 class FormBuilderTest extends WP_UnitTestCase
 {
@@ -17,9 +17,9 @@ class FormBuilderTest extends WP_UnitTestCase
      */
     public function setUp()
     {
-        $container = Container::getContainer();
+        $container =  new Container();
 
-        $this->formBuilder = $container->resolve('Avh\Html\FormBuilder');
+        $this->formBuilder = $container->make('Avh\Html\FormBuilder');
         parent::setUp();
     }
 
