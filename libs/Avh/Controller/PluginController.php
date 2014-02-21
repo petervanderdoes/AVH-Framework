@@ -234,7 +234,7 @@ class PluginController
     /**
      * Add a "settings" link to access to the option page from the plugin list
      *
-     * @param  string $links
+     * @param string $links
      * @return none
      */
     public function filterPluginActions($links)
@@ -315,22 +315,6 @@ class PluginController
     public function adminMenu()
     {
 
-        // @formatter:off
-        $page_list = array(
-            'dashboard' => 'index.php',
-            'posts' => 'edit.php',
-            'options' => 'options-general.php',
-            'settings' => 'options-general.php',
-            'tools' => 'tools.php',
-            'theme' => 'themes.php',
-            'users' => 'users.php',
-            'media' => 'upload.php',
-            'links' => 'link-manager.php',
-            'pages' => 'edit.php?post_type=page',
-            'comments' => 'edit-comments.php'
-        );
-        // @formatter:on
-
         // Add a new submenu under Options:
         if (sizeof($this->pages) > 0) {
             foreach ($this->pages as $id => $page) {
@@ -339,17 +323,7 @@ class PluginController
                 if ($page['type'] == 'menu') {
                     $hook = add_menu_page(__($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']), $page['icon_url'], $page['position']);
                 } else {
-                    if ($page['type'] != 'submenu') {
-                        $page['parent_id'] = $page_list[$page['type']];
-                    }
-
-                    $hook = add_submenu_page($page['parent_id'], __($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']));
-
-                    if (isset($this->pages[$page['parent_id']]) && $this->pages[$page['parent_id']]['shortname'] != '') {
-                        global $submenu;
-                        $submenu[$page['parent_id']][0][0] = $this->pages[$page['parent_id']]['shortname'];
-                        $this->pages[$page['parent_id']]['shortname'] = '';
-                    }
+                    $hook = $this->adminMenuSubMenu($page);
                 }
 
                 // Get the hook of the page
@@ -373,11 +347,50 @@ class PluginController
     }
 
     /**
+     * Add a submenu
+     *
+     * @param array $page
+     * @param array $page_list
+     * @return Ambigous <string, boolean>
+     */
+    private function adminMenuSubMenu($page)
+    {
+        // @formatter:off
+        $page_list = array(
+            'dashboard' => 'index.php',
+            'posts' => 'edit.php',
+            'options' => 'options-general.php',
+            'settings' => 'options-general.php',
+            'tools' => 'tools.php',
+            'theme' => 'themes.php',
+            'users' => 'users.php',
+            'media' => 'upload.php',
+            'links' => 'link-manager.php',
+            'pages' => 'edit.php?post_type=page',
+            'comments' => 'edit-comments.php'
+        );
+        // @formatter:on
+
+        if ($page['type'] != 'submenu') {
+            $page['parent_id'] = $page_list[$page['type']];
+        }
+
+        $hook = add_submenu_page($page['parent_id'], __($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']));
+
+        if (isset($this->pages[$page['parent_id']]) && $this->pages[$page['parent_id']]['shortname'] != '') {
+            global $submenu;
+            $submenu[$page['parent_id']][0][0] = $this->pages[$page['parent_id']]['shortname'];
+            $this->pages[$page['parent_id']]['shortname'] = '';
+        }
+        return $hook;
+    }
+
+    /**
      * Returns the pagehook name
      *
-     * @param  string $page_id
-     * @param  string $function
-     * @return mixed  If pagehook does not exists return false other return the page hook name
+     * @param string $page_id
+     * @param string $function
+     * @return mixed If pagehook does not exists return false other return the page hook name
      */
     protected function getPageHook($page_id = '', $function = '')
     {
@@ -418,7 +431,7 @@ class PluginController
     /**
      * Insert button in wordpress post editor
      *
-     * @param  array $buttons
+     * @param array $buttons
      * @return array
      */
     public function registerButton($buttons)
