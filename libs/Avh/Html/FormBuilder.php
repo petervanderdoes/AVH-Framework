@@ -93,10 +93,10 @@ class FormBuilder
      */
     public function fieldNonce($referer = true)
     {
-        $nonce_field = $this->hidden('_wpnonce', wp_create_nonce($this->nonce));
+        $nonce_field = $this->hidden('_wpnonce', wp_create_nonce($this->nonce), array('id' => null));
         if ($referer) {
             $ref = $_SERVER['REQUEST_URI'];
-            $nonce_field .= $this->hidden('_wp_http_referer', $ref);
+            $nonce_field .= $this->hidden('_wp_http_referer', $ref, array('id' => null));
         }
 
         return $nonce_field;
@@ -104,7 +104,7 @@ class FormBuilder
 
     public function fieldSettings($action, $use_nonce = true)
     {
-        $return = $this->hidden('action', $action);
+        $return = $this->hidden('action', $action, array('id' => null));
         if ($use_nonce) {
             $return .= $this->fieldNonce();
         }
@@ -248,11 +248,11 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    public function password($name, $value = null, $attributes = array())
+    public function password($name, $attributes = array())
     {
         $attributes['type'] = 'password';
 
-        return $this->input($name, $value, $attributes);
+        return $this->input($name, null, $attributes);
     }
 
     /**
@@ -357,10 +357,47 @@ class FormBuilder
         // Set the input name
         $attributes['name'] = $name;
 
-        // Add default rows and cols attributes (required)
-        $attributes += array('rows' => 10, 'cols' => 50);
+        // Next we will look for the rows and cols attributes, as each of these are put
+        // on the textarea element definition. If they are not present, we will just
+        // assume some sane default values for these attributes for the developer.
+        $attributes = $this->setTextAreaSize($attributes);
+        unset($attributes['size']);
 
         return '<textarea' . $this->html->attributes($attributes) . '>' . esc_textarea($body) . '</textarea>';
+    }
+
+    /**
+     * Set the text area size on the attributes.
+     *
+     * @param array $attributes
+     * @return array
+     */
+    protected function setTextAreaSize($attributes)
+    {
+        if (isset($attributes['size'])) {
+            return $this->setQuickTextAreaSize($attributes);
+        }
+
+        // If the "size" attribute was not specified, we will just look for the regular
+        // columns and rows attributes, using sane defaults if these do not exist on
+        // the attributes array. We'll then return this entire options array back.
+        $cols = avh_array_get($attributes, 'cols', 50);
+
+        $rows = avh_array_get($attributes, 'rows', 10);
+
+        return array_merge($attributes, compact('cols', 'rows'));
+    }
+
+    /**
+     * Set the text area size using the quick "size" attribute.
+     *
+     * @param array $attributes
+     * @return array
+     */
+    protected function setQuickTextAreaSize($attributes)
+    {
+        $segments = explode('x', $attributes['size']);
+        return array_merge($attributes, array('cols' => $segments[0], 'rows' => $segments[1]));
     }
 
     /**
@@ -404,7 +441,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function input($name, $value = null, $attributes = array(), $use_option_name = true)
+    public function input($name, $value = null, $attributes = array(), $use_option_name = true)
     {
         // Set the input name
         if (isset($this->option_name) && $use_option_name) {
@@ -423,12 +460,12 @@ class FormBuilder
         // Set the input value
         $attributes['value'] = $value;
 
-        if (!isset($attributes['type'])) {
+        if (!array_key_exists('type', $attributes)) {
             // Default type is text
             $attributes['type'] = 'text';
         }
 
-        if (!isset($attributes['id'])) {
+        if (!array_key_exists('id', $attributes)) {
             $attributes['id'] = $id;
         }
 

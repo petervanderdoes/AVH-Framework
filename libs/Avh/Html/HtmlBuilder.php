@@ -198,12 +198,12 @@ class HtmlBuilder
         if (is_numeric($key)) {
             $key = $value;
         }
-        ;
 
         if (!is_null($value)) {
             return $key . '="' . esc_attr($value) . '"';
         }
-        ;
+
+        return null;
     }
 
     /**
