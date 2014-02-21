@@ -20,7 +20,7 @@ class FormBuilder
      *
      * @var array
      */
-    protected  $labels = array();
+    protected $labels = array();
 
     public function __construct(\Avh\Html\HtmlBuilder $html)
     {
@@ -156,8 +156,7 @@ class FormBuilder
         // all together into one single HTML element that can be put on the form.
         $html = array();
 
-        foreach ($options as $value => $display)
-        {
+        foreach ($options as $value => $display) {
             $html[] = $this->getSelectOption($display, $value, $selected);
         }
 
@@ -166,7 +165,7 @@ class FormBuilder
         // build out a final select statement, which will contain all the values.
         $options = implode('', $html);
 
-         return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
+        return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
     }
 
     /**
@@ -305,7 +304,7 @@ class FormBuilder
             $value = null;
         }
 
-        return  $this->input($name, $value, $attributes);
+        return $this->input($name, $value, $attributes);
     }
 
     /**
@@ -436,61 +435,58 @@ class FormBuilder
         return '<input' . $this->html->attributes($attributes) . ' />';
     }
 
-	/**
-	 * Get the select option for the given value.
-	 *
-	 * @param  string  $display
-	 * @param  string  $value
-	 * @param  string  $selected
-	 * @return string
-	 */
-	public function getSelectOption($display, $value, $selected)
-	{
-		if (is_array($display))
-		{
-			return $this->optionGroup($display, $value, $selected);
-		}
+    /**
+     * Get the select option for the given value.
+     *
+     * @param string $display
+     * @param string $value
+     * @param string $selected
+     * @return string
+     */
+    public function getSelectOption($display, $value, $selected)
+    {
+        if (is_array($display)) {
+            return $this->optionGroup($display, $value, $selected);
+        }
 
-		return $this->option($display, $value, $selected);
-	}
+        return $this->option($display, $value, $selected);
+    }
 
-	/**
-	 * Create an option group form element.
-	 *
-	 * @param  array   $list
-	 * @param  string  $label
-	 * @param  string  $selected
-	 * @return string
-	 */
-	protected function optionGroup($list, $label, $selected)
-	{
-		$html = array();
+    /**
+     * Create an option group form element.
+     *
+     * @param array $list
+     * @param string $label
+     * @param string $selected
+     * @return string
+     */
+    protected function optionGroup($list, $label, $selected)
+    {
+        $html = array();
 
-		foreach ($list as $value => $display)
-		{
-			$html[] = $this->option($display, $value, $selected);
-		}
+        foreach ($list as $value => $display) {
+            $html[] = $this->option($display, $value, $selected);
+        }
 
-		return '<optgroup label="'.$label.'">'.implode('', $html).'</optgroup>';
-	}
+        return '<optgroup label="' . $label . '">' . implode('', $html) . '</optgroup>';
+    }
 
-	/**
-	 * Create a select element option.
-	 *
-	 * @param  string  $display
-	 * @param  string  $value
-	 * @param  string  $selected
-	 * @return string
-	 */
-	protected function option($display, $value, $selected)
-	{
-		$selected = $this->getSelectedValue($value, $selected);
+    /**
+     * Create a select element option.
+     *
+     * @param string $display
+     * @param string $value
+     * @param string $selected
+     * @return string
+     */
+    protected function option($display, $value, $selected)
+    {
+        $selected = $this->getSelectedValue($value, $selected);
 
-		$options = array('value' => $value, 'selected' => $selected);
+        $options = array('value' => $value, 'selected' => $selected);
 
-		return '<option'.$this->html->attributes($options).'>'.$display.'</option>';
-	}
-
+        return '<option' . $this->html->attributes($options) . '>' . $display . '</option>';
+    }
 
     /**
      * Creates a form label.
@@ -548,19 +544,17 @@ class FormBuilder
     /**
      * Get the ID attribute for a field name.
      *
-     * @param  string  $name
-     * @param  array   $attributes
+     * @param string $name
+     * @param array $attributes
      * @return string
      */
     public function getIdAttribute($name, $attributes)
     {
-        if (array_key_exists('id', $attributes))
-        {
+        if (array_key_exists('id', $attributes)) {
             return $attributes['id'];
         }
 
-        if (in_array($name, $this->labels))
-        {
+        if (in_array($name, $this->labels)) {
             return $name;
         }
     }
@@ -568,14 +562,13 @@ class FormBuilder
     /**
      * Determine if the value is selected.
      *
-     * @param  string  $value
-     * @param  string  $selected
+     * @param string $value
+     * @param string $selected
      * @return string
      */
     protected function getSelectedValue($value, $selected)
     {
-        if (is_array($selected))
-        {
+        if (is_array($selected)) {
             return in_array($value, $selected) ? 'selected' : null;
         }
 
