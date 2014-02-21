@@ -48,10 +48,9 @@ class FormBuilder
      */
     public function open($action = null, $attributes = array())
     {
-        if (!isset($attributes['method'])) {
-            // Use POST method
-            $attributes['method'] = 'post';
-        }
+        $attributes['method'] = $this->getMethod(avh_array_get($attributes, 'method', 'post'));
+
+        $attributes['accept-charset'] = $this->getCharset(avh_array_get($attributes,'accept-charset'));
 
         return '<form action="' . $action . '"' . $this->html->attributes($attributes) . '>';
     }
@@ -131,9 +130,9 @@ class FormBuilder
             if ($attr['value'] === false) {
                 $attr['value'] = null;
             }
-            $output_field .= $this->input(array($name => $value), $attr['value'], $attributes);
-            $output_field .= $this->label($value, $attr['text']);
-            $output_field .= '<br>';
+            $label_field = $this->label($value, $attr['text']);
+            $input_field = $this->input(array($name => $value), $attr['value'], $attributes);
+            $output_field .= $input_field . $label_field . '<br>';
         }
         $return = $this->outputField($output_field);
 
@@ -363,6 +362,8 @@ class FormBuilder
         $attributes = $this->setTextAreaSize($attributes);
         unset($attributes['size']);
 
+        $attributes['id'] = $this->getIdAttribute($name, $attributes);
+
         return '<textarea' . $this->html->attributes($attributes) . '>' . esc_textarea($body) . '</textarea>';
     }
 
@@ -465,9 +466,7 @@ class FormBuilder
             $attributes['type'] = 'text';
         }
 
-        if (!array_key_exists('id', $attributes)) {
-            $attributes['id'] = $id;
-        }
+        $attributes['id'] = $this->getIdAttribute($id, $attributes);
 
         return '<input' . $this->html->attributes($attributes) . ' />';
     }
@@ -611,6 +610,24 @@ class FormBuilder
 
         return ((string) $value == (string) $selected) ? 'selected' : null;
     }
+
+    /**
+     * Parse the form action method.
+     *
+     * @param  string  $method
+     * @return string
+     */
+    protected function getMethod($method)
+    {
+        $method = strtoupper($method);
+
+        return $method != 'GET' ? 'POST' : $method;
+    }
+
+    protected function getCharset($charset)
+    {
+        return $charset !== null ? $charset : get_bloginfo('charset', 'display' );
+    }
     // __________________________________________
     // ____________Setter and Getters____________
     // __________________________________________
@@ -626,5 +643,10 @@ class FormBuilder
     public function getOptionName()
     {
         return $this->option_name;
+    }
+
+    public function deleteOptionName()
+    {
+        $this->option_name = null;
     }
 }
