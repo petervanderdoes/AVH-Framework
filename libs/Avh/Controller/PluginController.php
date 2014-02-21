@@ -315,34 +315,32 @@ class PluginController
     public function adminMenu()
     {
 
-        // Add a new submenu under Options:
-        if (sizeof($this->pages) > 0) {
-            foreach ($this->pages as $id => $page) {
+        // Implement potential menu pages.
+        // In case $this->pages is empty it will just skip the loop.
+        foreach ($this->pages as $id => $page) {
 
-                // Create the menu
-                if ($page['type'] == 'menu') {
-                    $hook = add_menu_page(__($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']), $page['icon_url'], $page['position']);
-                } else {
-                    $hook = $this->adminMenuSubMenu($page);
-                }
-
-                // Get the hook of the page
-                $this->hooks[$page['display_callback']][$id] = $hook;
-
-                // Add load, and print_scripts functions (attached to the hook)
-                if ($page['load_callback'] !== false) {
-                    add_action('load-' . $hook, array($this, $page['load_callback']));
-                }
-                if ($page['load_scripts'] !== false) {
-                    add_action('admin_print_scripts-' . $hook, array($this, $page['load_scripts']));
-                }
-
-                // Add the link into the plugin page
-                if ($this->options_page_id == $id) {
-                    add_filter('plugin_action_links_' . plugin_basename($this->pluginfile), array($this, 'filterPluginActions'));
-                }
+            // Create the menu
+            if ($page['type'] == 'menu') {
+                $hook = add_menu_page(__($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']), $page['icon_url'], $page['position']);
+            } else {
+                $hook = $this->adminMenuSubMenu($id, $page);
             }
-            unset($this->pages);
+
+            // Get the hook of the page
+            $this->hooks[$page['display_callback']][$id] = $hook;
+
+            // Add load, and print_scripts functions (attached to the hook)
+            if ($page['load_callback'] !== false) {
+                add_action('load-' . $hook, array($this, $page['load_callback']));
+            }
+            if ($page['load_scripts'] !== false) {
+                add_action('admin_print_scripts-' . $hook, array($this, $page['load_scripts']));
+            }
+
+            // Add the link into the plugin page
+            if ($this->options_page_id == $id) {
+                add_filter('plugin_action_links_' . plugin_basename($this->pluginfile), array($this, 'filterPluginActions'));
+            }
         }
     }
 
@@ -353,7 +351,7 @@ class PluginController
      * @param array $page_list
      * @return Ambigous <string, boolean>
      */
-    private function adminMenuSubMenu($page)
+    private function adminMenuSubMenu($id, $page)
     {
         // @formatter:off
         $page_list = array(
