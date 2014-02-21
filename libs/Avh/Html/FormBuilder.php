@@ -15,6 +15,13 @@ class FormBuilder
 
     private $html;
 
+    /**
+     * An array of label names we've created.
+     *
+     * @var array
+     */
+    protected  $labels = array();
+
     public function __construct(\Avh\Html\HtmlBuilder $html)
     {
         $this->html = $html;
@@ -133,9 +140,33 @@ class FormBuilder
         return $return;
     }
 
-    public function select($name, $options = array(), $selected = null, $attributes = array())
+    public function select($name, array $options = array(), $selected = null, $attributes = array())
     {
-        return $this->getSelect($name, $options, $selected, $attributes);
+        $options['id'] = $this->getIdAttribute($name, $options);
+
+        // Set the input name
+        if (isset($this->option_name)) {
+            $attributes['name'] = $this->option_name . '[' . $name . ']';
+        } else {
+            $attributes['name'] = $name;
+        }
+
+        // We will simply loop through the options and build an HTML value for each of
+        // them until we have an array of HTML declarations. Then we will join them
+        // all together into one single HTML element that can be put on the form.
+        $html = array();
+
+        foreach ($options as $value => $display)
+        {
+            $html[] = $this->getSelectOption($display, $value, $selected);
+        }
+
+        // Once we have all of this HTML, we can join this into a single element after
+        // formatting the attributes into an HTML "attributes" string, then we will
+        // build out a final select statement, which will contain all the values.
+        $options = implode('', $html);
+
+         return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
     }
 
     /**
@@ -405,103 +436,61 @@ class FormBuilder
         return '<input' . $this->html->attributes($attributes) . ' />';
     }
 
-    /**
-     * Creates a select form input.
-     *
-     * echo FormBuilder::select('country', $countries, $country);
-     *
-     * [!!] Support for multiple selected options was added in v3.0.7.
-     *
-     * @param string $name
-     *            input name
-     * @param array $options
-     *            available options
-     * @param mixed $selected
-     *            selected option string, or an array of selected options
-     * @param array $attributes
-     *            html attributes
-     * @return string
-     * @uses HtmlBuilder->attributes
-     */
-    private function getSelect($name, $options = array(), $selected = null, $attributes = array())
-    {
-        // Set the input name
-        if (isset($this->option_name)) {
-            $attributes['name'] = $this->option_name . '[' . $name . ']';
-        } else {
-            $attributes['name'] = $name;
-        }
+	/**
+	 * Get the select option for the given value.
+	 *
+	 * @param  string  $display
+	 * @param  string  $value
+	 * @param  string  $selected
+	 * @return string
+	 */
+	public function getSelectOption($display, $value, $selected)
+	{
+		if (is_array($display))
+		{
+			return $this->optionGroup($display, $value, $selected);
+		}
 
-        if (is_array($selected)) {
-            // This is a multi-select, god save us!
-            $attributes[] = 'multiple';
-        }
+		return $this->option($display, $value, $selected);
+	}
 
-        if (!is_array($selected)) {
-            if ($selected === null) {
-                // Use an empty array
-                $selected = array();
-            } else {
-                // Convert the selected options to an array
-                $selected = array((string) $selected);
-            }
-        }
+	/**
+	 * Create an option group form element.
+	 *
+	 * @param  array   $list
+	 * @param  string  $label
+	 * @param  string  $selected
+	 * @return string
+	 */
+	protected function optionGroup($list, $label, $selected)
+	{
+		$html = array();
 
-        if (empty($options)) {
-            // There are no options
-            $options = '';
-        } else {
-            foreach ($options as $value => $name) {
-                if (is_array($name)) {
-                    // Create a new optgroup
-                    $group = array('label' => $value);
+		foreach ($list as $value => $display)
+		{
+			$html[] = $this->option($display, $value, $selected);
+		}
 
-                    // Create a new list of options
-                    $group_options = array();
+		return '<optgroup label="'.$label.'">'.implode('', $html).'</optgroup>';
+	}
 
-                    foreach ($name as $group_value => $group_name) {
-                        // Force value to be string
-                        $group_value = (string) $group_value;
+	/**
+	 * Create a select element option.
+	 *
+	 * @param  string  $display
+	 * @param  string  $value
+	 * @param  string  $selected
+	 * @return string
+	 */
+	protected function option($display, $value, $selected)
+	{
+		$selected = $this->getSelectedValue($value, $selected);
 
-                        // Create a new attribute set for this option
-                        $option = array('value' => $group_value);
+		$options = array('value' => $value, 'selected' => $selected);
 
-                        if (in_array($group_value, $selected)) {
-                            // This option is selected
-                            $option[] = 'selected';
-                        }
+		return '<option'.$this->html->attributes($options).'>'.$display.'</option>';
+	}
 
-                        // Change the option to the HTML string
-                        $group_options[] = '<option' . $this->html->attributes($option) . '>' . esc_html($name) . '</option>';
-                    }
-
-                    // Compile the options into a string
-                    $group_options = implode('', $group_options);
-
-                    $options[$value] = '<optgroup' . $this->html->attributes($group) . '>' . $group_options . '</optgroup>';
-                } else {
-                    // Force value to be string
-                    $value = (string) $value;
-
-                    // Create a new attribute set for this option
-                    $option = array('value' => $value);
-
-                    if (in_array($value, $selected)) {
-                        // This option is selected
-                        $option[] = 'selected';
-                    }
-
-                    // Change the option to the HTML string
-                    $options[$value] = '<option' . $this->html->attributes($option) . '>' . esc_html($name) . '</option>';
-                }
-            }
-
-            // Compile the options into a single string
-            $options = implode('', $options);
-        }
-
-        return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
-    }
 
     /**
      * Creates a form label.
@@ -510,22 +499,24 @@ class FormBuilder
      * echo FormBuilder::label('username', 'Username');
      *
      * @param string $name
-     * @param string $text
+     * @param string $display
      * @param array $attributes
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    public function label($name, $text = null, $attributes = array())
+    public function label($name, $display = null, $attributes = array())
     {
-        if ($text === null) {
+        if ($display === null) {
             // Use the input name as the text
-            $text = ucwords(preg_replace('/[\W_]+/', ' ', $input));
+            $display = ucwords(str_replace('_', ' ', $name));
         }
+
+        $this->labels[] = $name;
 
         // Set the label target
         $attributes['for'] = $name;
 
-        return '<label' . $this->html->attributes($attributes) . '>' . $text . '</label>';
+        return '<label' . $this->html->attributes($attributes) . '>' . $display . '</label>';
     }
 
     public function output($label, $field)
@@ -554,6 +545,42 @@ class FormBuilder
         }
     }
 
+    /**
+     * Get the ID attribute for a field name.
+     *
+     * @param  string  $name
+     * @param  array   $attributes
+     * @return string
+     */
+    public function getIdAttribute($name, $attributes)
+    {
+        if (array_key_exists('id', $attributes))
+        {
+            return $attributes['id'];
+        }
+
+        if (in_array($name, $this->labels))
+        {
+            return $name;
+        }
+    }
+
+    /**
+     * Determine if the value is selected.
+     *
+     * @param  string  $value
+     * @param  string  $selected
+     * @return string
+     */
+    protected function getSelectedValue($value, $selected)
+    {
+        if (is_array($selected))
+        {
+            return in_array($value, $selected) ? 'selected' : null;
+        }
+
+        return ((string) $value == (string) $selected) ? 'selected' : null;
+    }
     // __________________________________________
     // ____________Setter and Getters____________
     // __________________________________________
