@@ -627,14 +627,4 @@ class FormBuilder
     {
         return $this->option_name;
     }
-
-    public function setNonceAction($nonce)
-    {
-        $this->nonce = $this->option_name . '-' . $nonce;
-    }
-
-    public function getNonceAction($nonce)
-    {
-        return $this->option_name . '-' . $nonce;
-    }
 }
