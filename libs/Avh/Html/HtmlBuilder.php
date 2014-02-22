@@ -85,7 +85,7 @@ class HtmlBuilder
         } else {
             if (strpos($uri, '://') === false) {
                 // Make the URI absolute for non-id anchors
-                $uri = plugin_dir_url($uri);
+                $uri = plugins_url($uri);
             }
         }
 
