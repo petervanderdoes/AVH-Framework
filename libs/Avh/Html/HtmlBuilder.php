@@ -79,6 +79,22 @@ class HtmlBuilder
      */
     public function anchor($uri, $title = null, $attributes = array())
     {
+        $url = $this->generateUrl($uri);
+
+
+        // Add the sanitized link to the attributes
+        $attributes['href'] = $url;
+
+        if ($title === null) {
+            $title = $url;
+        }
+
+        return '<a' . $this->attributes($attributes) . '>' . $title . '</a>';
+    }
+	/**
+     * @param uri
+     */public function generateUrl($uri)
+    {
         if ($uri === '') {
             // Only use the base URL
             $uri = home_url('/');
@@ -89,15 +105,9 @@ class HtmlBuilder
             }
         }
 
-        // Add the sanitized link to the attributes
-        $attributes['href'] = $uri;
-
-        if ($title === null) {
-            $title = $uri;
-        }
-
-        return '<a' . $this->attributes($attributes) . '>' . $title . '</a>';
+        return $uri;
     }
+
 
     /**
      * Creates an email (mailto:) anchor.
@@ -140,10 +150,17 @@ class HtmlBuilder
      * @uses URL::base
      * @uses HtmlBuilder->attributes
      */
-    public function image($file, $attributes = array())
+    public function image($file, $alt=null, $attributes = array())
     {
+        if (empty($file) ) {
+            throw new \InvalidArgumentException("File can not be empty");
+        }
+
+        $url = $this->generateUrl($file);
+
         // Add the image link
-        $attributes['src'] = $file;
+        $attributes['src'] = $url;
+        $attributes['alt'] = $alt;
 
         return '<img' . $this->attributes($attributes) . ' />';
     }
