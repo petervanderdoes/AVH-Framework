@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.2.1
+* Missing method to set nonce action
+
 ### 1.2.0
 * Clean up code
 * Add tests for HtmlBuilder and FormBuilder

@@ -649,4 +649,12 @@ class FormBuilder
     {
         $this->option_name = null;
     }
+	/**
+     * @param field_type $nonce
+     */
+    protected function setNonce($nonce)
+    {
+        $this->nonce = $nonce;
+    }
+
 }
