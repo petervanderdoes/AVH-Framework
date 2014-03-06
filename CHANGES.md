@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.2.0
+* Clean up code
+* Add tests for HtmlBuilder and FormBuilder
+* Use Illuminate\Request
+* Use illuminate\Container
+
 ### 1.1.0
 * Display of HTML elements not correctly implemented.
 * Check if the framework has been loaded earlier.

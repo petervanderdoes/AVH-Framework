@@ -15,9 +15,16 @@ class FormBuilder
 
     private $html;
 
-    public function __construct(\Avh\Html\HtmlBuilder $html) {
+    /**
+     * An array of label names we've created.
+     *
+     * @var array
+     */
+    protected $labels = array();
 
-        $this->html=$html;
+    public function __construct(\Avh\Html\HtmlBuilder $html)
+    {
+        $this->html = $html;
     }
 
     /**
@@ -39,12 +46,11 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    public function open($action = null, array $attributes = null)
+    public function open($action = null, $attributes = array())
     {
-        if (!isset($attributes['method'])) {
-            // Use POST method
-            $attributes['method'] = 'post';
-        }
+        $attributes['method'] = $this->getMethod(avh_array_get($attributes, 'method', 'post'));
+
+        $attributes['accept-charset'] = $this->getCharset(avh_array_get($attributes,'accept-charset'));
 
         return '<form action="' . $action . '"' . $this->html->attributes($attributes) . '>';
     }
@@ -61,18 +67,18 @@ class FormBuilder
         return '</form>';
     }
 
-    public function openTable()
+    public function openTable($attributes = array())
     {
         $this->use_table = true;
-
-        return "\n<table class='form-table'>\n";
+        $attributes = array_merge($attributes, array('class' => 'form-table'));
+        return '<table' . $this->html->attributes($attributes) . '>';
     }
 
     public function closeTable()
     {
         $this->use_table = false;
 
-        return "\n</table>\n";
+        return '</table>';
     }
 
     /**
@@ -80,59 +86,85 @@ class FormBuilder
      * Instead of using the standard WordPress function, we duplicate the function but using the methods of this class.
      * This will create a more standard looking HTML output.
      *
-     * @param  string  $nonce
-     * @param  boolean $referer
+     * @param string $nonce
+     * @param boolean $referer
      * @return string
      */
     public function fieldNonce($referer = true)
     {
-        $nonce_field = $this->hidden('_wpnonce', wp_create_nonce($this->nonce));
+        $nonce_field = $this->hidden('_wpnonce', wp_create_nonce($this->nonce), array('id' => null));
         if ($referer) {
             $ref = $_SERVER['REQUEST_URI'];
-            $nonce_field .= $this->hidden('_wp_http_referer', $ref);
+            $nonce_field .= $this->hidden('_wp_http_referer', $ref, array('id' => null));
         }
 
         return $nonce_field;
     }
 
-    public function fieldSettings($action, $nonce)
+    public function fieldSettings($action, $use_nonce = true)
     {
-        $return = $this->hidden('action', $action);
-        $return .= $this->fieldNonce();
-
-        return $return;
-    }
-
-    public function text($label, $description, $name, $value = null, array $attributes = null)
-    {
-        $text_label = $this->label($name, $label);
-        $text_field = $this->input($name, $value, $attributes);
-
-        return $this->output($text_label, $text_field);
-    }
-
-    public function checkboxes($label, $descripton, $name, array $options, array $attributes = null)
-    {
-        $cb_label = $this->label($name, $label);
-        $return = $this->outputLabel($cb_label);
-        $cb_field = '';
-        foreach ($options as $value => $attr) {
-            $cb_checked = (isset($attr['checked']) ? $attr['checked'] : false);
-            $cb_field .= $this->checkbox($value, true, $cb_checked, $attributes);
-            $cb_field .= $this->label($value, $attr['text']);
-            $cb_field .= '<br>';
+        $return = $this->hidden('action', $action, array('id' => null));
+        if ($use_nonce) {
+            $return .= $this->fieldNonce();
         }
-        $return .= $this->outputField($cb_field);
 
         return $return;
     }
 
-    public function select($label, $description, $name, array $options = null, $selected = null, array $attributes = null)
+    public function text($name, $value = null, $attributes = array())
     {
-        $select_label = $this->label($name, $label);
-        $select_field = $this->getSelect($name, $options, $selected, $attributes);
+        $attributes['type'] = 'text';
+        return $this->input($name, $value, $attributes);
+    }
 
-        return $this->output($select_label, $select_field);
+    public function checkboxes($name, $options, $attributes = array())
+    {
+        $attributes['type'] = 'checkbox';
+
+        $output_field = '';
+        foreach ($options as $value => $attr) {
+            unset($attributes['checked']);
+            if (isset($attr['checked']) && $attr['checked']) {
+                $attributes['checked'] = 'checked';
+            }
+            if ($attr['value'] === false) {
+                $attr['value'] = null;
+            }
+            $label_field = $this->label($value, $attr['text']);
+            $input_field = $this->input(array($name => $value), $attr['value'], $attributes);
+            $output_field .= $input_field . $label_field . '<br>';
+        }
+        $return = $this->outputField($output_field);
+
+        return $return;
+    }
+
+    public function select($name, array $options = array(), $selected = null, $attributes = array())
+    {
+        $options['id'] = $this->getIdAttribute($name, $options);
+
+        // Set the input name
+        if (isset($this->option_name)) {
+            $attributes['name'] = $this->option_name . '[' . $name . ']';
+        } else {
+            $attributes['name'] = $name;
+        }
+
+        // We will simply loop through the options and build an HTML value for each of
+        // them until we have an array of HTML declarations. Then we will join them
+        // all together into one single HTML element that can be put on the form.
+        $html = array();
+
+        foreach ($options as $value => $display) {
+            $html[] = $this->getSelectOption($display, $value, $selected);
+        }
+
+        // Once we have all of this HTML, we can join this into a single element after
+        // formatting the attributes into an HTML "attributes" string, then we will
+        // build out a final select statement, which will contain all the values.
+        $options = implode('', $html);
+
+        return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
     }
 
     /**
@@ -149,7 +181,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    public function hidden($name, $value = null, array $attributes = null, $use_option_name = false)
+    public function hidden($name, $value = null, $attributes = array(), $use_option_name = false)
     {
         $attributes['type'] = 'hidden';
 
@@ -172,7 +204,7 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    public function button($name, $body, array $attributes = null)
+    public function button($name, $body, $attributes = array())
     {
         // Set the input name
         $attributes['name'] = $name;
@@ -194,53 +226,11 @@ class FormBuilder
      * @return string
      * @uses FormBuilder::input
      */
-    public function submit($name, $value, array $attributes = null)
+    public function submit($name, $value, $attributes = array())
     {
         $attributes['type'] = 'submit';
 
         return '<p class="submit">' . $this->input($name, $value, $attributes) . '</p>';
-    }
-
-    // ____________PRIVATE FUNCTIONS____________
-
-    /**
-     * Creates a form input.
-     * If no type is specified, a "text" type input will
-     * be returned.
-     *
-     * echo FormBuilder::input('username', $username);
-     *
-     * @param string $name
-     *            input name
-     * @param string $value
-     *            input value
-     * @param array $attributes
-     *            html attributes
-     * @return string
-     * @uses HtmlBuilder->attributes
-     */
-    private function input($name, $value = null, array $attributes = null, $use_option_name = true)
-    {
-        // Set the input name
-        if (isset($this->option_name) && $use_option_name) {
-            $attributes['name'] = $this->option_name . '[' . $name . ']';
-        } else {
-            $attributes['name'] = $name;
-        }
-
-        // Set the input value
-        $attributes['value'] = $value;
-
-        if (!isset($attributes['type'])) {
-            // Default type is text
-            $attributes['type'] = 'text';
-        }
-
-        if (!isset($attributes['id'])) {
-            $attributes['id'] = $name;
-        }
-
-        return '<input' . $this->html->attributes($attributes) . ' />';
     }
 
     /**
@@ -257,11 +247,11 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function password($name, $value = null, array $attributes = null)
+    public function password($name, $attributes = array())
     {
         $attributes['type'] = 'password';
 
-        return $this->input($name, $value, $attributes);
+        return $this->input($name, null, $attributes);
     }
 
     /**
@@ -277,7 +267,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function file($name, array $attributes = null)
+    public function file($name, $attributes = array())
     {
         $attributes['type'] = 'file';
 
@@ -300,13 +290,17 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function checkbox($name, $value = null, $checked = false, array $attributes = null)
+    public function checkbox($name, $value = null, $checked = null, $attributes = array())
     {
         $attributes['type'] = 'checkbox';
 
         if ($checked === true) {
             // Make the checkbox active
-            $attributes[] = 'checked';
+            $attributes['checked'] = 'checked';
+        }
+
+        if ($value === false) {
+            $value = null;
         }
 
         return $this->input($name, $value, $attributes);
@@ -329,7 +323,7 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function radio($name, $value = null, $checked = false, array $attributes = null)
+    public function radio($name, $value = null, $checked = false, $attributes = array())
     {
         $attributes['type'] = 'radio';
 
@@ -357,113 +351,54 @@ class FormBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function textarea($name, $body = '', array $attributes = null, $double_encode = true)
+    public function textarea($name, $body = '', $attributes = array())
     {
         // Set the input name
         $attributes['name'] = $name;
 
-        // Add default rows and cols attributes (required)
-        $attributes += array('rows' => 10, 'cols' => 50);
+        // Next we will look for the rows and cols attributes, as each of these are put
+        // on the textarea element definition. If they are not present, we will just
+        // assume some sane default values for these attributes for the developer.
+        $attributes = $this->setTextAreaSize($attributes);
+        unset($attributes['size']);
+
+        $attributes['id'] = $this->getIdAttribute($name, $attributes);
 
         return '<textarea' . $this->html->attributes($attributes) . '>' . esc_textarea($body) . '</textarea>';
     }
 
     /**
-     * Creates a select form input.
+     * Set the text area size on the attributes.
      *
-     * echo FormBuilder::select('country', $countries, $country);
-     *
-     * [!!] Support for multiple selected options was added in v3.0.7.
-     *
-     * @param string $name
-     *            input name
-     * @param array $options
-     *            available options
-     * @param mixed $selected
-     *            selected option string, or an array of selected options
      * @param array $attributes
-     *            html attributes
-     * @return string
-     * @uses HtmlBuilder->attributes
+     * @return array
      */
-    private function getSelect($name, array $options = null, $selected = null, array $attributes = null)
+    protected function setTextAreaSize($attributes)
     {
-        // Set the input name
-        if (isset($this->option_name)) {
-            $attributes['name'] = $this->option_name . '[' . $name . ']';
-        } else {
-            $attributes['name'] = $name;
+        if (isset($attributes['size'])) {
+            return $this->setQuickTextAreaSize($attributes);
         }
 
-        if (is_array($selected)) {
-            // This is a multi-select, god save us!
-            $attributes[] = 'multiple';
-        }
+        // If the "size" attribute was not specified, we will just look for the regular
+        // columns and rows attributes, using sane defaults if these do not exist on
+        // the attributes array. We'll then return this entire options array back.
+        $cols = avh_array_get($attributes, 'cols', 50);
 
-        if (!is_array($selected)) {
-            if ($selected === null) {
-                // Use an empty array
-                $selected = array();
-            } else {
-                // Convert the selected options to an array
-                $selected = array((string) $selected);
-            }
-        }
+        $rows = avh_array_get($attributes, 'rows', 10);
 
-        if (empty($options)) {
-            // There are no options
-            $options = '';
-        } else {
-            foreach ($options as $value => $name) {
-                if (is_array($name)) {
-                    // Create a new optgroup
-                    $group = array('label' => $value);
+        return array_merge($attributes, compact('cols', 'rows'));
+    }
 
-                    // Create a new list of options
-                    $group_options = array();
-
-                    foreach ($name as $group_value => $group_name) {
-                        // Force value to be string
-                        $group_value = (string) $group_value;
-
-                        // Create a new attribute set for this option
-                        $option = array('value' => $group_value);
-
-                        if (in_array($group_value, $selected)) {
-                            // This option is selected
-                            $option[] = 'selected';
-                        }
-
-                        // Change the option to the HTML string
-                        $group_options[] = '<option' . $this->html->attributes($option) . '>' . esc_html($name) . '</option>';
-                    }
-
-                    // Compile the options into a string
-                    $group_options = "\n" . implode("\n", $group_options) . "\n";
-
-                    $options[$value] = '<optgroup' . $this->html->attributes($group) . '>' . $group_options . '</optgroup>';
-                } else {
-                    // Force value to be string
-                    $value = (string) $value;
-
-                    // Create a new attribute set for this option
-                    $option = array('value' => $value);
-
-                    if (in_array($value, $selected)) {
-                        // This option is selected
-                        $option[] = 'selected';
-                    }
-
-                    // Change the option to the HTML string
-                    $options[$value] = '<option' . $this->html->attributes($option) . '>' . esc_html($name) . '</option>';
-                }
-            }
-
-            // Compile the options into a single string
-            $options = "\n" . implode("\n", $options) . "\n";
-        }
-
-        return '<select' . $this->html->attributes($attributes) . '>' . $options . '</select>';
+    /**
+     * Set the text area size using the quick "size" attribute.
+     *
+     * @param array $attributes
+     * @return array
+     */
+    protected function setQuickTextAreaSize($attributes)
+    {
+        $segments = explode('x', $attributes['size']);
+        return array_merge($attributes, array('cols' => $segments[0], 'rows' => $segments[1]));
     }
 
     /**
@@ -482,18 +417,111 @@ class FormBuilder
      * @return string
      * @uses $this->input
      */
-    private function image($name, $value, array $attributes = null, $index = false)
+    public function image($name, $value, $attributes = array())
     {
-        if (!empty($attributes['src'])) {
-            if (strpos($attributes['src'], '://') === false) {
-                // @todo Add the base URL
-                // $attributes['src'] = URL::base($index) . $attributes['src'];
-            }
-        }
-
         $attributes['type'] = 'image';
 
         return $this->input($name, $value, $attributes);
+    }
+
+    // ____________PRIVATE FUNCTIONS____________
+
+    /**
+     * Creates a form input.
+     * If no type is specified, a "text" type input will
+     * be returned.
+     *
+     * echo FormBuilder::input('username', $username);
+     *
+     * @param string|array $name
+     *            input name
+     * @param string $value
+     *            input value
+     * @param array $attributes
+     *            html attributes
+     * @return string
+     * @uses HtmlBuilder->attributes
+     */
+    public function input($name, $value = null, $attributes = array(), $use_option_name = true)
+    {
+        // Set the input name
+        if (isset($this->option_name) && $use_option_name) {
+            if (!is_array($name)) {
+                $attributes['name'] = $this->option_name . '[' . $name . ']';
+                $id = $name;
+            } else {
+                $attributes['name'] = $this->option_name . '[' . key($name) . ']' . '[' . current($name) . ']';
+                $id = current($name);
+            }
+        } else {
+            $attributes['name'] = $name;
+            $id = $name;
+        }
+
+        // Set the input value
+        $attributes['value'] = $value;
+
+        if (!array_key_exists('type', $attributes)) {
+            // Default type is text
+            $attributes['type'] = 'text';
+        }
+
+        $attributes['id'] = $this->getIdAttribute($id, $attributes);
+
+        return '<input' . $this->html->attributes($attributes) . ' />';
+    }
+
+    /**
+     * Get the select option for the given value.
+     *
+     * @param string $display
+     * @param string $value
+     * @param string $selected
+     * @return string
+     */
+    public function getSelectOption($display, $value, $selected)
+    {
+        if (is_array($display)) {
+            return $this->optionGroup($display, $value, $selected);
+        }
+
+        return $this->option($display, $value, $selected);
+    }
+
+    /**
+     * Create an option group form element.
+     *
+     * @param array $list
+     * @param string $label
+     * @param string $selected
+     * @return string
+     */
+    protected function optionGroup($list, $label, $selected)
+    {
+        $html = array();
+
+        foreach ($list as $value => $display) {
+            $html[] = $this->option($display, $value, $selected);
+        }
+
+        return '<optgroup label="' . $label . '">' . implode('', $html) . '</optgroup>';
+    }
+
+    /**
+     * Create a select element option.
+     *
+     * @param string $display
+     * @param string $value
+     * @param string $selected
+     * @return string
+     */
+    protected function option($display, $value, $selected)
+    {
+        $selected = $this->getSelectedValue($value, $selected);
+
+        $options = array('value' => $value, 'selected' => $selected);
+
+        return '<option' . $this->html->attributes($options) . '>' . $display . '</option>';
     }
 
     /**
@@ -502,29 +530,28 @@ class FormBuilder
      *
      * echo FormBuilder::label('username', 'Username');
      *
-     * @param string $input
-     *            target input
-     * @param string $text
-     *            label text
+     * @param string $name
+     * @param string $display
      * @param array $attributes
-     *            html attributes
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    private function label($input, $text = null, array $attributes = null)
+    public function label($name, $display = null, $attributes = array())
     {
-        if ($text === null) {
+        if ($display === null) {
             // Use the input name as the text
-            $text = ucwords(preg_replace('/[\W_]+/', ' ', $input));
+            $display = ucwords(str_replace('_', ' ', $name));
         }
 
-        // Set the label target
-        $attributes['for'] = $input;
+        $this->labels[] = $name;
 
-        return '<label' . $this->html->attributes($attributes) . '>' . $text . '</label>';
+        // Set the label target
+        $attributes['for'] = $name;
+
+        return '<label' . $this->html->attributes($attributes) . '>' . $display . '</label>';
     }
 
-    private function output($label, $field)
+    public function output($label, $field)
     {
         $output_return = $this->outputLabel($label);
         $output_return .= $this->outputField($field);
@@ -532,24 +559,75 @@ class FormBuilder
         return $output_return;
     }
 
-    private function outputLabel($label)
+    public function outputLabel($label)
     {
         if ($this->use_table) {
-            return "\n<tr>\n\t<th scope='row'>" . $label . "</th>";
+            return '<tr><th scope="row">' . $label . '</th>';
         } else {
-            return "\n" . $label;
+            return $label;
         }
     }
 
-    private function outputField($field)
+    public function outputField($field)
     {
         if ($this->use_table) {
-            return "\n\t<td>\n\t\t" . $field . "\n\t</td>";
+            return '<td>' . $field . '</td></tr>';
         } else {
-            return "\n" . $field;
+            return $field;
         }
     }
 
+    /**
+     * Get the ID attribute for a field name.
+     *
+     * @param string $name
+     * @param array $attributes
+     * @return string
+     */
+    public function getIdAttribute($name, $attributes)
+    {
+        if (array_key_exists('id', $attributes)) {
+            return $attributes['id'];
+        }
+
+        if (in_array($name, $this->labels)) {
+            return $name;
+        }
+    }
+
+    /**
+     * Determine if the value is selected.
+     *
+     * @param string $value
+     * @param string $selected
+     * @return string
+     */
+    protected function getSelectedValue($value, $selected)
+    {
+        if (is_array($selected)) {
+            return in_array($value, $selected) ? 'selected' : null;
+        }
+
+        return ((string) $value == (string) $selected) ? 'selected' : null;
+    }
+
+    /**
+     * Parse the form action method.
+     *
+     * @param  string  $method
+     * @return string
+     */
+    protected function getMethod($method)
+    {
+        $method = strtoupper($method);
+
+        return $method != 'GET' ? 'POST' : $method;
+    }
+
+    protected function getCharset($charset)
+    {
+        return $charset !== null ? $charset : get_bloginfo('charset', 'display' );
+    }
     // __________________________________________
     // ____________Setter and Getters____________
     // __________________________________________
@@ -567,13 +645,8 @@ class FormBuilder
         return $this->option_name;
     }
 
-    public function setNonceAction($nonce)
+    public function deleteOptionName()
     {
-        $this->nonce = $this->option_name . '-' . $nonce;
-    }
-
-    public function getNonceAction()
-    {
-        return $this->nonce;
+        $this->option_name = null;
     }
 }

@@ -1,6 +1,18 @@
 {
 	"name" : "AVH Framework",
-	"type" : "wordpress-plugin",
+	"require" : {
+		"patchwork/utf8" : "~1.1",
+		"php" : ">=5.3.2",
+		"vlucas/valitron" : ">=1.1.5",
+		"illuminate/container" : "~4.1",
+		"illuminate/http" : "~4.1"
+	},
+	"repositories" : [{
+			"type" : "git",
+			"url" : "https://github.com/petervanderdoes/AVH-Framework.git",
+			"name" : "master"
+		}
+	],
 	"authors" : [{
 			"name" : "Peter van der Does",
 			"email" : "peter@avirtualhome.com",
@@ -8,34 +20,23 @@
 			"role" : "Project Manager"
 		}
 	],
+	"support" : {
+		"source" : "https://github.com/petervanderdoes/AVH-Framework",
+		"issues" : "https://github.com/petervanderdoes/AVH-Framework/issues",
+		"wiki" : "https://github.com/petervanderdoes/AVH-Framework/wiki"
+	},
 	"keywords" : [
 		"framework"
 	],
-	"license" : [
-		"MIT"
-	],
-	"require" : {
-		"patchwork/utf8" : "~1",
-		"php" : ">=5.3.2"
-	},
 	"autoload" : {
-		"psr-0" : {
-			"Avh\\" : "libs/"
+		"psr-4" : {
+			"Avh\\" : "libs/Avh"
 		},
 		"files" : [
 			"libs/Avh/Support/helpers.php",
 			"libs/Avh/Support/version.php"
 		]
 	},
-	"support" : {
-		"source" : "https://github.com/petervanderdoes/AVH-Framework",
-		"issues" : "https://github.com/petervanderdoes/AVH-Framework/issues",
-		"wiki" : "https://github.com/petervanderdoes/AVH-Framework/wiki"
-	},
-	"repositories" : [{
-			"name" : "master",
-			"type" : "git",
-			"url" : "https://github.com/petervanderdoes/AVH-Framework.git"
-		}
-	]
+	"license" : "MIT",
+	"type" : "wordpress-plugin"
 }

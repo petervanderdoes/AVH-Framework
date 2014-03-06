@@ -146,6 +146,8 @@ final class Options
      */
     private function get($field, $data)
     {
+        $result = null;
+
         if (empty($field)) {
             return $data;
         }

@@ -234,7 +234,7 @@ class PluginController
     /**
      * Add a "settings" link to access to the option page from the plugin list
      *
-     * @param  string $links
+     * @param string $links
      * @return none
      */
     public function filterPluginActions($links)
@@ -315,6 +315,44 @@ class PluginController
     public function adminMenu()
     {
 
+        // Implement potential menu pages.
+        // In case $this->pages is empty it will just skip the loop.
+        foreach ($this->pages as $id => $page) {
+
+            // Create the menu
+            if ($page['type'] == 'menu') {
+                $hook = add_menu_page(__($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']), $page['icon_url'], $page['position']);
+            } else {
+                $hook = $this->adminMenuSubMenu($id, $page);
+            }
+
+            // Get the hook of the page
+            $this->hooks[$page['display_callback']][$id] = $hook;
+
+            // Add load, and print_scripts functions (attached to the hook)
+            if ($page['load_callback'] !== false) {
+                add_action('load-' . $hook, array($this, $page['load_callback']));
+            }
+            if ($page['load_scripts'] !== false) {
+                add_action('admin_print_scripts-' . $hook, array($this, $page['load_scripts']));
+            }
+
+            // Add the link into the plugin page
+            if ($this->options_page_id == $id) {
+                add_filter('plugin_action_links_' . plugin_basename($this->pluginfile), array($this, 'filterPluginActions'));
+            }
+        }
+    }
+
+    /**
+     * Add a submenu
+     *
+     * @param array $page
+     * @param array $page_list
+     * @return Ambigous <string, boolean>
+     */
+    private function adminMenuSubMenu($id, $page)
+    {
         // @formatter:off
         $page_list = array(
             'dashboard' => 'index.php',
@@ -331,53 +369,26 @@ class PluginController
         );
         // @formatter:on
 
-        // Add a new submenu under Options:
-        if (sizeof($this->pages) > 0) {
-            foreach ($this->pages as $id => $page) {
-
-                // Create the menu
-                if ($page['type'] == 'menu') {
-                    $hook = add_menu_page(__($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']), $page['icon_url'], $page['position']);
-                } else {
-                    if ($page['type'] != 'submenu') {
-                        $page['parent_id'] = $page_list[$page['type']];
-                    }
-
-                    $hook = add_submenu_page($page['parent_id'], __($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']));
-
-                    if (isset($this->pages[$page['parent_id']]) && $this->pages[$page['parent_id']]['shortname'] != '') {
-                        global $submenu;
-                        $submenu[$page['parent_id']][0][0] = $this->pages[$page['parent_id']]['shortname'];
-                        $this->pages[$page['parent_id']]['shortname'] = '';
-                    }
-                }
-
-                // Get the hook of the page
-                $this->hooks[$page['display_callback']][$id] = $hook;
-
-                // Add load, and print_scripts functions (attached to the hook)
-                if ($page['load_callback'] !== false) {
-                    add_action('load-' . $hook, array($this, $page['load_callback']));
-                }
-                if ($page['load_scripts'] !== false) {
-                    add_action('admin_print_scripts-' . $hook, array($this, $page['load_scripts']));
-                }
-
-                // Add the link into the plugin page
-                if ($this->options_page_id == $id) {
-                    add_filter('plugin_action_links_' . plugin_basename($this->pluginfile), array($this, 'filterPluginActions'));
-                }
-            }
-            unset($this->pages);
+        if ($page['type'] != 'submenu') {
+            $page['parent_id'] = $page_list[$page['type']];
         }
+
+        $hook = add_submenu_page($page['parent_id'], __($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']));
+
+        if (isset($this->pages[$page['parent_id']]) && $this->pages[$page['parent_id']]['shortname'] != '') {
+            global $submenu;
+            $submenu[$page['parent_id']][0][0] = $this->pages[$page['parent_id']]['shortname'];
+            $this->pages[$page['parent_id']]['shortname'] = '';
+        }
+        return $hook;
     }
 
     /**
      * Returns the pagehook name
      *
-     * @param  string $page_id
-     * @param  string $function
-     * @return mixed  If pagehook does not exists return false other return the page hook name
+     * @param string $page_id
+     * @param string $function
+     * @return mixed If pagehook does not exists return false other return the page hook name
      */
     protected function getPageHook($page_id = '', $function = '')
     {
@@ -418,7 +429,7 @@ class PluginController
     /**
      * Insert button in wordpress post editor
      *
-     * @param  array $buttons
+     * @param array $buttons
      * @return array
      */
     public function registerButton($buttons)

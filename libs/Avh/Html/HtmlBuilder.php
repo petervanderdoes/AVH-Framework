@@ -52,8 +52,6 @@ class HtmlBuilder
      */
     public $windowed_urls = false;
 
-    private $base_uri;
-
     /**
      * Create a new HTML builder instance.
      *
@@ -79,33 +77,37 @@ class HtmlBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    public function anchor($uri, $title = null, array $attributes = null)
+    public function anchor($uri, $title = null, $attributes = array())
     {
+        $url = $this->generateUrl($uri);
+
+
+        // Add the sanitized link to the attributes
+        $attributes['href'] = $url;
+
         if ($title === null) {
-            // Use the URI as the title
-            $title = $uri;
+            $title = $url;
         }
 
+        return '<a' . $this->attributes($attributes) . '>' . $title . '</a>';
+    }
+	/**
+     * @param uri
+     */public function generateUrl($uri)
+    {
         if ($uri === '') {
             // Only use the base URL
             $uri = home_url('/');
         } else {
-            if (strpos($uri, '://') !== false) {
-                if ($this->windowed_urls === true and empty($attributes['target'])) {
-                    // Make the link open in a new window
-                    $attributes['target'] = '_blank';
-                }
-            } elseif ($uri[0] !== '#') {
+            if (strpos($uri, '://') === false) {
                 // Make the URI absolute for non-id anchors
-                $uri = plugin_dir_url($uri);
+                $uri = plugins_url($uri);
             }
         }
 
-        // Add the sanitized link to the attributes
-        $attributes['href'] = $uri;
-
-        return '<a' . $this->attributes($attributes) . '>' . $title . '</a>';
+        return $uri;
     }
+
 
     /**
      * Creates an email (mailto:) anchor.
@@ -123,7 +125,7 @@ class HtmlBuilder
      * @return string
      * @uses HtmlBuilder->attributes
      */
-    public function mailto($email, $title = null, array $attributes = null)
+    public function mailto($email, $title = null, $attributes = array())
     {
         if ($title === null) {
             // Use the email address as the title
@@ -148,10 +150,17 @@ class HtmlBuilder
      * @uses URL::base
      * @uses HtmlBuilder->attributes
      */
-    public function image($file, array $attributes = null)
+    public function image($file, $alt=null, $attributes = array())
     {
+        if (empty($file) ) {
+            throw new \InvalidArgumentException("File can not be empty");
+        }
+
+        $url = $this->generateUrl($file);
+
         // Add the image link
-        $attributes['src'] = $file;
+        $attributes['src'] = $url;
+        $attributes['alt'] = $alt;
 
         return '<img' . $this->attributes($attributes) . ' />';
     }
@@ -166,7 +175,7 @@ class HtmlBuilder
      *            attribute list
      * @return string
      */
-    public function attributes(array $attributes = null)
+    public function attributes($attributes = array())
     {
         if (empty($attributes)) {
             return '';
@@ -206,12 +215,12 @@ class HtmlBuilder
         if (is_numeric($key)) {
             $key = $value;
         }
-        ;
 
         if (!is_null($value)) {
             return $key . '="' . esc_attr($value) . '"';
         }
-        ;
+
+        return null;
     }
 
     /**
@@ -228,7 +237,7 @@ class HtmlBuilder
             // To properly obfuscate the value, we will randomly convert each letter to
             // its entity or hexadecimal representation, keeping a bot from sniffing
             // the randomly obfuscated letters out of the string on the responses.
-            switch (rand(1, 3)) {
+            switch (mt_rand(1, 3)) {
                 case 1:
                     $safe .= '&#' . ord($letter) . ';';
                     break;
