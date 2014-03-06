@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.3.0-dev.1
+* Preparation for new development cycle.
+
 ### 1.2.1
 * Missing method to set nonce action
 
