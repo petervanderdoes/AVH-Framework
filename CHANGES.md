@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.2.1-rc.1
+### 1.2.1
 * Missing method to set nonce action
 
 ### 1.2.0
