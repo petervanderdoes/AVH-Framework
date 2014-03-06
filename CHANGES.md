@@ -1,7 +1,7 @@
 # Changelog
 
 ### 1.2.1-rc.1
-* Preparation for new development cycle.
+* Missing method to set nonce action
 
 ### 1.2.0
 * Clean up code
