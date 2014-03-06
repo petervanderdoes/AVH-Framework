@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.2.0-dev.57
+### 1.2.0-rc.1
 * Clean up code
 * Add tests for HtmlBuilder and FormBuilder
 * Use Illuminate\Request
