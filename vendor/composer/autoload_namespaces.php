@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Valitron' => array($vendorDir . '/vlucas/valitron/src'),
+    'Symfony\\Component\\Security\\' => array($vendorDir . '/symfony/security'),
     'Symfony\\Component\\HttpKernel\\' => array($vendorDir . '/symfony/http-kernel'),
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
