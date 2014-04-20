@@ -90,25 +90,15 @@ class FormBuilder
      * @param boolean $referer
      * @return string
      */
-    public function fieldNonce($referer = true)
+    public function fieldNonce($nonce, $referer = true)
     {
-        $nonce_field = $this->hidden('_wpnonce', wp_create_nonce($this->nonce), array('id' => null));
+        $nonce_field = $this->hidden('_wpnonce', wp_create_nonce($nonce), array('id' => null));
         if ($referer) {
             $ref = $_SERVER['REQUEST_URI'];
             $nonce_field .= $this->hidden('_wp_http_referer', $ref, array('id' => null));
         }
 
         return $nonce_field;
-    }
-
-    public function fieldSettings($action, $use_nonce = true)
-    {
-        $return = $this->hidden('action', $action, array('id' => null));
-        if ($use_nonce) {
-            $return .= $this->fieldNonce();
-        }
-
-        return $return;
     }
 
     public function text($name, $value = null, $attributes = array())
@@ -649,12 +639,4 @@ class FormBuilder
     {
         $this->option_name = null;
     }
-	/**
-     * @param field_type $nonce
-     */
-    protected function setNonce($nonce)
-    {
-        $this->nonce = $nonce;
-    }
-
 }

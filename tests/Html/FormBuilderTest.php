@@ -59,21 +59,11 @@ class FormBuilderTest extends WP_UnitTestCase
     public function testFieldNonce()
     {
         $nonce = wp_create_nonce(null);
-        $form1 = $this->formBuilder->fieldNonce();
-        $form2 = $this->formBuilder->fieldNonce(false);
+        $form1 = $this->formBuilder->fieldNonce(null);
+        $form2 = $this->formBuilder->fieldNonce(null,false);
 
         $this->assertEquals('<input type="hidden" name="_wpnonce" value="' . $nonce . '" /><input type="hidden" name="_wp_http_referer" value="" />', $form1);
         $this->assertEquals('<input type="hidden" name="_wpnonce" value="' . $nonce . '" />', $form2);
-    }
-
-    public function testFieldSettings()
-    {
-        $nonce = wp_create_nonce(null);
-        $form1 = $this->formBuilder->fieldSettings('foo');
-        $form2 = $this->formBuilder->fieldSettings('foo', false);
-
-        $this->assertEquals('<input type="hidden" name="action" value="foo" /><input type="hidden" name="_wpnonce" value="' . $nonce . '" /><input type="hidden" name="_wp_http_referer" value="" />', $form1);
-        $this->assertEquals('<input type="hidden" name="action" value="foo" />', $form2);
     }
 
     public function testFormCheckboxes()

@@ -6,6 +6,7 @@
  *
  * @package wordpress-plugin-tests
  */
+require __DIR__ . '/../vendor/autoload.php';
 
 // Activates this plugin in WordPress so it can be tested.
 //$GLOBALS['wp_tests_options'] = array(
