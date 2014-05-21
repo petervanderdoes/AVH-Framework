@@ -81,7 +81,6 @@ class HtmlBuilder
     {
         $url = $this->generateUrl($uri);
 
-
         // Add the sanitized link to the attributes
         $attributes['href'] = $url;
 
@@ -92,16 +91,21 @@ class HtmlBuilder
         return '<a' . $this->attributes($attributes) . '>' . $title . '</a>';
     }
 
-    public function element($element, $closetag, $attributes =  array()) {
-        $return ='<'.$element . $this->attributes($attributes).'>';
+    public function element($element, $attributes = array(), $closetag = false)
+    {
+        $return = '<' . $element . $this->attributes($attributes) . '>';
         if ($closetag) {
-            $return .= '</'.$element.'>';
+            $return .= '</' . $element . '>';
         }
         return $return;
     }
-	/**
-     * @param uri
-     */public function generateUrl($uri)
+
+    /**
+     *
+     * @param string $uri
+     * @return Ambigous <string, mixed>
+     */
+    public function generateUrl($uri)
     {
         if ($uri === '') {
             // Only use the base URL
@@ -115,7 +119,6 @@ class HtmlBuilder
 
         return $uri;
     }
-
 
     /**
      * Creates an email (mailto:) anchor.
@@ -158,9 +161,9 @@ class HtmlBuilder
      * @uses URL::base
      * @uses HtmlBuilder->attributes
      */
-    public function image($file, $alt=null, $attributes = array())
+    public function image($file, $alt = null, $attributes = array())
     {
-        if (empty($file) ) {
+        if (empty($file)) {
             throw new \InvalidArgumentException("File can not be empty");
         }
 
