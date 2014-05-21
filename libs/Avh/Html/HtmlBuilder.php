@@ -91,6 +91,14 @@ class HtmlBuilder
 
         return '<a' . $this->attributes($attributes) . '>' . $title . '</a>';
     }
+
+    public function element($element, $closetag, $attributes =  array()) {
+        $return ='<'.$element . $this->attributes($attributes).'>';
+        if ($closetag) {
+            $return .= '</'.$element.'>';
+        }
+        return $return;
+    }
 	/**
      * @param uri
      */public function generateUrl($uri)
