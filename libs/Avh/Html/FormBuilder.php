@@ -131,7 +131,7 @@ class FormBuilder
 
     public function select($name, array $options = array(), $selected = null, $attributes = array())
     {
-        $options['id'] = $this->getIdAttribute($name, $options);
+        $attributes['id'] = $this->getIdAttribute($name, $attributes);
 
         // Set the input name
         if (isset($this->option_name)) {
