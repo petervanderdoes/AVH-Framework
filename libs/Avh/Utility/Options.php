@@ -6,7 +6,7 @@ use Avh\Utility\Common;
 /**
  * This class is based of the options class of the scbFramework
  */
-final class Options
+class Options
 {
 
     private $option_key; // the option name

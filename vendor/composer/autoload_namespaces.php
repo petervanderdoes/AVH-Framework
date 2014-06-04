@@ -19,6 +19,7 @@ return array(
     'Illuminate\\Support' => array($vendorDir . '/illuminate/support'),
     'Illuminate\\Session' => array($vendorDir . '/illuminate/session'),
     'Illuminate\\Http' => array($vendorDir . '/illuminate/http'),
+    'Illuminate\\Filesystem' => array($vendorDir . '/illuminate/filesystem'),
     'Illuminate\\Encryption' => array($vendorDir . '/illuminate/encryption'),
     'Illuminate\\Cookie' => array($vendorDir . '/illuminate/cookie'),
     'Illuminate\\Container' => array($vendorDir . '/illuminate/container'),

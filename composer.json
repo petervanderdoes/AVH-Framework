@@ -4,8 +4,10 @@
 		"patchwork/utf8" : "~1.1",
 		"php" : ">=5.3.2",
 		"vlucas/valitron" : ">=1.1.5",
-		"illuminate/container" : "~4.1",
-		"illuminate/http" : "~4.1"
+		"illuminate/container" : "~4.2",
+		"illuminate/http" : "~4.2",
+		"illuminate/session" : "~4.2",
+		"illuminate/filesystem" : "~4.2"
 	},
 	"repositories" : [{
 			"type" : "git",
