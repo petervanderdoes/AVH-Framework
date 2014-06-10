@@ -32,7 +32,7 @@ class Session extends \Symfony\Component\HttpFoundation\Session\Session
      *      gc_probability, "1"
      *      hash_bits_per_character, "4"
      *      hash_function, "0"
-     *      name, "PHPSESSID"
+     *      name, "avh_COOKIEHASH" COOKIEHASH is defined by WordPress
      *      referer_check, ""
      *      serialize_handler, "php"
      *      use_cookies, "1"
@@ -52,7 +52,7 @@ class Session extends \Symfony\Component\HttpFoundation\Session\Session
      */
     function __construct(array $options = array())
     {
-        $default_options= array('cookie_lifetime'=>300, 'name' => 'avh_'.COOKIEHASH);
+        $default_options= array('name' => 'avh_'.COOKIEHASH);
         $options = array_merge($default_options,$options);
         $this->session = parent::__construct(new NativeSessionStorage($options), new NamespacedAttributeBag('avh_framework'));
     }
