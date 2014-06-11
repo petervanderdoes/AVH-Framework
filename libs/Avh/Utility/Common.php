@@ -111,4 +111,21 @@ final class Common
     {
         do_action('avh_uninstall_' . plugin_basename($plugin));
     }
+
+    /**
+     * Clears the WP or W3TC cache depending on which is used
+     *
+     * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
+     * adjusted in that case.
+     *
+     * @static
+     * @return void
+     */
+    public static function clear_cache() {
+        if ( function_exists( 'w3tc_pgcache_flush' ) ) {
+            w3tc_pgcache_flush();
+        } elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
+            wp_cache_clear_cache();
+        }
+    }
 }
