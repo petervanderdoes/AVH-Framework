@@ -1,17 +1,20 @@
 <?php
 namespace Avh\Utility;
 
+// ---------- Private methods ----------
 abstract class ShortcodesAbstract
 {
 
     private $shortcode_map;
 
+// ---------- Public methods ----------
     /**
      * Method that's always called for the shortcode
      *
      * @param  array  $atts
      * @param  string $content
      * @param  string $tag
+     *
      * @return string
      */
     public function bootstrap($atts, $content, $tag)

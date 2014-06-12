@@ -96,13 +96,14 @@ interface OptionsInterface
 
     /**
      * Clean out old/renamed values within the option
+     *
+     * @param      $option_value
+     * @param null $current_version
+     * @param null $all_old_option_values
+     *
+     * @return
      */
     public function cleanOption($option_value, $current_version = null, $all_old_option_values = null);
-
-    /**
-     * Add additional defaults once all post_types and taxonomies have been registered
-     */
-    public function handleEnrichDefaults();
 
     /**
      * Get the enriched default value for an option
@@ -127,6 +128,16 @@ interface OptionsInterface
      * @return mixed Option merged with the defaults for that option
      */
     public function getOption($options = null);
+
+    /**
+     * Add additional defaults once all post_types and taxonomies have been registered
+     */
+    public function handleEnrichDefaults();
+
+    /**
+     * Translate default values if needed.
+     */
+    public function handleTranslateDefaults();
 
     /**
      * Clean and re-save the option
@@ -179,11 +190,6 @@ interface OptionsInterface
      * @return void
      */
     public function removeOptionFilters();
-
-    /**
-     * Translate default values if needed.
-     */
-    public function handleTranslateDefaults();
 
     /**
      * Validate the option

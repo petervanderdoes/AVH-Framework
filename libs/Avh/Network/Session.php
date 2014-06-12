@@ -1,9 +1,10 @@
 <?php
 namespace Avh\Network;
 
-use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
+// ---------- Private methods ----------
 class Session extends \Symfony\Component\HttpFoundation\Session\Session
 {
 
@@ -50,8 +51,8 @@ class Session extends \Symfony\Component\HttpFoundation\Session\Session
      */
     function __construct(array $options = array())
     {
-        $default_options= array('name' => 'avh_'.COOKIEHASH);
-        $options = array_merge($default_options,$options);
+        $default_options = array('name' => 'avh_' . COOKIEHASH);
+        $options = array_merge($default_options, $options);
         parent::__construct(new NativeSessionStorage($options), new NamespacedAttributeBag('avh_framework'));
     }
 }

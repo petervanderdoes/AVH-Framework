@@ -1,93 +1,11 @@
 <?php
 namespace Avh\Utility;
 
+// ---------- Private methods ----------
 final class Common
 {
 
-    /**
-     * Returns the wordpress version
-     * Note: 2.7.x will return 2.7
-     *
-     * @return float
-     */
-    public static function getWordpressVersion()
-    {
-        static $version = null;
-        if (!isset($version)) {
-            // Include WordPress version
-            require (ABSPATH . WPINC . '/version.php');
-            $version = (float) $wp_version;
-        }
-
-        return $version;
-    }
-
-    /**
-     * Determines if the current version of PHP is greater then the supplied value
-     *
-     * @param $version string
-     *            Defaults to 5.0.0
-     * @return bool
-     */
-    public static function isPHP($version = '5.0.0')
-    {
-        static $is_php = null;
-        $version = (string) $version;
-        if (!isset($is_php[$version])) {
-            $is_php[$version] = (version_compare(PHP_VERSION, $version) < 0) ? false : true;
-        }
-
-        return $is_php[$version];
-    }
-
-    /**
-     * Get the base directory of a directory structure
-     *
-     * @param  string $directory
-     * @return string
-     *
-     */
-    public static function getBaseDirectory($directory)
-    {
-        // get public directory structure eg "/top/second/third"
-        $public_directory = dirname($directory);
-        // place each directory into array
-        $directory_array = explode('/', $public_directory);
-        // get highest or top level in array of directory strings
-        $_public_base = end($directory_array);
-
-        return $_public_base;
-    }
-
-    /**
-     * This function will take an IP address or IP number in almost any format (that I can think of) and will return
-     * it's decimal unsigned equivalent, as a string.
-     * Kind				=> Input				=> Return		=> long2ip(Return)
-     * DottedQuadDec	=> 192.168.255.109		=> 3232300909	=> 192.168.255.109
-     * PosIntStr		=> 3232300909			=> 3232300909	=> 192.168.255.109
-     * NegIntStr		=> -1062666387			=> 3232300909	=> 192.168.255.109
-     * PosInt			=> 3232300909			=> 3232300909	=> 192.168.255.109
-     * NegInt			=> -1062666387			=> 3232300909	=> 192.168.255.109
-     * DottedQuadHex	=> 0xc0.0xA8.0xFF.0x6D	=> 0	=> 0.0.0.0
-     * DottedQuadOct	=> 0300.0250.0377.0155	=> 0	=> 0.0.0.0
-     * HexIntStr		=> 0xC0A8FF6D			=> 0	=> 0.0.0.0
-     * HexInt			=> 3232300909 => 3232300909	=> 192.168.255.109
-     *
-     * @param string|numeric $ip
-     */
-    public static function getIp2long($ip)
-    {
-        $return = null;
-        if (is_numeric($ip)) {
-            $return = sprintf("%u", floatval($ip));
-        }
-        if (is_string($ip)) {
-            $return = sprintf("%u", floatval(ip2long($ip)));
-        }
-
-        return $return;
-    }
-
+// ---------- Public methods ----------
     /**
      * Allows for the use of more than one uninstall hook.
      * WordPress only allows one callback for the uninstall hook.
@@ -108,25 +26,109 @@ final class Common
         add_action('avh_uninstall_' . plugin_basename($file), $callback);
     }
 
+    /**
+     * Clears the WP or W3TC cache depending on which is used.
+     *
+     * @static
+     * @return void
+     */
+    public static function clearCache()
+    {
+        if (function_exists('w3tc_pgcache_flush')) {
+            w3tc_pgcache_flush();
+        } elseif (function_exists('wp_cache_clear_cache')) {
+            wp_cache_clear_cache();
+        }
+    }
+
     public static function doUninstall($plugin)
     {
         do_action('avh_uninstall_' . plugin_basename($plugin));
     }
 
     /**
-     * Clears the WP or W3TC cache depending on which is used
+     * Get the base directory of a directory structure
      *
-     * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-     * adjusted in that case.
+     * @param  string $directory
      *
-     * @static
-     * @return void
+     * @return string
+     *
      */
-    public static function clearCache() {
-        if ( function_exists( 'w3tc_pgcache_flush' ) ) {
-            w3tc_pgcache_flush();
-        } elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
-            wp_cache_clear_cache();
+    public static function getBaseDirectory($directory)
+    {
+        // get public directory structure eg "/top/second/third"
+        $public_directory = dirname($directory);
+        // place each directory into array
+        $directory_array = explode('/', $public_directory);
+        // get highest or top level in array of directory strings
+        $_public_base = end($directory_array);
+
+        return $_public_base;
+    }
+
+    /**
+     * This function will take an IP address or IP number in almost any format (that I can think of) and will return
+     * it's decimal unsigned equivalent, as a string.
+     * Kind                => Input                => Return        => long2ip(Return)
+     * DottedQuadDec    => 192.168.255.109        => 3232300909    => 192.168.255.109
+     * PosIntStr        => 3232300909            => 3232300909    => 192.168.255.109
+     * NegIntStr        => -1062666387            => 3232300909    => 192.168.255.109
+     * PosInt            => 3232300909            => 3232300909    => 192.168.255.109
+     * NegInt            => -1062666387            => 3232300909    => 192.168.255.109
+     * DottedQuadHex    => 0xc0.0xA8.0xFF.0x6D    => 0    => 0.0.0.0
+     * DottedQuadOct    => 0300.0250.0377.0155    => 0    => 0.0.0.0
+     * HexIntStr        => 0xC0A8FF6D            => 0    => 0.0.0.0
+     * HexInt            => 3232300909 => 3232300909    => 192.168.255.109
+     *
+     * @param string|numeric $ip
+     */
+    public static function getIp2long($ip)
+    {
+        $return = null;
+        if (is_numeric($ip)) {
+            $return = sprintf("%u", floatval($ip));
         }
+        if (is_string($ip)) {
+            $return = sprintf("%u", floatval(ip2long($ip)));
+        }
+
+        return $return;
+    }
+
+    /**
+     * Returns the wordpress version
+     * Note: 2.7.x will return 2.7
+     *
+     * @return float
+     */
+    public static function getWordpressVersion()
+    {
+        static $version = null;
+        if (!isset($version)) {
+            // Include WordPress version
+            require(ABSPATH . WPINC . '/version.php');
+            $version = (float) $wp_version;
+        }
+
+        return $version;
+    }
+
+    /**
+     * Determines if the current version of PHP is greater then the supplied value
+     *
+     * @param $version string
+     *                 Defaults to 5.0.0
+     *
+     * @return bool
+     */
+    public static function isPHP($version = '5.0.0')
+    {
+        static $is_php = null;
+        $version = (string) $version;
+        if (!isset($is_php[$version])) {
+            $is_php[$version] = (version_compare(PHP_VERSION, $version) < 0) ? false : true;
+        }
+
+        return $is_php[$version];
     }
 }

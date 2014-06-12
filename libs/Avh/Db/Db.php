@@ -1,15 +1,33 @@
 <?php
 namespace Avh\Db;
 
+// ---------- Private methods ----------
 final class Db
 {
+
+// ---------- Public methods ----------
+    /**
+     * Determine if a particular field exists
+     *
+     * @access public
+     *
+     * @param  string $field_name
+     * @param  string $table_name
+     *
+     * @return boolean
+     */
+    public function checkFieldExists($field_name, $table_name)
+    {
+        return (in_array($field_name, $this->getFieldNames($table_name)));
+    }
 
     /**
      * Fetch MySQL Field Names
      *
      * @access public
-     * @param string $table
-     *            table name
+     *
+     * @param string $table table name
+     *
      * @return array
      */
     public function getFieldNames($table = '')
@@ -34,27 +52,16 @@ final class Db
         return $return;
     }
 
-    /**
-     * Determine if a particular field exists
-     *
-     * @access public
-     * @param  string  $field_name
-     * @param  string  $table_name
-     * @return boolean
-     */
-    public function checkFieldExists($field_name, $table_name)
-    {
-        return (in_array($field_name, $this->getFieldNames($table_name)));
-    }
-
+// ---------- Private methods ----------
     /**
      * Show column query
      *
      * Generates a platform-specific query string so that the column names can be fetched
      *
      * @access public
-     * @param string $table
-     *            The table name
+     *
+     * @param string $table The table name
+     *
      * @return string
      */
     private function getQueryShowColumns($table = '')

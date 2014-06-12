@@ -1,6 +1,7 @@
 <?php
 namespace Avh\Support;
 
+// ---------- Private methods ----------
 class Str
 {
 
@@ -11,10 +12,29 @@ class Str
      */
     protected static $macros = array();
 
+// ---------- Public methods ----------
+    /**
+     * Dynamically handle calls to the string class.
+     *
+     * @param  string $method
+     * @param  array  $parameters
+     *
+     * @return mixed
+     */
+    public static function __callStatic($method, $parameters)
+    {
+        if (isset(static::$macros[$method])) {
+            return call_user_func_array(static::$macros[$method], $parameters);
+        }
+
+        throw new \BadMethodCallException("Method {$method} does not exist.");
+    }
+
     /**
      * Transliterate a UTF-8 value to ASCII.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function ascii($value)
@@ -26,6 +46,7 @@ class Str
      * Convert a value to camel case.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function camel($value)
@@ -38,13 +59,15 @@ class Str
      *
      * @param  string       $haystack
      * @param  string|array $needle
+     *
      * @return bool
      */
     public static function contains($haystack, $needle)
     {
         foreach ((array) $needle as $n) {
-            if (strpos($haystack, $n) !== false)
+            if (strpos($haystack, $n) !== false) {
                 return true;
+            }
         }
 
         return false;
@@ -55,13 +78,13 @@ class Str
      *
      * @param  string       $haystack
      * @param  string|array $needles
+     *
      * @return bool
      */
     public static function endsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if ($needle == substr($haystack, strlen($haystack) - strlen($needle)))
-                return true;
+            if ($needle == substr($haystack, strlen($haystack) - strlen($needle))) return true;
         }
 
         return false;
@@ -72,6 +95,7 @@ class Str
      *
      * @param  string $value
      * @param  string $cap
+     *
      * @return string
      */
     public static function finish($value, $cap)
@@ -84,12 +108,12 @@ class Str
      *
      * @param  string $pattern
      * @param  string $value
+     *
      * @return bool
      */
     public static function is($pattern, $value)
     {
-        if ($pattern == $value)
-            return true;
+        if ($pattern == $value) return true;
 
         $pattern = preg_quote($pattern, '#');
 
@@ -109,6 +133,7 @@ class Str
      * Return the length of the given string.
      *
      * @param  string $value
+     *
      * @return int
      */
     public static function length($value)
@@ -122,12 +147,12 @@ class Str
      * @param  string $value
      * @param  int    $limit
      * @param  string $end
+     *
      * @return string
      */
     public static function limit($value, $limit = 100, $end = '...')
     {
-        if (mb_strlen($value) <= $limit)
-            return $value;
+        if (mb_strlen($value) <= $limit) return $value;
 
         return mb_substr($value, 0, $limit, 'UTF-8') . $end;
     }
@@ -136,6 +161,7 @@ class Str
      * Convert the given string to lower-case.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function lower($value)
@@ -144,24 +170,16 @@ class Str
     }
 
     /**
-     * Limit the number of words in a string.
+     * Register a custom string macro.
      *
-     * @param  string $value
-     * @param  int    $words
-     * @param  string $end
-     * @return string
+     * @param  string   $name
+     * @param  callable $macro
+     *
+     * @return void
      */
-    public static function words($value, $words = 100, $end = '...')
+    public static function macro($name, $macro)
     {
-        preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
-
-        if (!isset($matches[0]))
-            return $value;
-
-        if (strlen($value) == strlen($matches[0]))
-            return $value;
-
-        return rtrim($matches[0]) . $end;
+        static::$macros[$name] = $macro;
     }
 
     /**
@@ -169,6 +187,7 @@ class Str
      *
      * @param  string $callback
      * @param  string $default
+     *
      * @return array
      */
     public static function parseCallback($callback, $default)
@@ -181,6 +200,7 @@ class Str
      *
      * @param  string $value
      * @param  int    $count
+     *
      * @return string
      */
     public static function plural($value, $count = 2)
@@ -189,9 +209,26 @@ class Str
     }
 
     /**
+     * Generate a "random" alpha-numeric string.
+     *
+     * Should not be considered sufficient for cryptography, etc.
+     *
+     * @param  int $length
+     *
+     * @return string
+     */
+    public static function quickRandom($length = 16)
+    {
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+    }
+
+    /**
      * Generate a more truly "random" alpha-numeric string.
      *
-     * @param  int    $length
+     * @param  int $length
+     *
      * @return string
      */
     public static function random($length = 16)
@@ -210,46 +247,10 @@ class Str
     }
 
     /**
-     * Generate a "random" alpha-numeric string.
-     *
-     * Should not be considered sufficient for cryptography, etc.
-     *
-     * @param  int    $length
-     * @return string
-     */
-    public static function quickRandom($length = 16)
-    {
-        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-        return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
-    }
-
-    /**
-     * Convert the given string to upper-case.
-     *
-     * @param  string $value
-     * @return string
-     */
-    public static function upper($value)
-    {
-        return mb_strtoupper($value);
-    }
-
-    /**
-     * Convert the given string to title case.
-     *
-     * @param  string $value
-     * @return string
-     */
-    public static function title($value)
-    {
-        return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
-    }
-
-    /**
      * Get the singular form of an English word.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function singular($value)
@@ -262,6 +263,7 @@ class Str
      *
      * @param  string $title
      * @param  string $separator
+     *
      * @return string
      */
     public static function slug($title, $separator = '-')
@@ -287,6 +289,7 @@ class Str
      *
      * @param  string $value
      * @param  string $delimiter
+     *
      * @return string
      */
     public static function snake($value, $delimiter = '_')
@@ -301,13 +304,13 @@ class Str
      *
      * @param  string       $haystack
      * @param  string|array $needles
+     *
      * @return bool
      */
     public static function startsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if (strpos($haystack, $needle) === 0)
-                return true;
+            if (strpos($haystack, $needle) === 0) return true;
         }
 
         return false;
@@ -317,6 +320,7 @@ class Str
      * Convert a value to studly caps case.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function studly($value)
@@ -327,30 +331,46 @@ class Str
     }
 
     /**
-     * Register a custom string macro.
+     * Convert the given string to title case.
      *
-     * @param  string   $name
-     * @param  callable $macro
-     * @return void
+     * @param  string $value
+     *
+     * @return string
      */
-    public static function macro($name, $macro)
+    public static function title($value)
     {
-        static::$macros[$name] = $macro;
+        return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
 
     /**
-     * Dynamically handle calls to the string class.
+     * Convert the given string to upper-case.
      *
-     * @param  string $method
-     * @param  array  $parameters
-     * @return mixed
+     * @param  string $value
+     *
+     * @return string
      */
-    public static function __callStatic($method, $parameters)
+    public static function upper($value)
     {
-        if (isset(static::$macros[$method])) {
-            return call_user_func_array(static::$macros[$method], $parameters);
-        }
+        return mb_strtoupper($value);
+    }
 
-        throw new \BadMethodCallException("Method {$method} does not exist.");
+    /**
+     * Limit the number of words in a string.
+     *
+     * @param  string $value
+     * @param  int    $words
+     * @param  string $end
+     *
+     * @return string
+     */
+    public static function words($value, $words = 100, $end = '...')
+    {
+        preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
+
+        if (!isset($matches[0])) return $value;
+
+        if (strlen($value) == strlen($matches[0])) return $value;
+
+        return rtrim($matches[0]) . $end;
     }
 }
