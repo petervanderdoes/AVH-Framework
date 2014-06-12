@@ -1,8 +1,7 @@
 <?php
 namespace Avh\Utility;
 
-use Avh\Utility\OptionsInterface;
-
+// ---------- Private methods ----------
 /**
  * Original code by Yoast.
  *
@@ -40,11 +39,11 @@ use Avh\Utility\OptionsInterface;
  * You don't need to do any upgrading as any option returned will always be merged with the
  * defaults, so new options will automatically be available.
  * If the default value is a string which need translating, add this to the concrete class
- * translate_defaults() method.
+ * handleTranslateDefaults() method.
  * - When you remove an array key from an option: if it's important that the option is really removed,
  * add the Option::clean_up( $option_name ) method to the upgrade run.
  * This will re-save the option and automatically remove the array key no longer in existance.
- * - When you rename a sub-option: add it to the clean_option() routine and run that in the upgrade run.
+ * - When you rename a sub-option: add it to the cleanOption() routine and run that in the upgrade run.
  * - When you change the default for an option sub-key, make sure you verify that the validation routine will
  * still work the way it should.
  * Example: changing a default from '' (empty string) to 'text' with a validation routine with tests
@@ -92,7 +91,7 @@ abstract class OptionsAbstract implements OptionsInterface
     /**
      *
      * @var array Array of defaults for the option - MUST be set in concrete class.
-     *      Shouldn't be requested directly, use $this->get_defaults();
+     *      Shouldn't be requested directly, use $this->getDefaults();
      */
     protected $defaults;
     /**
@@ -108,7 +107,6 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected $variable_array_key_patterns;
 
-    /* ********** INSTANTIATION METHODS *********** */
 
     /**
      * Add all the actions and filters for the option
@@ -120,23 +118,23 @@ abstract class OptionsAbstract implements OptionsInterface
         self::$has_filters = extension_loaded('filter');
 
         /* Add filters which get applied to the get_options() results */
-        $this->add_default_filters(); // return defaults if option not set
-        $this->add_option_filters(); // merge with defaults if option *is* set
+        $this->addDefaultFilters(); // return defaults if option not set
+        $this->addOptionFilters(); // merge with defaults if option *is* set
 
         /*
          * The option validation routines remove the default filters to prevent failing to insert an option if it's new. Let's add them back afterwards.
          */
-        add_action('add_option', array($this, 'add_default_filters')); // adding back after INSERT
+        add_action('add_option', array($this, 'addDefaultFilters')); // adding back after INSERT
 
-        add_action('update_option', array($this, 'add_default_filters'));
+        add_action('update_option', array($this, 'addDefaultFilters'));
 
         /*
-         * Make sure the option will always get validated, independently of register_setting() (only available on back-end)
+         * Make sure the option will always get validated, independently of registerSetting() (only available on back-end)
          */
         add_filter('sanitize_option_' . $this->option_name, array($this, 'validate'));
 
         /* Register our option for the admin pages */
-        add_action('admin_init', array($this, 'register_setting'));
+        add_action('admin_init', array($this, 'registerSetting'));
 
         /* Set option group name if not given */
         if (!isset($this->group_name) || $this->group_name === '') {
@@ -144,9 +142,7 @@ abstract class OptionsAbstract implements OptionsInterface
         }
 
         /* Translate some defaults as early as possible - textdomain is loaded in init on priority 1 */
-        if (method_exists($this, 'translate_defaults')) {
-            add_action('init', array($this, 'translate_defaults'), 2);
-        }
+        add_action('init', array($this, 'handleTranslateDefaults'), 2);
 
         /**
          * Enrich defaults once custom post types and taxonomies have been registered
@@ -155,24 +151,23 @@ abstract class OptionsAbstract implements OptionsInterface
          * @todo - [JRF/testers] verify that none of the options which are only available after
          *       enrichment are used before the enriching
          */
-        if (method_exists($this, 'enrich_defaults')) {
-            add_action('init', array($this, 'enrich_defaults'), 99);
-        }
+        add_action('init', array($this, 'handleEnrichDefaults'), 99);
     }
 
+// ---------- Public methods ----------
     /**
      * Add filters to make sure that the option default is returned if the option is not set
      *
      * @return void
      */
-    public function add_default_filters()
+    public function addDefaultFilters()
     {
         // Don't change, needs to check for false as could return prio 0 which would evaluate to false
-        if (has_filter('default_option_' . $this->option_name, array($this, 'get_defaults')) === false) {
-            add_filter('default_option_' . $this->option_name, array($this, 'get_defaults'));
+        if (has_filter('default_option_' . $this->option_name, array($this, 'getDefaults')) === false) {
+            add_filter('default_option_' . $this->option_name, array($this, 'getDefaults'));
         }
-        if (has_filter('default_site_option_' . $this->option_name, array($this, 'get_defaults')) === false) {
-            add_filter('default_site_option_' . $this->option_name, array($this, 'get_defaults'));
+        if (has_filter('default_site_option_' . $this->option_name, array($this, 'getDefaults')) === false) {
+            add_filter('default_site_option_' . $this->option_name, array($this, 'getDefaults'));
         }
     }
 
@@ -181,18 +176,17 @@ abstract class OptionsAbstract implements OptionsInterface
      *
      * @return void
      */
-    public function add_option_filters()
+    public function addOptionFilters()
     {
         // Don't change, needs to check for false as could return prio 0 which would evaluate to false
-        if (has_filter('option_' . $this->option_name, array($this, 'get_option')) === false) {
-            add_filter('option_' . $this->option_name, array($this, 'get_option'));
+        if (has_filter('option_' . $this->option_name, array($this, 'getOption')) === false) {
+            add_filter('option_' . $this->option_name, array($this, 'getOption'));
         }
-        if (has_filter('site_option_' . $this->option_name, array($this, 'get_option')) === false) {
-            add_filter('site_option_' . $this->option_name, array($this, 'get_option'));
+        if (has_filter('site_option_' . $this->option_name, array($this, 'getOption')) === false) {
+            add_filter('site_option_' . $this->option_name, array($this, 'getOption'));
         }
     }
 
-    /* ********** METHODS INFLUENCING get_option() *********** */
 
     /**
      * Retrieve the real old value (unmerged with defaults), clean and re-save the option
@@ -207,36 +201,28 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     public function clean($current_version = null)
     {
-        $this->remove_default_filters();
-        $this->remove_option_filters();
+        $this->removeDefaultFilters();
+        $this->removeOptionFilters();
         $option_value = get_option($this->option_name); // = (unvalidated) array, NOT merged with defaults
-        $this->add_option_filters();
-        $this->add_default_filters();
+        $this->addOptionFilters();
+        $this->addDefaultFilters();
 
         $this->import($option_value, $current_version);
     }
 
     /**
-     * Concrete classes *may* contain a enrich_defaults method to add additional defaults once
-     * all post_types and taxonomies have been registered
-     */
-    abstract public function enrich_defaults();
-
-    /**
      * Get the enriched default value for an option
      *
-     * Checks if the concrete class contains an enrich_defaults() method and if so, runs it.
+     * Checks if the concrete class contains an handleEnrichDefaults() method and if so, runs it.
      *
-     * @internal the enrich_defaults method is used to set defaults for variable array keys in an option,
+     * @internal the handleEnrichDefaults method is used to set defaults for variable array keys in an option,
      *           such as array keys depending on post_types and/or taxonomies
      *
      * @return array
      */
-    public function get_defaults()
+    public function getDefaults()
     {
-        if (method_exists($this, 'enrich_defaults')) {
-            $this->enrich_defaults();
-        }
+        $this->handleEnrichDefaults();
 
         return apply_filters('avh_defaults', $this->defaults, $this->option_name);
     }
@@ -244,14 +230,14 @@ abstract class OptionsAbstract implements OptionsInterface
     /**
      * Merge an option with its default values
      *
-     * This method should *not* be called directly!!! It is only meant to filter the get_option() results
+     * This method should *not* be called directly!!! It is only meant to filter the getOption() results
      *
      * @param mixed $options
      *            Option value
      *
      * @return mixed Option merged with the defaults for that option
      */
-    public function get_option($options = null)
+    public function getOption($options = null)
     {
         $filtered = $this->array_filter_merge($options);
 
@@ -268,7 +254,7 @@ abstract class OptionsAbstract implements OptionsInterface
     /**
      * Clean and re-save the option
      *
-     * @uses clean_option() method from concrete class if it exists
+     * @uses cleanOption() method from concrete class if it exists
      *
      * @todo [JRF/whomever] Figure out a way to show settings error during/after the upgrade - maybe
      *       something along the lines of:
@@ -279,12 +265,12 @@ abstract class OptionsAbstract implements OptionsInterface
      *       once the admin has dismissed the message (add ajax function)
      *       Important: all validation routines which add_settings_errors would need to be changed for this to work
      *
-     * @param array $option_value
+     * @param array  $option_value
      *            Option value to be imported
      * @param string $current_version
      *            (optional) Version from which to upgrade, if not set,
      *            version specific upgrades will be disregarded
-     * @param array $all_old_option_values
+     * @param array  $all_old_option_values
      *            (optional) Only used when importing old options to have
      *            access to the real old values, in contrast to the saved ones
      *
@@ -293,9 +279,9 @@ abstract class OptionsAbstract implements OptionsInterface
     public function import($option_value, $current_version = null, $all_old_option_values = null)
     {
         if ($option_value === false) {
-            $option_value = $this->get_defaults();
-        } elseif (is_array($option_value) && method_exists($this, 'clean_option')) {
-            $option_value = $this->clean_option($option_value, $current_version, $all_old_option_values);
+            $option_value = $this->getDefaults();
+        } elseif (is_array($option_value) && method_exists($this, 'cleanOption')) {
+            $option_value = $this->cleanOption($option_value, $current_version, $all_old_option_values);
         }
 
         /*
@@ -311,14 +297,12 @@ abstract class OptionsAbstract implements OptionsInterface
      *
      * @return void
      */
-    public function register_setting()
+    public function registerSetting()
     {
         if (WPSEO_Options::grant_access()) {
             register_setting($this->group_name, $this->option_name);
         }
     }
-
-    /* ********** METHODS influencing add_uption(), update_option() and saving from admin pages *********** */
 
     /**
      * Remove the default filters.
@@ -326,10 +310,10 @@ abstract class OptionsAbstract implements OptionsInterface
      *
      * @return void
      */
-    public function remove_default_filters()
+    public function removeDefaultFilters()
     {
-        remove_filter('default_option_' . $this->option_name, array($this, 'get_defaults'));
-        remove_filter('default_site_option_' . $this->option_name, array($this, 'get_defaults'));
+        remove_filter('default_option_' . $this->option_name, array($this, 'getDefaults'));
+        remove_filter('default_site_option_' . $this->option_name, array($this, 'getDefaults'));
     }
 
     /**
@@ -338,18 +322,11 @@ abstract class OptionsAbstract implements OptionsInterface
      *
      * @return void
      */
-    public function remove_option_filters()
+    public function removeOptionFilters()
     {
-        remove_filter('option_' . $this->option_name, array($this, 'get_option'));
-        remove_filter('site_option_' . $this->option_name, array($this, 'get_option'));
+        remove_filter('option_' . $this->option_name, array($this, 'getOption'));
+        remove_filter('site_option_' . $this->option_name, array($this, 'getOption'));
     }
-
-    /**
-     * Concrete classes *may* contain a translate_defaults method
-     */
-    abstract public function translate_defaults();
-
-    /* ********** METHODS for UPGRADING the option *********** */
 
     /**
      * Validate the option
@@ -361,7 +338,7 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     public function validate($option_value)
     {
-        $clean = $this->get_defaults();
+        $clean = $this->getDefaults();
 
         /* Return the defaults if the new value is empty */
         if (!is_array($option_value) || $option_value === array()) {
@@ -370,18 +347,36 @@ abstract class OptionsAbstract implements OptionsInterface
 
         $option_value = array_map(array(__CLASS__, 'trim_recursive'), $option_value);
         $old = get_option($this->option_name);
-        $clean = $this->validate_option($option_value, $clean, $old);
+        $clean = $this->validateOption($option_value, $clean, $old);
 
         /* Retain the values for variable array keys even when the post type/taxonomy is not yet registered */
         if (isset($this->variable_array_key_patterns)) {
             $clean = $this->retain_variable_keys($option_value, $clean);
         }
 
-        $this->remove_default_filters();
+        $this->removeDefaultFilters();
 
         return $clean;
     }
 
+    /**
+     * Concrete classes must contain a cleanOption method which will clean out old/renamed
+     * values within the option
+     */
+    abstract public function cleanOption($option_value, $current_version = null, $all_old_option_values = null);
+
+    /**
+     * Concrete classes must contain a handleEnrichDefaults method to add additional defaults once
+     * all post_types and taxonomies have been registered
+     */
+    abstract public function handleEnrichDefaults();
+
+    /**
+     * Concrete classes must contain a handleTranslateDefaults method
+     */
+    abstract public function handleTranslateDefaults();
+
+// ---------- Protected methods ----------
     /**
      * Helper method - Combines a fixed array of default values with an options array
      * while filtering out any keys which are not in the defaults array.
@@ -397,13 +392,13 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected function array_filter_merge($options = null)
     {
-        $defaults = $this->get_defaults();
+        $defaults = $this->getDefaults();
 
         if (!isset($options) || $options === false) {
             return $defaults;
         }
 
-        $options = (array)$options;
+        $options = (array) $options;
         /*
          * $filtered = array(); if ( $defaults !== array() ) { foreach ( $defaults as $key => $default_value ) { // @todo should this walk through array subkeys ? $filtered[$key] = ( isset( $options[$key] ) ? $options[$key] : $default_value ); } }
          */
@@ -413,17 +408,9 @@ abstract class OptionsAbstract implements OptionsInterface
     }
 
     /**
-     * Concrete classes *may* contain a clean_option method which will clean out old/renamed
-     * values within the option
-     */
-    // abstract public function clean_option( $option_value, $current_version = null, $all_old_option_values = null );
-
-    /* ********** HELPER METHODS for internal use *********** */
-
-    /**
      * Check whether a given array key conforms to one of the variable array key patterns for this option
      *
-     * @usedby validate_option() methods for options with variable array keys
+     * @usedby validateOption() methods for options with variable array keys
      *
      * @param string $key
      *            Array key to check
@@ -433,9 +420,7 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected function get_switch_key($key)
     {
-        if (!isset($this->variable_array_key_patterns) || (!is_array(
-                    $this->variable_array_key_patterns
-                ) || $this->variable_array_key_patterns === array())
+        if (!isset($this->variable_array_key_patterns) || (!is_array($this->variable_array_key_patterns) || $this->variable_array_key_patterns === array())
         ) {
             return $key;
         }
@@ -467,9 +452,7 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected function retain_variable_keys($dirty, $clean)
     {
-        if ((is_array(
-                    $this->variable_array_key_patterns
-                ) && $this->variable_array_key_patterns !== array()) && (is_array($dirty) && $dirty !== array())
+        if ((is_array($this->variable_array_key_patterns) && $this->variable_array_key_patterns !== array()) && (is_array($dirty) && $dirty !== array())
         ) {
             foreach ($dirty as $key => $value) {
                 foreach ($this->variable_array_key_patterns as $pattern) {
@@ -485,9 +468,9 @@ abstract class OptionsAbstract implements OptionsInterface
     }
 
     /**
-     * All concrete classes must contain a validate_option() method which validates all
+     * All concrete classes must contain a validateOption() method which validates all
      * values within the option
      */
-    abstract protected function validate_option($dirty, $clean, $old);
+    abstract protected function validateOption($dirty, $clean, $old);
 }
 

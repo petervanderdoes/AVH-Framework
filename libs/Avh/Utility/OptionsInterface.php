@@ -8,6 +8,7 @@
 namespace Avh\Utility;
 
 
+// ---------- Private methods ----------
 /**
  * Original code by Yoast.
  *
@@ -45,11 +46,11 @@ namespace Avh\Utility;
  * You don't need to do any upgrading as any option returned will always be merged with the
  * defaults, so new options will automatically be available.
  * If the default value is a string which need translating, add this to the concrete class
- * translate_defaults() method.
+ * handleTranslateDefaults() method.
  * - When you remove an array key from an option: if it's important that the option is really removed,
  * add the Option::clean_up( $option_name ) method to the upgrade run.
  * This will re-save the option and automatically remove the array key no longer in existance.
- * - When you rename a sub-option: add it to the clean_option() routine and run that in the upgrade run.
+ * - When you rename a sub-option: add it to the cleanOption() routine and run that in the upgrade run.
  * - When you change the default for an option sub-key, make sure you verify that the validation routine will
  * still work the way it should.
  * Example: changing a default from '' (empty string) to 'text' with a validation routine with tests
@@ -65,89 +66,20 @@ namespace Avh\Utility;
 interface OptionsInterface
 {
 
-    /**
-     * Concrete classes *may* contain a translate_defaults method
-     */
-    public function translate_defaults();
-
-    /**
-     * Concrete classes *may* contain a enrich_defaults method to add additional defaults once
-     * all post_types and taxonomies have been registered
-     */
-    public function enrich_defaults();
-
+// ---------- Public methods ----------
     /**
      * Add filters to make sure that the option default is returned if the option is not set
      *
      * @return void
      */
-    public function add_default_filters();
-
-    /**
-     * Remove the default filters.
-     * Called from the validate() method to prevent failure to add new options
-     *
-     * @return void
-     */
-    public function remove_default_filters();
-
-    /**
-     * Get the enriched default value for an option
-     *
-     * Checks if the concrete class contains an enrich_defaults() method and if so, runs it.
-     *
-     * @internal the enrich_defaults method is used to set defaults for variable array keys in an option,
-     *           such as array keys depending on post_types and/or taxonomies
-     *
-     * @return array
-     */
-    public function get_defaults();
+    public function addDefaultFilters();
 
     /**
      * Add filters to make sure that the option is merged with its defaults before being returned
      *
      * @return void
      */
-    public function add_option_filters();
-
-    /**
-     * Remove the option filters.
-     * Called from the clean_up methods to make sure we retrieve the original old option
-     *
-     * @return void
-     */
-    public function remove_option_filters();
-
-    /**
-     * Merge an option with its default values
-     *
-     * This method should *not* be called directly!!! It is only meant to filter the get_option() results
-     *
-     * @param mixed $options
-     *            Option value
-     *
-     * @return mixed Option merged with the defaults for that option
-     */
-    public function get_option($options = null);
-
-    /**
-     * Register (whitelist) the option for the configuration pages.
-     * The validation callback is already registered separately on the sanitize_option hook,
-     * so no need to double register.
-     *
-     * @return void
-     */
-    public function register_setting();
-
-    /**
-     * Validate the option
-     *
-     * @param mixed $option_value
-     *            The unvalidated new value for the option
-     *
-     * @return array Validated new value for the option
-     */
-    public function validate($option_value);
+    public function addOptionFilters();
 
     /**
      * Retrieve the real old value (unmerged with defaults), clean and re-save the option
@@ -163,9 +95,43 @@ interface OptionsInterface
     public function clean($current_version = null);
 
     /**
+     * Clean out old/renamed values within the option
+     */
+    public function cleanOption($option_value, $current_version = null, $all_old_option_values = null);
+
+    /**
+     * Add additional defaults once all post_types and taxonomies have been registered
+     */
+    public function handleEnrichDefaults();
+
+    /**
+     * Get the enriched default value for an option
+     *
+     * Checks if the concrete class contains an handleEnrichDefaults() method and if so, runs it.
+     *
+     * @internal the handleEnrichDefaults method is used to set defaults for variable array keys in an option,
+     *           such as array keys depending on post_types and/or taxonomies
+     *
+     * @return array
+     */
+    public function getDefaults();
+
+    /**
+     * Merge an option with its default values
+     *
+     * This method should *not* be called directly!!! It is only meant to filter the getOption() results
+     *
+     * @param mixed $options
+     *            Option value
+     *
+     * @return mixed Option merged with the defaults for that option
+     */
+    public function getOption($options = null);
+
+    /**
      * Clean and re-save the option
      *
-     * @uses clean_option() method from concrete class if it exists
+     * @uses cleanOption() method from concrete class if it exists
      *
      * @todo [JRF/whomever] Figure out a way to show settings error during/after the upgrade - maybe
      *       something along the lines of:
@@ -176,16 +142,56 @@ interface OptionsInterface
      *       once the admin has dismissed the message (add ajax function)
      *       Important: all validation routines which add_settings_errors would need to be changed for this to work
      *
-     * @param array $option_value
+     * @param array  $option_value
      *            Option value to be imported
      * @param string $current_version
      *            (optional) Version from which to upgrade, if not set,
      *            version specific upgrades will be disregarded
-     * @param array $all_old_option_values
+     * @param array  $all_old_option_values
      *            (optional) Only used when importing old options to have
      *            access to the real old values, in contrast to the saved ones
      *
      * @return void
      */
     public function import($option_value, $current_version = null, $all_old_option_values = null);
+
+    /**
+     * Register (whitelist) the option for the configuration pages.
+     * The validation callback is already registered separately on the sanitize_option hook,
+     * so no need to double register.
+     *
+     * @return void
+     */
+    public function registerSetting();
+
+    /**
+     * Remove the default filters.
+     * Called from the validate() method to prevent failure to add new options
+     *
+     * @return void
+     */
+    public function removeDefaultFilters();
+
+    /**
+     * Remove the option filters.
+     * Called from the clean_up methods to make sure we retrieve the original old option
+     *
+     * @return void
+     */
+    public function removeOptionFilters();
+
+    /**
+     * Translate default values if needed.
+     */
+    public function handleTranslateDefaults();
+
+    /**
+     * Validate the option
+     *
+     * @param mixed $option_value
+     *            The unvalidated new value for the option
+     *
+     * @return array Validated new value for the option
+     */
+    public function validate($option_value);
 }
