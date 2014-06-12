@@ -77,6 +77,7 @@ final class Common
      */
     public static function getIp2long($ip)
     {
+        $return = null;
         if (is_numeric($ip)) {
             $return = sprintf("%u", floatval($ip));
         }
