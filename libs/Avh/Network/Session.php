@@ -7,8 +7,6 @@ use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 class Session extends \Symfony\Component\HttpFoundation\Session\Session
 {
 
-    protected $session;
-
     /**
      *
      * List of options for $options array with their defaults.
@@ -54,6 +52,6 @@ class Session extends \Symfony\Component\HttpFoundation\Session\Session
     {
         $default_options= array('name' => 'avh_'.COOKIEHASH);
         $options = array_merge($default_options,$options);
-        $this->session = parent::__construct(new NativeSessionStorage($options), new NamespacedAttributeBag('avh_framework'));
+        parent::__construct(new NativeSessionStorage($options), new NamespacedAttributeBag('avh_framework'));
     }
 }
