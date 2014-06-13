@@ -49,7 +49,7 @@ class Session extends \Symfony\Component\HttpFoundation\Session\Session
      *            Session configuration options.
      * @param array $options
      */
-    function __construct(array $options = array())
+    public function __construct(array $options = array())
     {
         $default_options = array('name' => 'avh_' . COOKIEHASH);
         $options = array_merge($default_options, $options);

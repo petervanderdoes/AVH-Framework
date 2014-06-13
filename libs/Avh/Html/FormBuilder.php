@@ -165,7 +165,7 @@ class FormBuilder
      * @param string $name
      * @param array  $attributes
      *
-     * @return string
+     * @return string|boolean
      */
     public function getIdAttribute($name, $attributes)
     {
@@ -176,6 +176,8 @@ class FormBuilder
         if (in_array($name, $this->labels)) {
             return $name;
         }
+
+        return false;
     }
 
     public function getOptionName()
@@ -185,7 +187,7 @@ class FormBuilder
 
     /**
      *
-     * @param field_type $option_name
+     * @param string $option_name
      */
     public function setOptionName($option_name)
     {
@@ -234,14 +236,15 @@ class FormBuilder
      *
      * echo FormBuilder::image(null, null, array('src' => 'media/img/login.png'));
      *
-     * @param string  $name       input name
+     * @param string $name       input name
      *
-     * @param string  $value      input value
-     * @param array   $attributes html attributes
-     * @param boolean $index      add index file to URL?
+     * @param string $value      input value
+     * @param array  $attributes html attributes
+     *
+     * @internal param bool $index add index file to URL?
      *
      * @return string
-     * @uses $this->input
+     * @uses     $this->input
      */
     public function image($name, $value, $attributes = array())
     {
@@ -260,6 +263,7 @@ class FormBuilder
      * @param string|array $name       input name
      * @param string       $value      input value
      * @param array        $attributes html attributes
+     * @param bool         $use_option_name
      *
      * @return string
      * @uses HtmlBuilder->attributes
@@ -390,11 +394,11 @@ class FormBuilder
      * echo FormBuilder::password('password');
      *
      * @param string $name       input name
-     * @param string $value      input value
      * @param array  $attributes html attributes
      *
+     * @internal param string $value input value
      * @return string
-     * @uses $this->input
+     * @uses     $this->input
      */
     public function password($name, $attributes = array())
     {
@@ -488,13 +492,14 @@ class FormBuilder
      *
      * echo FormBuilder::textarea('about', $about);
      *
-     * @param string  $name          textarea name
-     * @param string  $body          textarea body
-     * @param array   $attributes    html attributes
-     * @param boolean $double_encode encode existing HTML characters
+     * @param string $name       textarea name
+     * @param string $body       textarea body
+     * @param array  $attributes html attributes
+     *
+     * @internal param bool $double_encode encode existing HTML characters
      *
      * @return string
-     * @uses HtmlBuilder->attributes
+     * @uses     HtmlBuilder->attributes
      */
     public function textarea($name, $body = '', $attributes = array())
     {

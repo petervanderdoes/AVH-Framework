@@ -134,9 +134,9 @@ class HtmlBuilder
 
 
     /**
-     * @param $uri
+     * @param string $uri
      *
-     * @return string|void
+     * @return string
      */
     public function generateUrl($uri)
     {
