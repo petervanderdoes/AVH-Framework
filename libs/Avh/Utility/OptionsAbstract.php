@@ -58,7 +58,6 @@ namespace Avh\Utility;
 
 abstract class OptionsAbstract implements OptionsInterface
 {
-
     /**
      *
      * @var bool Whether the filter extension is loaded
@@ -106,7 +105,6 @@ abstract class OptionsAbstract implements OptionsInterface
      *      or taxonomy
      */
     protected $variable_array_key_patterns;
-
 
     /**
      * Add all the actions and filters for the option
@@ -297,10 +295,10 @@ abstract class OptionsAbstract implements OptionsInterface
      *       once the admin has dismissed the message (add ajax function)
      *       Important: all validation routines which add_settings_errors would need to be changed for this to work
      *
-     * @param array|boolean  $option_value          Option value to be imported
-     * @param string $current_version       (optional) Version from which to upgrade, if not set, version specific
-     *                                      upgrades will be disregarded
-     * @param array  $all_old_option_values (optional) Only used when importing old options to have access to the real old values, in contrast to the saved ones
+     * @param array|boolean $option_value          Option value to be imported
+     * @param string        $current_version       (optional) Version from which to upgrade, if not set, version specific
+     *                                             upgrades will be disregarded
+     * @param array         $all_old_option_values (optional) Only used when importing old options to have access to the real old values, in contrast to the saved ones
      *
      * @return void
      */
@@ -473,6 +471,5 @@ abstract class OptionsAbstract implements OptionsInterface
 
         return $clean;
     }
-
 }
 

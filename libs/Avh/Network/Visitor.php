@@ -3,7 +3,6 @@ namespace Avh\Network;
 
 final class Visitor
 {
-
     /**
      * Get the user's IP
      *

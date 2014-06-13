@@ -1,11 +1,8 @@
 <?php
 namespace Avh\Utility;
 
-
 final class Common
 {
-
-
     /**
      * Allows for the use of more than one uninstall hook.
      * WordPress only allows one callback for the uninstall hook.

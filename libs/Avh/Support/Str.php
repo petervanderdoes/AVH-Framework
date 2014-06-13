@@ -1,17 +1,14 @@
 <?php
 namespace Avh\Support;
 
-
 class Str
 {
-
     /**
      * The registered string macros.
      *
      * @var array
      */
     protected static $macros = array();
-
 
     /**
      * Dynamically handle calls to the string class.
@@ -84,7 +81,9 @@ class Str
     public static function endsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if ($needle == substr($haystack, strlen($haystack) - strlen($needle))) return true;
+            if ($needle == substr($haystack, strlen($haystack) - strlen($needle))) {
+                return true;
+            }
         }
 
         return false;
@@ -113,7 +112,9 @@ class Str
      */
     public static function is($pattern, $value)
     {
-        if ($pattern == $value) return true;
+        if ($pattern == $value) {
+            return true;
+        }
 
         $pattern = preg_quote($pattern, '#');
 
@@ -152,7 +153,9 @@ class Str
      */
     public static function limit($value, $limit = 100, $end = '...')
     {
-        if (mb_strlen($value) <= $limit) return $value;
+        if (mb_strlen($value) <= $limit) {
+            return $value;
+        }
 
         return mb_substr($value, 0, $limit, 'UTF-8') . $end;
     }
@@ -310,7 +313,9 @@ class Str
     public static function startsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if (strpos($haystack, $needle) === 0) return true;
+            if (strpos($haystack, $needle) === 0) {
+                return true;
+            }
         }
 
         return false;
@@ -367,9 +372,13 @@ class Str
     {
         preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
 
-        if (!isset($matches[0])) return $value;
+        if (!isset($matches[0])) {
+            return $value;
+        }
 
-        if (strlen($value) == strlen($matches[0])) return $value;
+        if (strlen($value) == strlen($matches[0])) {
+            return $value;
+        }
 
         return rtrim($matches[0]) . $end;
     }

@@ -1,12 +1,8 @@
 <?php
 namespace Avh\Utility;
 
-
-
 interface OptionsInterface
 {
-
-
     public function addOptionFilters();
 
     public function clean($current_version = null);
@@ -30,5 +26,4 @@ interface OptionsInterface
     public function removeOptionFilters();
 
     public function validate($option_value);
-
 }

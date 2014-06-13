@@ -1,11 +1,8 @@
 <?php
 namespace Avh\Network;
 
-
 final class Security
 {
-
-
     /**
      * Local nonce creation.
      * WordPress uses the UID and sometimes I don't want that

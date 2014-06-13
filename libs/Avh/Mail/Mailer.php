@@ -3,14 +3,13 @@ namespace Avh\Mail;
 
 class Mailer
 {
-
     /**
      * Sends an email using WordPress mail function wpmail.
      *
      * @param string $recipient
      * @param string $subject
-     * @param array  $message            Each entry of the array is a new line.
-     * @param array $footer            Optional footer in the email.
+     * @param array  $message Each entry of the array is a new line.
+     * @param array  $footer  Optional footer in the email.
      */
     public static function sendMail($recipient, $subject, $message, array $footer = array())
     {

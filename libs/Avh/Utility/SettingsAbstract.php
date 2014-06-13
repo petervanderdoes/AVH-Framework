@@ -1,17 +1,14 @@
 <?php
 namespace Avh\Utility;
 
-
 abstract class SettingsAbstract
 {
-
     /**
      * Our array of settings
      *
      * @access protected
      */
     private $settings = array();
-
 
     public function __get($key)
     {

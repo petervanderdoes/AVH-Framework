@@ -1,12 +1,9 @@
 <?php
 namespace Avh\Utility;
 
-
 abstract class ShortcodesAbstract
 {
-
     private $shortcode_map;
-
 
     /**
      * Method that's always called for the shortcode

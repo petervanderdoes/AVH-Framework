@@ -4,10 +4,8 @@ namespace Avh\Network;
 use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
-
 class Session extends \Symfony\Component\HttpFoundation\Session\Session
 {
-
     /**
      *
      * List of options for $options array with their defaults.

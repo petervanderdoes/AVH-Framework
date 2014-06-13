@@ -18,30 +18,18 @@ use Avh\Utility\Common;
  */
 class PluginController
 {
-
-    protected $requirements_error_msg = '';
-
-    protected $update_notice = '';
-
-    protected $options_page_id = '';
-
-    protected $pages = array();
-
-    protected $hooks = array();
-
-    protected $tinyMCE_buttons = array();
-
-    protected $pluginfile = '';
-
-    protected $textdomain = '';
-
-    protected $settings;
-
-    protected $classes;
-
-    protected $options;
-
     public static $base_url;
+    protected $classes;
+    protected $hooks = array();
+    protected $options;
+    protected $options_page_id = '';
+    protected $pages = array();
+    protected $pluginfile = '';
+    protected $requirements_error_msg = '';
+    protected $settings;
+    protected $textdomain = '';
+    protected $tinyMCE_buttons = array();
+    protected $update_notice = '';
 
     /**
      * Class contructor
@@ -68,110 +56,6 @@ class PluginController
     public function __destruct()
     {
         // Nothing
-    }
-
-    /**
-     * Sets up basic plugin needs.
-     *
-     * @action init
-     */
-    public function actionInit()
-    {
-        if (!isset($this->textdomain)) {
-            load_plugin_textdomain($this->textdomain, false, $this->settings->plugin_dir . '/lang');
-        }
-
-        // Register Styles and Scripts
-
-        $style = $this->getStyleName();
-        wp_register_style($style . '-css', $this->settings->plugin_url . '/css/' . $style . '.css', array(), $this->settings->plugin_version, 'screen');
-    }
-
-    /**
-     * Runs on register_activation_hook
-     */
-    public function installPlugin()
-    {
-    }
-
-    /**
-     * Gets the style name.
-     *
-     * @param string $style
-     *            If left empty the style name resolves to admin or public, depending on whether the function
-     *            is called while in admin
-     * @return string
-     */
-    protected function getStyleName($style = '')
-    {
-        if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
-            $minified = '';
-        } else {
-            $minified = '.min';
-        }
-        if (empty($style)) {
-            if (is_admin()) {
-                $full_style_name = $this->settings->file_prefix . 'admin' . $minified;
-            } else {
-                $full_style_name = $this->settings->file_prefix . 'public' . $minified;
-            }
-        } else {
-            $full_style_name = $this->settings->file_prefix . $style . $minified;
-        }
-
-        return $full_style_name;
-    }
-
-    /**
-     * Gets the javascript name.
-     *
-     * @param string $style
-     *            If left empty the style name resolves to admin or public, depending on whether the function
-     *            is called while in admin
-     * @return string
-     */
-    protected function getJsName($script = '')
-    {
-        $minified = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.closure';
-        if (empty($script)) {
-            if (is_admin()) {
-                $full_script_name = $this->settings->file_prefix . 'admin' . $minified;
-            } else {
-                $full_script_name = $this->settings->file_prefix . 'public' . $minified;
-            }
-        } else {
-            $full_script_name = $this->settings->file_prefix . $script . $minified;
-        }
-
-        return $full_script_name;
-    }
-
-    public function deactivation()
-    {
-    }
-
-    /**
-     * Called to start the plugin.
-     */
-    public function load()
-    {
-        add_action('init', array($this, 'actionInit'));
-
-        if (is_admin()) {
-            register_deactivation_hook($this->pluginfile, array($this, 'deactivation'));
-            register_activation_hook($this->pluginfile, array($this, 'installPlugin'));
-            add_action('in_plugin_update_message-' . basename($this->pluginfile), array($this, 'actionInPluginUpdateMessage'));
-        }
-    }
-
-    /**
-     * setUpdateNotice
-     *
-     * @param string $msg
-     */
-    public function setUpdateNotice($msg)
-    {
-        $this->update_notice = $msg;
     }
 
     /**
@@ -222,54 +106,20 @@ class PluginController
     }
 
     /**
-     * Display a specific message in the plugin update message.
-     */
-    public function displayPluginUpdateNotice()
-    {
-        if ($this->update_notice != '') {
-            echo '<span class="spam">' . strip_tags(__($this->update_notice, $this->textdomain), '<br><a><b><i><span>') . '</span>';
-        }
-    }
-
-    /**
-     * Add a "settings" link to access to the option page from the plugin list
+     * Sets up basic plugin needs.
      *
-     * @param string $links
-     * @return none
+     * @action init
      */
-    public function filterPluginActions($links)
+    public function actionInit()
     {
-        if ($this->options_page_id != '') {
-            $settings_link = '<a href="' . admin_url('options-general.php?page=' . $this->options_page_id) . '">' . __('Settings') . '</a>';
-            array_unshift($links, $settings_link);
+        if (!isset($this->textdomain)) {
+            load_plugin_textdomain($this->textdomain, false, $this->settings->plugin_dir . '/lang');
         }
 
-        return $links;
-    }
+        // Register Styles and Scripts
 
-    /**
-     * Display a metabox-like in admin interface.
-     *
-     * @param string $id
-     *            string
-     * @param string $title
-     * @param string $content
-     */
-    public function displayBox($id, $title, $content)
-    {
-        echo '<div id="' . $id . '" class="postbox">';
-        echo '<div class="handlediv" title="Click to toggle">';
-        echo '<br />';
-        echo '</div>';
-        echo '<h3 class="hndle">';
-        echo '<span>';
-        _e($title, $this->textdomain);
-        echo '</span>';
-        echo '</h3>';
-        echo '<div class="inside">';
-        _e($content, $this->textdomain);
-        echo '</div>';
-        echo '</div>';
+        $style = $this->getStyleName();
+        wp_register_style($style . '-css', $this->settings->plugin_url . '/css/' . $style . '.css', array(), $this->settings->plugin_version, 'screen');
     }
 
     /**
@@ -310,6 +160,35 @@ class PluginController
     }
 
     /**
+     * Add a TinyMCE button
+     *
+     * @param string $button_name
+     */
+    public function addTinyMceButton($button_name, $tinymce_plugin_path, $js_file_name = 'editor_plugin.js')
+    {
+        $index = sizeof($this->tinyMCE_buttons);
+        $this->tinyMCE_buttons[$index]->name = $button_name;
+        $this->tinyMCE_buttons[$index]->js_file = $js_file_name;
+        $this->tinyMCE_buttons[$index]->path = $tinymce_plugin_path;
+    }
+
+    /**
+     * Load the TinyMCE plugin : editor_plugin.js
+     *
+     * @param array $plugin_array
+     *
+     * @return $plugin_array
+     */
+    public function addTinyMcePlugin(array $plugin_array)
+    {
+        foreach ($this->tinyMCE_buttons as $value) {
+            $plugin_array[$value->name] = $this->settings->plugin_url . $value->path . '/' . $value->js_file;
+        }
+
+        return $plugin_array;
+    }
+
+    /**
      * Run the admin menu hook
      */
     public function adminMenu()
@@ -344,11 +223,205 @@ class PluginController
         }
     }
 
+    public function deactivation()
+    {
+    }
+
+    /**
+     * Display a metabox-like in admin interface.
+     *
+     * @param string $id
+     *            string
+     * @param string $title
+     * @param string $content
+     */
+    public function displayBox($id, $title, $content)
+    {
+        echo '<div id="' . $id . '" class="postbox">';
+        echo '<div class="handlediv" title="Click to toggle">';
+        echo '<br />';
+        echo '</div>';
+        echo '<h3 class="hndle">';
+        echo '<span>';
+        _e($title, $this->textdomain);
+        echo '</span>';
+        echo '</h3>';
+        echo '<div class="inside">';
+        _e($content, $this->textdomain);
+        echo '</div>';
+        echo '</div>';
+    }
+
+    /**
+     * Display a specific message in the plugin update message.
+     */
+    public function displayPluginUpdateNotice()
+    {
+        if ($this->update_notice != '') {
+            echo '<span class="spam">' . strip_tags(__($this->update_notice, $this->textdomain), '<br><a><b><i><span>') . '</span>';
+        }
+    }
+
+    /**
+     * Add a "settings" link to access to the option page from the plugin list
+     *
+     * @param string $links
+     *
+     * @return none
+     */
+    public function filterPluginActions($links)
+    {
+        if ($this->options_page_id != '') {
+            $settings_link = '<a href="' . admin_url('options-general.php?page=' . $this->options_page_id) . '">' . __('Settings') . '</a>';
+            array_unshift($links, $settings_link);
+        }
+
+        return $links;
+    }
+
+    /**
+     * Runs on register_activation_hook
+     */
+    public function installPlugin()
+    {
+    }
+
+    /**
+     * Called to start the plugin.
+     */
+    public function load()
+    {
+        add_action('init', array($this, 'actionInit'));
+
+        if (is_admin()) {
+            register_deactivation_hook($this->pluginfile, array($this, 'deactivation'));
+            register_activation_hook($this->pluginfile, array($this, 'installPlugin'));
+            add_action('in_plugin_update_message-' . basename($this->pluginfile), array($this, 'actionInPluginUpdateMessage'));
+        }
+    }
+
+    /**
+     * Insert button in wordpress post editor
+     *
+     * @param array $buttons
+     *
+     * @return array
+     */
+    public function registerButton($buttons)
+    {
+        foreach ($this->tinyMCE_buttons as $value) {
+            array_push($buttons, $value->name);
+        }
+
+        return $buttons;
+    }
+
+    /**
+     * setUpdateNotice
+     *
+     * @param string $msg
+     */
+    public function setUpdateNotice($msg)
+    {
+        $this->update_notice = $msg;
+    }
+
+    public function tinyMceVersion($version)
+    {
+        return ++$version;
+    }
+
+    /**
+     * Adds the given capability to the given role
+     *
+     * @param string $capability
+     * @param string $role
+     */
+    protected function addCapability($capability, $role)
+    {
+        $role_object = get_role($role);
+        if ($role_object != null && !$role_object->has_cap($capability)) {
+            $role_object->add_cap($capability);
+        }
+    }
+
+    /**
+     * Gets the javascript name.
+     *
+     * @param string $style
+     *            If left empty the style name resolves to admin or public, depending on whether the function
+     *            is called while in admin
+     *
+     * @return string
+     */
+    protected function getJsName($script = '')
+    {
+        $minified = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.closure';
+        if (empty($script)) {
+            if (is_admin()) {
+                $full_script_name = $this->settings->file_prefix . 'admin' . $minified;
+            } else {
+                $full_script_name = $this->settings->file_prefix . 'public' . $minified;
+            }
+        } else {
+            $full_script_name = $this->settings->file_prefix . $script . $minified;
+        }
+
+        return $full_script_name;
+    }
+
+    /**
+     * Returns the pagehook name
+     *
+     * @param string $page_id
+     * @param string $function
+     *
+     * @return mixed If pagehook does not exists return false other return the page hook name
+     */
+    protected function getPageHook($page_id = '', $function = '')
+    {
+        if ($page_id == '' || $function == '') {
+            return false;
+        } else {
+            return (isset($this->hooks[$function][$page_id]) ? $this->hooks[$function][$page_id] : false);
+        }
+    }
+
+    /**
+     * Gets the style name.
+     *
+     * @param string $style
+     *            If left empty the style name resolves to admin or public, depending on whether the function
+     *            is called while in admin
+     *
+     * @return string
+     */
+    protected function getStyleName($style = '')
+    {
+        if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+            $minified = '';
+        } else {
+            $minified = '.min';
+        }
+        if (empty($style)) {
+            if (is_admin()) {
+                $full_style_name = $this->settings->file_prefix . 'admin' . $minified;
+            } else {
+                $full_style_name = $this->settings->file_prefix . 'public' . $minified;
+            }
+        } else {
+            $full_style_name = $this->settings->file_prefix . $style . $minified;
+        }
+
+        return $full_style_name;
+    }
+
     /**
      * Add a submenu
      *
      * @param array $page
      * @param array $page_list
+     *
      * @return Ambigous <string, boolean>
      */
     private function adminMenuSubMenu($id, $page)
@@ -380,84 +453,7 @@ class PluginController
             $submenu[$page['parent_id']][0][0] = $this->pages[$page['parent_id']]['shortname'];
             $this->pages[$page['parent_id']]['shortname'] = '';
         }
+
         return $hook;
-    }
-
-    /**
-     * Returns the pagehook name
-     *
-     * @param string $page_id
-     * @param string $function
-     * @return mixed If pagehook does not exists return false other return the page hook name
-     */
-    protected function getPageHook($page_id = '', $function = '')
-    {
-        if ($page_id == '' || $function == '') {
-            return false;
-        } else {
-            return (isset($this->hooks[$function][$page_id]) ? $this->hooks[$function][$page_id] : false);
-        }
-    }
-
-    /**
-     * Adds the given capability to the given role
-     *
-     * @param string $capability
-     * @param string $role
-     */
-    protected function addCapability($capability, $role)
-    {
-        $role_object = get_role($role);
-        if ($role_object != null && !$role_object->has_cap($capability)) {
-            $role_object->add_cap($capability);
-        }
-    }
-
-    /**
-     * Add a TinyMCE button
-     *
-     * @param string $button_name
-     */
-    public function addTinyMceButton($button_name, $tinymce_plugin_path, $js_file_name = 'editor_plugin.js')
-    {
-        $index = sizeof($this->tinyMCE_buttons);
-        $this->tinyMCE_buttons[$index]->name = $button_name;
-        $this->tinyMCE_buttons[$index]->js_file = $js_file_name;
-        $this->tinyMCE_buttons[$index]->path = $tinymce_plugin_path;
-    }
-
-    /**
-     * Insert button in wordpress post editor
-     *
-     * @param array $buttons
-     * @return array
-     */
-    public function registerButton($buttons)
-    {
-        foreach ($this->tinyMCE_buttons as $value) {
-            array_push($buttons, $value->name);
-        }
-
-        return $buttons;
-    }
-
-    /**
-     * Load the TinyMCE plugin : editor_plugin.js
-     *
-     * @param array $plugin_array
-     * @return $plugin_array
-     */
-    public function addTinyMcePlugin(array $plugin_array)
-    {
-        foreach ($this->tinyMCE_buttons as $value) {
-            $plugin_array[$value->name] = $this->settings->plugin_url . $value->path . '/' . $value->js_file;
-        }
-
-        return $plugin_array;
-    }
-
-    public function tinyMceVersion($version)
-    {
-        return ++$version;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace Avh\Html;
 
-
 /**
  * HTML helper class.
  * Provides generic methods for generating various HTML
@@ -9,7 +8,6 @@ namespace Avh\Html;
  */
 class HtmlBuilder
 {
-
     /**
      *
      * @var boolean automatically target external URLs to a new window?
@@ -50,11 +48,9 @@ class HtmlBuilder
         'disabled'
     );
 
-
     public function __construct()
     {
     }
-
 
     /**
      * Create HTML link anchors.
@@ -131,7 +127,6 @@ class HtmlBuilder
 
         return $return;
     }
-
 
     /**
      * @param string $uri
@@ -238,7 +233,6 @@ class HtmlBuilder
 
         return $safe;
     }
-
 
     /**
      * Build a single attribute element.
