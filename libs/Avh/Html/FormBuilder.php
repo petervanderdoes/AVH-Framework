@@ -1,10 +1,8 @@
 <?php
 namespace Avh\Html;
 
-
 class FormBuilder
 {
-
     // @var Use tables to create FormBuilder
     /**
      * An array of label names we've created.
@@ -20,7 +18,6 @@ class FormBuilder
     {
         $this->html = $html;
     }
-
 
     /**
      * Creates a button form input.
@@ -165,7 +162,7 @@ class FormBuilder
      * @param string $name
      * @param array  $attributes
      *
-     * @return string|boolean
+     * @return string
      */
     public function getIdAttribute($name, $attributes)
     {
@@ -177,7 +174,7 @@ class FormBuilder
             return $name;
         }
 
-        return false;
+        return null;
     }
 
     public function getOptionName()
@@ -516,7 +513,6 @@ class FormBuilder
 
         return '<textarea' . $this->html->attributes($attributes) . '>' . esc_textarea($body) . '</textarea>';
     }
-
 
     protected function getCharset($charset)
     {
