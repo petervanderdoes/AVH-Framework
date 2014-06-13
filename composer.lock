@@ -3,21 +3,21 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "1ca95b2eead7aebaf25b5254b509c9e6",
+    "hash": "c620f61ebab2491c3f743b7908f46f54",
     "packages": [
         {
             "name": "illuminate/cache",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "target-dir": "Illuminate/Cache",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cache.git",
-                "reference": "1f211dcb84f9760a261f161927386aa28f7bdba9"
+                "reference": "c880250716f0ac3df716f21f797c477936fdcb3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/cache/zipball/1f211dcb84f9760a261f161927386aa28f7bdba9",
-                "reference": "1f211dcb84f9760a261f161927386aa28f7bdba9",
+                "url": "https://api.github.com/repos/illuminate/cache/zipball/c880250716f0ac3df716f21f797c477936fdcb3f",
+                "reference": "c880250716f0ac3df716f21f797c477936fdcb3f",
                 "shasum": ""
             },
             "require": {
@@ -54,11 +54,11 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-05-23 16:40:19"
+            "time": "2014-06-01 22:46:36"
         },
         {
             "name": "illuminate/container",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "target-dir": "Illuminate/Container",
             "source": {
                 "type": "git",
@@ -101,7 +101,7 @@
         },
         {
             "name": "illuminate/cookie",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "target-dir": "Illuminate/Cookie",
             "source": {
                 "type": "git",
@@ -148,17 +148,17 @@
         },
         {
             "name": "illuminate/encryption",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "target-dir": "Illuminate/Encryption",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/encryption.git",
-                "reference": "668ec67496fd2d5b5f22efc6f8d35c95c7ed8e21"
+                "reference": "8c00c18463df1e5babd563d92c7c29de226e06bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/encryption/zipball/668ec67496fd2d5b5f22efc6f8d35c95c7ed8e21",
-                "reference": "668ec67496fd2d5b5f22efc6f8d35c95c7ed8e21",
+                "url": "https://api.github.com/repos/illuminate/encryption/zipball/8c00c18463df1e5babd563d92c7c29de226e06bf",
+                "reference": "8c00c18463df1e5babd563d92c7c29de226e06bf",
                 "shasum": ""
             },
             "require": {
@@ -189,11 +189,11 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-05-23 16:40:19"
+            "time": "2014-06-06 13:24:46"
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "target-dir": "Illuminate/Filesystem",
             "source": {
                 "type": "git",
@@ -238,7 +238,7 @@
         },
         {
             "name": "illuminate/http",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "target-dir": "Illuminate/Http",
             "source": {
                 "type": "git",
@@ -285,17 +285,17 @@
         },
         {
             "name": "illuminate/session",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "target-dir": "Illuminate/Session",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/session.git",
-                "reference": "a6f2892ce26d644855c0948891f6d52c5bbe3014"
+                "reference": "5cef0aa6e15b7866a3300a24e10e4d770d9f17c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/session/zipball/a6f2892ce26d644855c0948891f6d52c5bbe3014",
-                "reference": "a6f2892ce26d644855c0948891f6d52c5bbe3014",
+                "url": "https://api.github.com/repos/illuminate/session/zipball/5cef0aa6e15b7866a3300a24e10e4d770d9f17c6",
+                "reference": "5cef0aa6e15b7866a3300a24e10e4d770d9f17c6",
                 "shasum": ""
             },
             "require": {
@@ -334,21 +334,21 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-05-27 06:12:02"
+            "time": "2014-06-08 06:15:49"
         },
         {
             "name": "illuminate/support",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "f1dd716598f99ff18b455da3e073a8324d65252e"
+                "reference": "71975fd0c0f73033e108a7058be9dae2d32545a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/f1dd716598f99ff18b455da3e073a8324d65252e",
-                "reference": "f1dd716598f99ff18b455da3e073a8324d65252e",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/71975fd0c0f73033e108a7058be9dae2d32545a7",
+                "reference": "71975fd0c0f73033e108a7058be9dae2d32545a7",
                 "shasum": ""
             },
             "require": {
@@ -384,7 +384,7 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-05-30 16:22:28"
+            "time": "2014-06-03 16:57:35"
         },
         {
             "name": "nesbot/carbon",
@@ -880,16 +880,16 @@
         },
         {
             "name": "vlucas/valitron",
-            "version": "1.1.5",
+            "version": "1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/valitron.git",
-                "reference": "63695ad7d1d9c98f5ae67b535567006c8d1bba01"
+                "reference": "c0ff8076d694a3c35f97dc34760107bb2bea6f20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/valitron/zipball/63695ad7d1d9c98f5ae67b535567006c8d1bba01",
-                "reference": "63695ad7d1d9c98f5ae67b535567006c8d1bba01",
+                "url": "https://api.github.com/repos/vlucas/valitron/zipball/c0ff8076d694a3c35f97dc34760107bb2bea6f20",
+                "reference": "c0ff8076d694a3c35f97dc34760107bb2bea6f20",
                 "shasum": ""
             },
             "require": {
@@ -909,7 +909,8 @@
                 {
                     "name": "Vance Lucas",
                     "email": "vance@vancelucas.com",
-                    "homepage": "http://www.vancelucas.com"
+                    "homepage": "http://www.vancelucas.com",
+                    "role": "Developer"
                 }
             ],
             "description": "Simple, elegant, stand-alone validation library with NO dependencies",
@@ -919,7 +920,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2013-11-11 21:11:45"
+            "time": "2014-06-11 14:25:29"
         }
     ],
     "packages-dev": [
