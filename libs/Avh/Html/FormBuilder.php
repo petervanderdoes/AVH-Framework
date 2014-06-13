@@ -1,7 +1,7 @@
 <?php
 namespace Avh\Html;
 
-// ---------- Private methods ----------
+
 class FormBuilder
 {
 
@@ -21,7 +21,7 @@ class FormBuilder
         $this->html = $html;
     }
 
-// ---------- Public methods ----------
+
     /**
      * Creates a button form input.
      * Note that the body of a button is NOT escaped,
@@ -512,7 +512,7 @@ class FormBuilder
         return '<textarea' . $this->html->attributes($attributes) . '>' . esc_textarea($body) . '</textarea>';
     }
 
-// ---------- Protected methods ----------
+
     protected function getCharset($charset)
     {
         return $charset !== null ? $charset : get_bloginfo('charset', 'display');

@@ -1,7 +1,7 @@
 <?php
 namespace Avh\Utility;
 
-// ---------- Private methods ----------
+
 abstract class SettingsAbstract
 {
 
@@ -12,7 +12,7 @@ abstract class SettingsAbstract
      */
     private $settings = array();
 
-// ---------- Public methods ----------
+
     public function __get($key)
     {
         if (isset($this->settings[$key])) {

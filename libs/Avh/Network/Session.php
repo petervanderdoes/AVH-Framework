@@ -4,7 +4,7 @@ namespace Avh\Network;
 use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
-// ---------- Private methods ----------
+
 class Session extends \Symfony\Component\HttpFoundation\Session\Session
 {
 

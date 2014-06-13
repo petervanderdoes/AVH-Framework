@@ -1,13 +1,13 @@
 <?php
 namespace Avh\Utility;
 
-// ---------- Private methods ----------
+
 abstract class ShortcodesAbstract
 {
 
     private $shortcode_map;
 
-// ---------- Public methods ----------
+
     /**
      * Method that's always called for the shortcode
      *

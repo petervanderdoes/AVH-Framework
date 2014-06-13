@@ -1,11 +1,8 @@
 <?php
 namespace Avh\Db;
 
-// ---------- Private methods ----------
 final class Db
 {
-
-// ---------- Public methods ----------
     /**
      * Determine if a particular field exists
      *
@@ -52,7 +49,6 @@ final class Db
         return $return;
     }
 
-// ---------- Private methods ----------
     /**
      * Show column query
      *

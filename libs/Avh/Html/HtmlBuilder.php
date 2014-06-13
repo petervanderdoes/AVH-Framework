@@ -1,7 +1,7 @@
 <?php
 namespace Avh\Html;
 
-// ---------- Private methods ----------
+
 /**
  * HTML helper class.
  * Provides generic methods for generating various HTML
@@ -55,7 +55,7 @@ class HtmlBuilder
     {
     }
 
-// ---------- Public methods ----------
+
     /**
      * Create HTML link anchors.
      * Note that the title is not escaped, to allow
@@ -239,7 +239,7 @@ class HtmlBuilder
         return $safe;
     }
 
-// ---------- Protected methods ----------
+
     /**
      * Build a single attribute element.
      *

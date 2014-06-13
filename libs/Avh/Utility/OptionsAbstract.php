@@ -1,7 +1,6 @@
 <?php
 namespace Avh\Utility;
 
-// ---------- Private methods ----------
 /**
  * Original code by Yoast.
  *
@@ -56,6 +55,7 @@ namespace Avh\Utility;
  * @todo - [JRF => testers] double check that validation will not cause errors when called from upgrade routine
  *       (some of the WP functions may not yet be available)
  */
+
 abstract class OptionsAbstract implements OptionsInterface
 {
 
@@ -154,7 +154,43 @@ abstract class OptionsAbstract implements OptionsInterface
         add_action('init', array($this, 'handleEnrichDefaults'), 99);
     }
 
-// ---------- Public methods ----------
+// ********** Start  Abstract Methods **********
+    /**
+     * Clean out old/renamed values within the option
+     *
+     * @param mixed $option_value
+     * @param mixed $current_version
+     * @param mixed $all_old_option_values
+     *
+     * @return mixed|void
+     */
+    abstract public function cleanOption($option_value, $current_version = null, $all_old_option_values = null);
+
+    /**
+     * Add additional defaults once all post_types and taxonomies have been registered
+     */
+    abstract public function handleEnrichDefaults();
+
+    /**
+     * Translate default values if needed.
+     */
+    abstract public function handleTranslateDefaults();
+
+    /**
+     * All concrete classes must contain a validateOption() method which validates all
+     * values within the option
+     *
+     * @param mixed $dirty
+     * @param mixed $clean
+     * @param mixed $old
+     *
+     * @return
+     */
+    abstract protected function validateOption($dirty, $clean, $old);
+
+
+
+// ********** Start Public Methods **********
     /**
      * Add filters to make sure that the option default is returned if the option is not set
      *
@@ -187,15 +223,12 @@ abstract class OptionsAbstract implements OptionsInterface
         }
     }
 
-
     /**
      * Retrieve the real old value (unmerged with defaults), clean and re-save the option
      *
      * @uses import()
      *
-     * @param string $current_version
-     *            (optional) Version from which to upgrade, if not set,
-     *            version specific upgrades will be disregarded
+     * @param string $current_version (optional) Version from which to upgrade, if not set, version specific upgrades will be disregarded
      *
      * @return void
      */
@@ -232,8 +265,7 @@ abstract class OptionsAbstract implements OptionsInterface
      *
      * This method should *not* be called directly!!! It is only meant to filter the getOption() results
      *
-     * @param mixed $options
-     *            Option value
+     * @param mixed $options Option value
      *
      * @return mixed Option merged with the defaults for that option
      */
@@ -265,14 +297,10 @@ abstract class OptionsAbstract implements OptionsInterface
      *       once the admin has dismissed the message (add ajax function)
      *       Important: all validation routines which add_settings_errors would need to be changed for this to work
      *
-     * @param array  $option_value
-     *            Option value to be imported
-     * @param string $current_version
-     *            (optional) Version from which to upgrade, if not set,
-     *            version specific upgrades will be disregarded
-     * @param array  $all_old_option_values
-     *            (optional) Only used when importing old options to have
-     *            access to the real old values, in contrast to the saved ones
+     * @param array  $option_value          Option value to be imported
+     * @param string $current_version       (optional) Version from which to upgrade, if not set, version specific
+     *                                      upgrades will be disregarded
+     * @param array  $all_old_option_values (optional) Only used when importing old options to have access to the real old values, in contrast to the saved ones
      *
      * @return void
      */
@@ -280,7 +308,7 @@ abstract class OptionsAbstract implements OptionsInterface
     {
         if ($option_value === false) {
             $option_value = $this->getDefaults();
-        } elseif (is_array($option_value) && method_exists($this, 'cleanOption')) {
+        } elseif (is_array($option_value)) {
             $option_value = $this->cleanOption($option_value, $current_version, $all_old_option_values);
         }
 
@@ -331,8 +359,7 @@ abstract class OptionsAbstract implements OptionsInterface
     /**
      * Validate the option
      *
-     * @param mixed $option_value
-     *            The unvalidated new value for the option
+     * @param mixed $option_value The unvalidated new value for the option
      *
      * @return array Validated new value for the option
      */
@@ -359,24 +386,9 @@ abstract class OptionsAbstract implements OptionsInterface
         return $clean;
     }
 
-    /**
-     * Concrete classes must contain a cleanOption method which will clean out old/renamed
-     * values within the option
-     */
-    abstract public function cleanOption($option_value, $current_version = null, $all_old_option_values = null);
 
-    /**
-     * Concrete classes must contain a handleEnrichDefaults method to add additional defaults once
-     * all post_types and taxonomies have been registered
-     */
-    abstract public function handleEnrichDefaults();
 
-    /**
-     * Concrete classes must contain a handleTranslateDefaults method
-     */
-    abstract public function handleTranslateDefaults();
-
-// ---------- Protected methods ----------
+// **********  Start Protected Methods **********
     /**
      * Helper method - Combines a fixed array of default values with an options array
      * while filtering out any keys which are not in the defaults array.
@@ -384,9 +396,8 @@ abstract class OptionsAbstract implements OptionsInterface
      * @todo [JRF] - shouldn't this be a straight array merge ? at the end of the day, the validation
      *       removes any invalid keys on save
      *
-     * @param array $options
-     *            (Optional) Current options
-     *            - if not set, the option defaults for the $option_key will be returned.
+     * @param array $options (Optional) Current options
+     *                       - if not set, the option defaults for the $option_key will be returned.
      *
      * @return array Combined and filtered options array.
      */
@@ -412,8 +423,7 @@ abstract class OptionsAbstract implements OptionsInterface
      *
      * @usedby validateOption() methods for options with variable array keys
      *
-     * @param string $key
-     *            Array key to check
+     * @param string $key Array key to check
      *
      * @return string Pattern if it conforms, original array key if it doesn't or if the option
      *         does not have variable array keys
@@ -441,12 +451,9 @@ abstract class OptionsAbstract implements OptionsInterface
      * @internal The wpseo_titles concrete class overrules this method. Make sure that any changes
      *           applied here, also get ported to that version.
      *
-     * @param array $dirty
-     *            Original option as retrieved from the database
-     * @param array $clean
-     *            Filtered option where any options which shouldn't be in our option
-     *            have already been removed and any options which weren't set
-     *            have been set to their defaults
+     * @param array $dirty Original option as retrieved from the database
+     * @param array $clean Filtered option where any options which shouldn't be in our option have already been
+     *                     removed and any options which were not set have been set to their defaults
      *
      * @return array
      */
@@ -467,10 +474,5 @@ abstract class OptionsAbstract implements OptionsInterface
         return $clean;
     }
 
-    /**
-     * All concrete classes must contain a validateOption() method which validates all
-     * values within the option
-     */
-    abstract protected function validateOption($dirty, $clean, $old);
 }
 

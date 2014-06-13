@@ -1,7 +1,7 @@
 <?php
 namespace Avh\Support;
 
-// ---------- Private methods ----------
+
 class Str
 {
 
@@ -12,7 +12,7 @@ class Str
      */
     protected static $macros = array();
 
-// ---------- Public methods ----------
+
     /**
      * Dynamically handle calls to the string class.
      *
