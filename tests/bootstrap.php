@@ -1,7 +1,6 @@
 <?php
 /**
  * Bootstrap the plugin unit testing environment.
- *
  * Edit 'active_plugins' setting below to point to your main plugin file.
  *
  * @package wordpress-plugin-tests
@@ -17,8 +16,8 @@ require __DIR__ . '/../vendor/autoload.php';
 // location. Otherwise, we'll just assume that this plugin is installed in a
 // WordPress develop SVN checkout.
 
-if( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
-	require getenv( 'WP_DEVELOP_DIR' ) . '/tests/phpunit/includes/bootstrap.php';
+if (false !== getenv('WP_DEVELOP_DIR')) {
+    require getenv('WP_DEVELOP_DIR') . '/tests/phpunit/includes/bootstrap.php';
 } else {
-	require '../../../../tests/phpunit/includes/bootstrap.php';
+    require '../../../../tests/phpunit/includes/bootstrap.php';
 }

@@ -325,9 +325,9 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     public function registerSetting()
     {
-        if (WPSEO_Options::grant_access()) {
+        //if (WPSEO_Options::grant_access()) {
             register_setting($this->group_name, $this->option_name);
-        }
+        //}
     }
 
     /**

@@ -7,6 +7,12 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Avh\\Controller\\PluginController' => $baseDir . '/libs/Avh/Controller/PluginController.php',
+    'Avh\\DataHandler\\ArrayRegistry' => $baseDir . '/libs/Avh/DataHandler/ArrayRegistry.php',
+    'Avh\\DataHandler\\AttributeBag' => $baseDir . '/libs/Avh/DataHandler/AttributeBag.php',
+    'Avh\\DataHandler\\AttributeBagInterface' => $baseDir . '/libs/Avh/DataHandler/AttributeBagInterface.php',
+    'Avh\\DataHandler\\DataHandler' => $baseDir . '/libs/Avh/DataHandler/DataHandler.php',
+    'Avh\\DataHandler\\NamespacedAttributeBag' => $baseDir . '/libs/Avh/DataHandler/NamespacedAttributeBag.php',
+    'Avh\\DataHandler\\RegistrableInterface' => $baseDir . '/libs/Avh/DataHandler/RegisterableInterface.php',
     'Avh\\Db\\Db' => $baseDir . '/libs/Avh/Db/Db.php',
     'Avh\\Html\\FormBuilder' => $baseDir . '/libs/Avh/Html/FormBuilder.php',
     'Avh\\Html\\HtmlBuilder' => $baseDir . '/libs/Avh/Html/HtmlBuilder.php',
@@ -18,7 +24,6 @@ return array(
     'Avh\\Utility\\Common' => $baseDir . '/libs/Avh/Utility/Common.php',
     'Avh\\Utility\\OptionsAbstract' => $baseDir . '/libs/Avh/Utility/OptionsAbstract.php',
     'Avh\\Utility\\OptionsInterface' => $baseDir . '/libs/Avh/Utility/OptionsInterface.php',
-    'Avh\\Utility\\SettingsAbstract' => $baseDir . '/libs/Avh/Utility/SettingsAbstract.php',
     'Avh\\Utility\\ShortcodesAbstract' => $baseDir . '/libs/Avh/Utility/ShortcodesAbstract.php',
     'Carbon\\Carbon' => $vendorDir . '/nesbot/carbon/src/Carbon/Carbon.php',
     'Illuminate\\Cache\\ApcStore' => $vendorDir . '/illuminate/cache/Illuminate/Cache/ApcStore.php',
@@ -130,6 +135,7 @@ return array(
     'Patchwork\\TurkishUtf8' => $vendorDir . '/patchwork/utf8/class/Patchwork/TurkishUtf8.php',
     'Patchwork\\Utf8' => $vendorDir . '/patchwork/utf8/class/Patchwork/Utf8.php',
     'Patchwork\\Utf8\\Bootup' => $vendorDir . '/patchwork/utf8/class/Patchwork/Utf8/Bootup.php',
+    'Patchwork\\Utf8\\WinFsStreamWrapper' => $vendorDir . '/patchwork/utf8/class/Patchwork/Utf8/WinFsStreamWrapper.php',
     'Psr\\Log\\AbstractLogger' => $vendorDir . '/psr/log/Psr/Log/AbstractLogger.php',
     'Psr\\Log\\InvalidArgumentException' => $vendorDir . '/psr/log/Psr/Log/InvalidArgumentException.php',
     'Psr\\Log\\LogLevel' => $vendorDir . '/psr/log/Psr/Log/LogLevel.php',

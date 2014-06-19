@@ -457,59 +457,6 @@
         "homepage": "http://symfony.com"
     },
     {
-        "name": "patchwork/utf8",
-        "version": "v1.1.23",
-        "version_normalized": "1.1.23.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-            "reference": "c1edbc82aed49ff2bdef0a0f659bf69e3f7b14cc"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/c1edbc82aed49ff2bdef0a0f659bf69e3f7b14cc",
-            "reference": "c1edbc82aed49ff2bdef0a0f659bf69e3f7b14cc",
-            "shasum": ""
-        },
-        "require": {
-            "lib-pcre": ">=7.3",
-            "php": ">=5.3.0"
-        },
-        "suggest": {
-            "ext-iconv": "Use iconv for best performance",
-            "ext-intl": "Use Intl for best performance",
-            "ext-mbstring": "Use Mbstring for best performance"
-        },
-        "time": "2014-05-22 13:59:09",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Patchwork": "class/",
-                "Normalizer": "class/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "(Apache-2.0 or GPL-2.0)"
-        ],
-        "authors": [
-            {
-                "name": "Nicolas Grekas",
-                "email": "p@tchwork.com",
-                "role": "Developer"
-            }
-        ],
-        "description": "Extensive, portable and performant handling of UTF-8 and grapheme clusters for PHP",
-        "homepage": "https://github.com/nicolas-grekas/Patchwork-UTF8",
-        "keywords": [
-            "i18n",
-            "unicode",
-            "utf-8",
-            "utf8"
-        ]
-    },
-    {
         "name": "vlucas/valitron",
         "version": "1.1.7",
         "version_normalized": "1.1.7.0",
@@ -556,9 +503,62 @@
         ]
     },
     {
+        "name": "patchwork/utf8",
+        "version": "v1.1.24",
+        "version_normalized": "1.1.24.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
+            "reference": "40f552c019956f446553b19f7de2da2f9c74d730"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/40f552c019956f446553b19f7de2da2f9c74d730",
+            "reference": "40f552c019956f446553b19f7de2da2f9c74d730",
+            "shasum": ""
+        },
+        "require": {
+            "lib-pcre": ">=7.3",
+            "php": ">=5.3.0"
+        },
+        "suggest": {
+            "ext-iconv": "Use iconv for best performance",
+            "ext-intl": "Use Intl for best performance",
+            "ext-mbstring": "Use Mbstring for best performance"
+        },
+        "time": "2014-06-17 08:23:06",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Patchwork": "class/",
+                "Normalizer": "class/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "(Apache-2.0 or GPL-2.0)"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Extensive, portable and performant handling of UTF-8 and grapheme clusters for PHP",
+        "homepage": "https://github.com/nicolas-grekas/Patchwork-UTF8",
+        "keywords": [
+            "i18n",
+            "unicode",
+            "utf-8",
+            "utf8"
+        ]
+    },
+    {
         "name": "illuminate/container",
-        "version": "v4.2.3",
-        "version_normalized": "4.2.3.0",
+        "version": "v4.2.4",
+        "version_normalized": "4.2.4.0",
         "target-dir": "Illuminate/Container",
         "source": {
             "type": "git",
@@ -602,18 +602,18 @@
     },
     {
         "name": "illuminate/support",
-        "version": "v4.2.3",
-        "version_normalized": "4.2.3.0",
+        "version": "v4.2.4",
+        "version_normalized": "4.2.4.0",
         "target-dir": "Illuminate/Support",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/support.git",
-            "reference": "71975fd0c0f73033e108a7058be9dae2d32545a7"
+            "reference": "976bdc0f42e9efd3dfa2e0eba11aba48a97113ac"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/support/zipball/71975fd0c0f73033e108a7058be9dae2d32545a7",
-            "reference": "71975fd0c0f73033e108a7058be9dae2d32545a7",
+            "url": "https://api.github.com/repos/illuminate/support/zipball/976bdc0f42e9efd3dfa2e0eba11aba48a97113ac",
+            "reference": "976bdc0f42e9efd3dfa2e0eba11aba48a97113ac",
             "shasum": ""
         },
         "require": {
@@ -623,7 +623,7 @@
             "jeremeamia/superclosure": "~1.0",
             "patchwork/utf8": "1.1.*"
         },
-        "time": "2014-06-03 16:57:35",
+        "time": "2014-06-13 20:42:27",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -654,8 +654,8 @@
     },
     {
         "name": "illuminate/encryption",
-        "version": "v4.2.3",
-        "version_normalized": "4.2.3.0",
+        "version": "v4.2.4",
+        "version_normalized": "4.2.4.0",
         "target-dir": "Illuminate/Encryption",
         "source": {
             "type": "git",
@@ -701,8 +701,8 @@
     },
     {
         "name": "illuminate/cookie",
-        "version": "v4.2.3",
-        "version_normalized": "4.2.3.0",
+        "version": "v4.2.4",
+        "version_normalized": "4.2.4.0",
         "target-dir": "Illuminate/Cookie",
         "source": {
             "type": "git",
@@ -750,18 +750,18 @@
     },
     {
         "name": "illuminate/cache",
-        "version": "v4.2.3",
-        "version_normalized": "4.2.3.0",
+        "version": "v4.2.4",
+        "version_normalized": "4.2.4.0",
         "target-dir": "Illuminate/Cache",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/cache.git",
-            "reference": "c880250716f0ac3df716f21f797c477936fdcb3f"
+            "reference": "065f2cb1a464a3273bfe049ea9f22ca225250ef6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/cache/zipball/c880250716f0ac3df716f21f797c477936fdcb3f",
-            "reference": "c880250716f0ac3df716f21f797c477936fdcb3f",
+            "url": "https://api.github.com/repos/illuminate/cache/zipball/065f2cb1a464a3273bfe049ea9f22ca225250ef6",
+            "reference": "065f2cb1a464a3273bfe049ea9f22ca225250ef6",
             "shasum": ""
         },
         "require": {
@@ -775,7 +775,7 @@
             "illuminate/filesystem": "4.2.*",
             "illuminate/redis": "4.2.*"
         },
-        "time": "2014-06-01 22:46:36",
+        "time": "2014-06-12 08:37:50",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -803,18 +803,18 @@
     },
     {
         "name": "illuminate/session",
-        "version": "v4.2.3",
-        "version_normalized": "4.2.3.0",
+        "version": "v4.2.4",
+        "version_normalized": "4.2.4.0",
         "target-dir": "Illuminate/Session",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/session.git",
-            "reference": "5cef0aa6e15b7866a3300a24e10e4d770d9f17c6"
+            "reference": "f1d2498721cc5d5b17f9fdde1e24ca71fbb4e47e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/session/zipball/5cef0aa6e15b7866a3300a24e10e4d770d9f17c6",
-            "reference": "5cef0aa6e15b7866a3300a24e10e4d770d9f17c6",
+            "url": "https://api.github.com/repos/illuminate/session/zipball/f1d2498721cc5d5b17f9fdde1e24ca71fbb4e47e",
+            "reference": "f1d2498721cc5d5b17f9fdde1e24ca71fbb4e47e",
             "shasum": ""
         },
         "require": {
@@ -830,7 +830,7 @@
         "require-dev": {
             "illuminate/console": "4.2.*"
         },
-        "time": "2014-06-08 06:15:49",
+        "time": "2014-06-14 17:15:05",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -858,8 +858,8 @@
     },
     {
         "name": "illuminate/http",
-        "version": "v4.2.3",
-        "version_normalized": "4.2.3.0",
+        "version": "v4.2.4",
+        "version_normalized": "4.2.4.0",
         "target-dir": "Illuminate/Http",
         "source": {
             "type": "git",
@@ -907,8 +907,8 @@
     },
     {
         "name": "illuminate/filesystem",
-        "version": "v4.2.3",
-        "version_normalized": "4.2.3.0",
+        "version": "v4.2.4",
+        "version_normalized": "4.2.4.0",
         "target-dir": "Illuminate/Filesystem",
         "source": {
             "type": "git",
