@@ -2,17 +2,14 @@
 
 namespace Avh\DataHandler;
 
-use Avh\DataHandler\AttributeBagInterface;
-
 class DataHandler
 {
     protected $registry;
 
     /**
      * Class constructor
-
      *
-*@param AttributeBagInterface $registry
+     * @param AttributeBagInterface $registry
      */
     public function __construct(AttributeBagInterface $registry)
     {
@@ -30,9 +27,9 @@ class DataHandler
     /**
      * Get data from the registry
      */
-    public function get($key)
+    public function get($key, $default = null)
     {
-        return $this->registry->get($key);
+        return $this->registry->get($key, $default);
     }
 
     /**
@@ -43,5 +40,10 @@ class DataHandler
         $this->registry->set($key, $value);
 
         return $this;
+    }
+
+    public function has($key)
+    {
+        return $this->registry->has($key);
     }
 }
