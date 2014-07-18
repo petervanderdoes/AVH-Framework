@@ -20,7 +20,6 @@ return array(
     'Avh\\Network\\Security' => $baseDir . '/libs/Avh/Network/Security.php',
     'Avh\\Network\\Session' => $baseDir . '/libs/Avh/Network/Session.php',
     'Avh\\Network\\Visitor' => $baseDir . '/libs/Avh/Network/Visitor.php',
-    'Avh\\Support\\Str' => $baseDir . '/libs/Avh/Support/Str.php',
     'Avh\\Utility\\Common' => $baseDir . '/libs/Avh/Utility/Common.php',
     'Avh\\Utility\\OptionsAbstract' => $baseDir . '/libs/Avh/Utility/OptionsAbstract.php',
     'Avh\\Utility\\OptionsInterface' => $baseDir . '/libs/Avh/Utility/OptionsInterface.php',

@@ -11,7 +11,7 @@ if (!function_exists('avh_starts_with')) {
      */
     function avh_starts_with($haystack, $needle)
     {
-        return Avh\Support\Str::startsWith($haystack, $needle);
+        return \Illuminate\Support\Str::startsWith($haystack, $needle);
     }
 }
 
