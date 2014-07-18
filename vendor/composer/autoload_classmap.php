@@ -254,6 +254,7 @@ return array(
     'Symfony\\Component\\HttpFoundation\\RequestMatcher' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/RequestMatcher.php',
     'Symfony\\Component\\HttpFoundation\\RequestMatcherInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/RequestMatcherInterface.php',
     'Symfony\\Component\\HttpFoundation\\RequestStack' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/RequestStack.php',
+    'Symfony\\Component\\HttpFoundation\\Resources\\stubs\\FakeFile' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/FakeFile.php',
     'Symfony\\Component\\HttpFoundation\\Response' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Response.php',
     'Symfony\\Component\\HttpFoundation\\ResponseHeaderBag' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/ResponseHeaderBag.php',
     'Symfony\\Component\\HttpFoundation\\ServerBag' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/ServerBag.php',
