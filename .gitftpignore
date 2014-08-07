@@ -2,5 +2,4 @@ composer.json
 composer.lock
 phpunit.xml
 .travis.yml
-tests/*
-Tests/*
+**/[Tt]ests/

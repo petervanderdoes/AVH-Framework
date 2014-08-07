@@ -3,14 +3,13 @@ namespace Avh\Network;
 
 final class Security
 {
-
     /**
      * Local nonce creation.
      * WordPress uses the UID and sometimes I don't want that
      * Creates a random, one time use token.
      *
-     * @param string|int $action
-     *            Scalar value to add context to the nonce.
+     * @param string|int $action Scalar value to add context to the nonce.
+     *
      * @return string The one use form token
      *
      */
@@ -29,10 +28,9 @@ final class Security
      * The user is given an amount of time to use the token, so therefore, since the
      * $action remain the same, the independent variable is the time.
      *
-     * @param string $nonce
-     *            Nonce that was used in the form to verify
-     * @param string|int $action
-     *            Should give context to what is taking place and be the same when nonce was created.
+     * @param string     $nonce  Nonce that was used in the form to verify
+     * @param string|int $action Should give context to what is taking place and be the same when nonce was created.
+     *
      * @return bool Whether the nonce check passed or failed.
      */
     public static function verifyNonce($nonce, $action = -1)

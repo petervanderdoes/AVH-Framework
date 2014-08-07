@@ -22,7 +22,7 @@ class Request extends SymfonyRequest {
 	/**
 	 * Return the Request instance.
 	 *
-	 * @return \Illuminate\Http\Request
+	 * @return $this
 	 */
 	public function instance()
 	{
@@ -114,7 +114,7 @@ class Request extends SymfonyRequest {
 	{
 		$segments = explode('/', $this->path());
 
-		return array_values(array_filter($segments));
+		return array_values(array_filter($segments, function($v) { return $v != ''; }));
 	}
 
 	/**
@@ -177,29 +177,34 @@ class Request extends SymfonyRequest {
 	}
 
 	/**
-	 * Determine if the request contains a non-emtpy value for an  input item.
+	 * Determine if the request contains a non-empty value for an input item.
 	 *
 	 * @param  string|array  $key
 	 * @return bool
 	 */
 	public function has($key)
 	{
-		if (count(func_get_args()) > 1)
-		{
-			foreach (func_get_args() as $value)
-			{
-				if ( ! $this->has($value)) return false;
-			}
+		$keys = is_array($key) ? $key : func_get_args();
 
-			return true;
+		foreach ($keys as $value)
+		{
+			if ($this->isEmptyString($value)) return false;
 		}
 
-		if (is_bool($this->input($key)) || is_array($this->input($key)))
-		{
-			return true;
-		}
+		return true;
+	}
 
-		return trim((string) $this->input($key)) !== '';
+	/**
+	 * Determine if the given input key is an empty string for "has".
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	protected function isEmptyString($key)
+	{
+		$boolOrArray = is_bool($this->input($key)) || is_array($this->input($key));
+
+		return ! $boolOrArray && trim((string) $this->input($key)) === '';
 	}
 
 	/**
@@ -209,7 +214,7 @@ class Request extends SymfonyRequest {
 	 */
 	public function all()
 	{
-		return array_merge_recursive($this->input(), $this->files->all());
+		return array_replace_recursive($this->input(), $this->files->all());
 	}
 
 	/**
@@ -236,7 +241,16 @@ class Request extends SymfonyRequest {
 	{
 		$keys = is_array($keys) ? $keys : func_get_args();
 
-		return array_only($this->input(), $keys) + array_fill_keys($keys, null);
+		$results = [];
+
+		$input = $this->all();
+
+		foreach ($keys as $key)
+		{
+			array_set($results, $key, array_get($input, $key, null));
+		}
+
+		return $results;
 	}
 
 	/**
@@ -249,9 +263,9 @@ class Request extends SymfonyRequest {
 	{
 		$keys = is_array($keys) ? $keys : func_get_args();
 
-		$results = $this->input();
+		$results = $this->all();
 
-		foreach ($keys as $key) array_forget($results, $key);
+		array_forget($results, $keys);
 
 		return $results;
 	}
@@ -500,6 +514,7 @@ class Request extends SymfonyRequest {
 	/**
 	 * Get the data format expected in the response.
 	 *
+	 * @param  string  $default
 	 * @return string
 	 */
 	public function format($default = 'html')
@@ -522,7 +537,7 @@ class Request extends SymfonyRequest {
 	{
 		if ($request instanceof static) return $request;
 
-		return with($self = new static)->duplicate(
+		return (new static)->duplicate(
 
 			$request->query->all(), $request->request->all(), $request->attributes->all(),
 

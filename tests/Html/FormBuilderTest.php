@@ -59,21 +59,11 @@ class FormBuilderTest extends WP_UnitTestCase
     public function testFieldNonce()
     {
         $nonce = wp_create_nonce(null);
-        $form1 = $this->formBuilder->fieldNonce();
-        $form2 = $this->formBuilder->fieldNonce(false);
+        $form1 = $this->formBuilder->fieldNonce(null);
+        $form2 = $this->formBuilder->fieldNonce(null,false);
 
         $this->assertEquals('<input type="hidden" name="_wpnonce" value="' . $nonce . '" /><input type="hidden" name="_wp_http_referer" value="" />', $form1);
         $this->assertEquals('<input type="hidden" name="_wpnonce" value="' . $nonce . '" />', $form2);
-    }
-
-    public function testFieldSettings()
-    {
-        $nonce = wp_create_nonce(null);
-        $form1 = $this->formBuilder->fieldSettings('foo');
-        $form2 = $this->formBuilder->fieldSettings('foo', false);
-
-        $this->assertEquals('<input type="hidden" name="action" value="foo" /><input type="hidden" name="_wpnonce" value="' . $nonce . '" /><input type="hidden" name="_wp_http_referer" value="" />', $form1);
-        $this->assertEquals('<input type="hidden" name="action" value="foo" />', $form2);
     }
 
     public function testFormCheckboxes()
@@ -256,7 +246,7 @@ class FormBuilderTest extends WP_UnitTestCase
         $this->assertContains('<select name="month"><option value="1" selected="selected">January</option><option value="2" selected="selected">February</option><option value="3">March</option>', $form3);
         $this->assertContains('<select id="foo" name="month"><option value="1">January</option>', $form4);
         $this->assertContains('<select name="option[month]"><option value="1">January</option><option value="2">February</option>', $form5);
-        $this->assertContains('<select name="option[food]"><optgroup label="Dairy products"><option value="0">Cheese</option><option value="1">Egg</option></optgroup><optgroup label="Vegetables"><option value="0">Cabbage</option><option value="1">Lettuce</option></optgroup><option value="id"></option></select>', $form6);
+        $this->assertContains('<select name="option[food]"><optgroup label="Dairy products"><option value="0">Cheese</option><option value="1">Egg</option></optgroup><optgroup label="Vegetables"><option value="0">Cabbage</option><option value="1">Lettuce</option></optgroup></select>', $form6);
     }
 
     public function testFormSubmit()

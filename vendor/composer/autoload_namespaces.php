@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Valitron' => array($vendorDir . '/vlucas/valitron/src'),
-    'Symfony\\Component\\Security\\' => array($vendorDir . '/symfony/security'),
+    'Symfony\\Component\\Security\\Core\\' => array($vendorDir . '/symfony/security-core'),
     'Symfony\\Component\\HttpKernel\\' => array($vendorDir . '/symfony/http-kernel'),
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
@@ -19,6 +19,7 @@ return array(
     'Illuminate\\Support' => array($vendorDir . '/illuminate/support'),
     'Illuminate\\Session' => array($vendorDir . '/illuminate/session'),
     'Illuminate\\Http' => array($vendorDir . '/illuminate/http'),
+    'Illuminate\\Filesystem' => array($vendorDir . '/illuminate/filesystem'),
     'Illuminate\\Encryption' => array($vendorDir . '/illuminate/encryption'),
     'Illuminate\\Cookie' => array($vendorDir . '/illuminate/cookie'),
     'Illuminate\\Container' => array($vendorDir . '/illuminate/container'),

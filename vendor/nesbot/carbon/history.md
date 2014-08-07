@@ -1,3 +1,17 @@
+1.10.0 / 2014-07-17
+===================
+* Changed @return Carbon phpdocs to static for better IDE typehint when extending Carbon
+* Fixed Carbon.php download link
+* Added 5.6 and HHVM to test coverage
+* Fixed issue with isPast() returning true for now()
+* Added getter for weekOfMonth
+
+1.9.0 / 2014-05-12
+==================
+* Changed self references to static to allow for easier child classes
+* Fixed a couple of tests to account for London DST
+* Fixed a test that failed due to inconsistent DateTime COOKIE strings
+
 1.8.0 / 2014-01-06
 ==================
 * Added .gitattributes file to to ignore some files on export (thanks @lucasmichot)

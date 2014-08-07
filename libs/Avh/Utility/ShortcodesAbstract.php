@@ -3,7 +3,6 @@ namespace Avh\Utility;
 
 abstract class ShortcodesAbstract
 {
-
     private $shortcode_map;
 
     /**
@@ -12,6 +11,7 @@ abstract class ShortcodesAbstract
      * @param  array  $atts
      * @param  string $content
      * @param  string $tag
+     *
      * @return string
      */
     public function bootstrap($atts, $content, $tag)
