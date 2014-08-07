@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.3.0-dev.1
+### 1.3.0-rc.1
 * Use parameter for setting the nonce action.
 
 ### 1.2.1
