@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.3.1-rc.1
+### 1.3.1
 * Don't use option name by default for the submit method.
 
 ### 1.3.0
