@@ -470,11 +470,11 @@ class FormBuilder
      * @return string
      * @uses FormBuilder::input
      */
-    public function submit($name, $value, $attributes = array())
+    public function submit($name, $value, $attributes = array(), $use_option_name = false)
     {
         $attributes['type'] = 'submit';
 
-        return '<p class="submit">' . $this->input($name, $value, $attributes) . '</p>';
+        return '<p class="submit">' . $this->input($name, $value, $attributes, $use_option_name) . '</p>';
     }
 
     public function text($name, $value = null, $attributes = array())

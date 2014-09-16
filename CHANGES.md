@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.3.1
+* Don't use option name by default for the submit method.
+
 ### 1.3.0
 * Use parameter for setting the nonce action.
 
