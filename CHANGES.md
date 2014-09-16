@@ -1,7 +1,7 @@
 # Changelog
 
 ### 1.4.0-dev.1
-* Preparation for new development cycle.
+* Don't use option name by default for the submit method.
 
 ### 1.3.0
 * Use parameter for setting the nonce action.
