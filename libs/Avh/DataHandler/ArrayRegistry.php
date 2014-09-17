@@ -17,6 +17,10 @@ class ArrayRegistry implements RegistrableInterface
 
     /**
      * Get the specified value from the array registry
+     *
+     * @param mixed $key
+     *
+     * @return mixed|null
      */
     public function get($key)
     {
@@ -27,6 +31,9 @@ class ArrayRegistry implements RegistrableInterface
 
     /**
      * Save the specified value to the array registry
+     *
+     * @param mixed $key
+     * @param mixed $value
      */
     public function set($key, $value)
     {

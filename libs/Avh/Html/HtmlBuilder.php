@@ -9,12 +9,10 @@ namespace Avh\Html;
 class HtmlBuilder
 {
     /**
-     *
      * @var boolean automatically target external URLs to a new window?
      */
     public $windowed_urls = false;
     /**
-     *
      * @var array preferred order of attributes
      */
     private $attribute_order = array(
@@ -57,14 +55,11 @@ class HtmlBuilder
      * Note that the title is not escaped, to allow
      * HTML elements within links (images, etc).
      *
-     * echo HtmlBuilder->anchor('/user/profile', 'My Profile');
-     *
-     * @param string $uri        URL or URI string
-     * @param string $title      link text
-     * @param array  $attributes HTML anchor attributes
+     * @param string      $uri        URL or URI string
+     * @param string|null $title      link text
+     * @param array       $attributes HTML anchor attributes
      *
      * @return string
-     * @uses HtmlBuilder->attributes
      */
     public function anchor($uri, $title = null, $attributes = array())
     {
@@ -83,7 +78,6 @@ class HtmlBuilder
     /**
      * Compiles an array of HTML attributes into an attribute string.
      * Attributes will be sorted using AVH_Html::$attribute_order for consistency.
-     *
      * echo '<div'.HtmlBuilder->attributes($attrs).'>'.$content.'</div>';
      *
      * @param array $attributes attribute list
@@ -118,6 +112,15 @@ class HtmlBuilder
         return $compiled;
     }
 
+    /**
+     * Create a opening tag for the given element.
+     *
+     * @param string $element
+     * @param array  $attributes
+     * @param bool   $closetag
+     *
+     * @return string
+     */
     public function element($element, $attributes = array(), $closetag = false)
     {
         $return = '<' . $element . $this->attributes($attributes) . '>';
@@ -129,6 +132,8 @@ class HtmlBuilder
     }
 
     /**
+     * Create an URL to be used in plugins.
+     *
      * @param string $uri
      *
      * @return string
@@ -151,15 +156,11 @@ class HtmlBuilder
     /**
      * Creates a image link.
      *
-     * echo HtmlBuilder->image('media/img/logo.png', array('alt' => 'My Company'));
-     *
      * @param string      $file       file name
      * @param string|null $alt
      * @param array       $attributes default attributes
      *
      * @return string
-     * @uses URL::base
-     * @uses HtmlBuilder->attributes
      */
     public function image($file, $alt = null, $attributes = array())
     {
@@ -181,14 +182,11 @@ class HtmlBuilder
      * Note that the title is not escaped,
      * to allow HTML elements within links (images, etc).
      *
-     * echo HtmlBuilder->mailto($address);
-     *
-     * @param string $email      email address to send to
-     * @param string $title      link text
-     * @param array  $attributes HTML anchor attributes
+     * @param string      $email      email address to send to
+     * @param string|null $title      link text
+     * @param array       $attributes HTML anchor attributes
      *
      * @return string
-     * @uses HtmlBuilder->attributes
      */
     public function mailto($email, $title = null, $attributes = array())
     {

@@ -3,10 +3,8 @@ namespace Avh\Utility;
 
 /**
  * Original code by Yoast.
- *
  * This abstract class and it's concrete classes implement defaults and value validation for
  * all Options and subkeys within options.
- *
  * Some guidelines:
  * [Retrieving options]
  * - Use the normal get_option() to retrieve an option. You will receive a complete array for the option.
@@ -18,7 +16,6 @@ namespace Avh\Utility;
  * (they will be available if a value was set, they won't be if it wasn't as the class won't know
  * that a default needs to be injected).
  * Oh and the very few options where the default value is null, i.e. wpseo->'theme_has_description'
- *
  * [Updating/Adding options]
  * - Use the normal add/update_option() functions. As long a the classes here are instantiated, validation
  * for all options and their subkeys will be automatic.
@@ -27,8 +24,6 @@ namespace Avh\Utility;
  * - on change of wpseo[yoast_tracking], the cron schedule will be adjusted accordingly
  * - on change of wpseo_permalinks and wpseo_xml, the rewrite rules will be flushed
  * - on change of wpseo and wpseo_title, some caches will be cleared
- *
- *
  * [Important information about add/updating/changing these classes]
  * - Make sure that option array key names are unique across options. The Options::get_all()
  * method merges most options together. If any of them have non-unique names, even if they
@@ -51,7 +46,6 @@ namespace Avh\Utility;
  * - If an option needs specific actions different from defined in this abstract class, you can just overrule
  * a method by defining it in the concrete class.
  *
- *
  * @todo - [JRF => testers] double check that validation will not cause errors when called from upgrade routine
  *       (some of the WP functions may not yet be available)
  */
@@ -59,17 +53,14 @@ namespace Avh\Utility;
 abstract class OptionsAbstract implements OptionsInterface
 {
     /**
-     *
      * @var bool Whether the filter extension is loaded
      */
     public static $has_filters = true;
     /**
-     *
      * @var object Instance of this class
      */
     protected static $instance;
     /**
-     *
      * @var string Option group name for use in settings forms
      *      - will be set automagically if not set in concrete class
      *      (i.e. if it confirm to the normal pattern 'yoast' . $option_name . 'options',
@@ -77,29 +68,24 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     public $group_name;
     /**
-     *
      * @var bool Whether to include the option in the return for WPSEO_Options::get_all().
      *      Also determines which options are copied over for ms_(re)set_blog().
      */
     public $include_in_all = true;
     /**
-     *
      * @var bool Whether this option is only for when the install is multisite.
      */
     public $multisite_only = false;
     /**
-     *
      * @var array Array of defaults for the option - MUST be set in concrete class.
      *      Shouldn't be requested directly, use $this->getDefaults();
      */
     protected $defaults;
     /**
-     *
      * @var string Option name - MUST be set in concrete class and set to public.
      */
     protected $option_name;
     /**
-     *
      * @var array Array of variable option name patterns for the option - if any -
      *      Set this when the option contains array keys which vary based on post_type
      *      or taxonomy
@@ -108,8 +94,8 @@ abstract class OptionsAbstract implements OptionsInterface
 
     /**
      * Add all the actions and filters for the option
-     *
-     *
+
+
      */
     protected function __construct()
     {
@@ -224,9 +210,7 @@ abstract class OptionsAbstract implements OptionsInterface
     /**
      * Retrieve the real old value (unmerged with defaults), clean and re-save the option
      *
-     * @uses import()
-     *
-     * @param string $current_version (optional) Version from which to upgrade, if not set, version specific upgrades will be disregarded
+     * @param string|null $current_version (optional) Version from which to upgrade, if not set, version specific upgrades will be disregarded
      *
      * @return void
      */
@@ -243,12 +227,10 @@ abstract class OptionsAbstract implements OptionsInterface
 
     /**
      * Get the enriched default value for an option
-     *
      * Checks if the concrete class contains an handleEnrichDefaults() method and if so, runs it.
      *
      * @internal the handleEnrichDefaults method is used to set defaults for variable array keys in an option,
      *           such as array keys depending on post_types and/or taxonomies
-     *
      * @return array
      */
     public function getDefaults()
@@ -260,7 +242,6 @@ abstract class OptionsAbstract implements OptionsInterface
 
     /**
      * Merge an option with its default values
-     *
      * This method should *not* be called directly!!! It is only meant to filter the getOption() results
      *
      * @param mixed $options Option value
@@ -284,8 +265,6 @@ abstract class OptionsAbstract implements OptionsInterface
     /**
      * Clean and re-save the option
      *
-     * @uses cleanOption() method from concrete class if it exists
-     *
      * @todo [JRF/whomever] Figure out a way to show settings error during/after the upgrade - maybe
      *       something along the lines of:
      *       -> add them to a property in this class
@@ -296,9 +275,9 @@ abstract class OptionsAbstract implements OptionsInterface
      *       Important: all validation routines which add_settings_errors would need to be changed for this to work
      *
      * @param array|boolean $option_value          Option value to be imported
-     * @param string        $current_version       (optional) Version from which to upgrade, if not set, version specific
+     * @param string|null   $current_version       (optional) Version from which to upgrade, if not set, version specific
      *                                             upgrades will be disregarded
-     * @param array         $all_old_option_values (optional) Only used when importing old options to have access to the real old values, in contrast to the saved ones
+     * @param array|null    $all_old_option_values (optional) Only used when importing old options to have access to the real old values, in contrast to the saved ones
      *
      * @return void
      */
@@ -326,7 +305,7 @@ abstract class OptionsAbstract implements OptionsInterface
     public function registerSetting()
     {
         //if (WPSEO_Options::grant_access()) {
-            register_setting($this->group_name, $this->option_name);
+        register_setting($this->group_name, $this->option_name);
         //}
     }
 
