@@ -19,13 +19,11 @@ namespace Avh\DataHandler;
 interface AttributeBagInterface
 {
     /**
-     * Checks if an attribute is defined.
+     * Returns attributes.
      *
-     * @param string $name The attribute name
-     *
-     * @return bool    true if the attribute is defined, false otherwise
+     * @return array Attributes
      */
-    public function has($name);
+    public function all();
 
     /**
      * Returns an attribute.
@@ -38,26 +36,13 @@ interface AttributeBagInterface
     public function get($name, $default = null);
 
     /**
-     * Sets an attribute.
+     * Checks if an attribute is defined.
      *
-     * @param string $name
-     * @param mixed  $value
-     */
-    public function set($name, $value);
-
-    /**
-     * Returns attributes.
+     * @param string $name The attribute name
      *
-     * @return array Attributes
+     * @return bool    true if the attribute is defined, false otherwise
      */
-    public function all();
-
-    /**
-     * Sets attributes.
-     *
-     * @param array $attributes Attributes
-     */
-    public function replace(array $attributes);
+    public function has($name);
 
     /**
      * Removes an attribute.
@@ -67,4 +52,23 @@ interface AttributeBagInterface
      * @return mixed The removed value or null when it does not exist
      */
     public function remove($name);
+
+    /**
+     * Sets attributes.
+     *
+     * @param array $attributes Attributes
+     *
+     * @return void
+     */
+    public function replace(array $attributes);
+
+    /**
+     * Sets an attribute.
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return void
+     */
+    public function set($name, $value);
 }

@@ -11,7 +11,6 @@ final class Security
      * @param string|int $action Scalar value to add context to the nonce.
      *
      * @return string The one use form token
-     *
      */
     public static function createNonce($action = -1)
     {
@@ -24,14 +23,13 @@ final class Security
      * Local nonce verification.
      * WordPress uses the UID and sometimes I don't want that
      * Verify that correct nonce was used with time limit.
-     *
      * The user is given an amount of time to use the token, so therefore, since the
      * $action remain the same, the independent variable is the time.
      *
      * @param string     $nonce  Nonce that was used in the form to verify
      * @param string|int $action Should give context to what is taking place and be the same when nonce was created.
      *
-     * @return bool Whether the nonce check passed or failed.
+     * @return integer|false Whether the nonce check passed or failed.
      */
     public static function verifyNonce($nonce, $action = -1)
     {

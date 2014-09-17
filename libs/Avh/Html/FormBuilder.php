@@ -23,7 +23,6 @@ class FormBuilder
      * Creates a button form input.
      * Note that the body of a button is NOT escaped,
      * to allow images and other HTML to be used.
-     *
      * echo FormBuilder::button('save', 'Save Profile', array('type' => 'submit'));
      *
      * @param string $name       input name
@@ -31,7 +30,6 @@ class FormBuilder
      * @param array  $attributes html attributes
      *
      * @return string
-     * @uses HtmlBuilder->attributes
      */
     public function button($name, $body, $attributes = array())
     {
@@ -43,16 +41,14 @@ class FormBuilder
 
     /**
      * Creates a checkbox form input.
-     *
      * echo FormBuilder::checkbox('remember_me', 1, (bool) $remember);
      *
-     * @param string  $name       input name
-     * @param string  $value      input value
-     * @param boolean $checked    checked status
-     * @param array   $attributes html attributes
+     * @param string       $name       input name
+     * @param string|null  $value      input value
+     * @param boolean|null $checked    checked status
+     * @param array        $attributes html attributes
      *
      * @return string
-     * @uses $this->input
      */
     public function checkbox($name, $value = null, $checked = null, $attributes = array())
     {
@@ -70,6 +66,15 @@ class FormBuilder
         return $this->input($name, $value, $attributes);
     }
 
+    /**
+     * Create multiple checkboxes
+     *
+     * @param string $name
+     * @param array  $options
+     * @param array  $attributes
+     *
+     * @return string
+     */
     public function checkboxes($name, $options, $attributes = array())
     {
         $attributes['type'] = 'checkbox';
@@ -95,8 +100,6 @@ class FormBuilder
     /**
      * Creates the closing form tag.
      *
-     * echo FormBuilder::close();
-     *
      * @return string
      */
     public function close()
@@ -104,6 +107,11 @@ class FormBuilder
         return '</form>';
     }
 
+    /**
+     * Creates the closing table tag
+     *
+     * @return string
+     */
     public function closeTable()
     {
         $this->use_table = false;
@@ -111,6 +119,10 @@ class FormBuilder
         return '</table>';
     }
 
+    /**
+     * Delete the option_name property
+
+     */
     public function deleteOptionName()
     {
         $this->option_name = null;
@@ -141,13 +153,10 @@ class FormBuilder
      * Creates a file upload form input.
      * No input value can be specified.
      *
-     * echo FormBuilder::file('image');
-     *
      * @param string $name       input name
      * @param array  $attributes html attributes
      *
      * @return string
-     * @uses $this->input
      */
     public function file($name, $attributes = array())
     {
@@ -177,12 +186,18 @@ class FormBuilder
         return null;
     }
 
+    /**
+     * Get the option_name property
+     *
+     * @return mixed
+     */
     public function getOptionName()
     {
         return $this->option_name;
     }
 
     /**
+     * Set the option_name property
      *
      * @param string $option_name
      */
@@ -212,14 +227,12 @@ class FormBuilder
     /**
      * Creates a hidden form input.
      *
-     * echo FormBuilder::hidden('csrf', $token);
-     *
-     * @param string $name       input name
-     * @param string $value      input value
-     * @param array  $attributes html attributes
+     * @param string      $name       input name
+     * @param string|null $value      input value
+     * @param array       $attributes html attributes
+     * @param bool        $use_option_name
      *
      * @return string
-     * @uses $this->input
      */
     public function hidden($name, $value = null, $attributes = array(), $use_option_name = false)
     {
@@ -231,17 +244,12 @@ class FormBuilder
     /**
      * Creates a image form input.
      *
-     * echo FormBuilder::image(null, null, array('src' => 'media/img/login.png'));
-     *
      * @param string $name       input name
-     *
      * @param string $value      input value
      * @param array  $attributes html attributes
      *
      * @internal param bool $index add index file to URL?
-     *
      * @return string
-     * @uses     $this->input
      */
     public function image($name, $value, $attributes = array())
     {
@@ -254,16 +262,14 @@ class FormBuilder
      * Creates a form input.
      * If no type is specified, a "text" type input will
      * be returned.
-     *
      * echo FormBuilder::input('username', $username);
      *
      * @param string|array $name       input name
-     * @param string       $value      input value
+     * @param string |null $value      input value
      * @param array        $attributes html attributes
      * @param bool         $use_option_name
      *
      * @return string
-     * @uses HtmlBuilder->attributes
      */
     public function input($name, $value = null, $attributes = array(), $use_option_name = true)
     {
@@ -297,15 +303,13 @@ class FormBuilder
     /**
      * Creates a form label.
      * Label text is not automatically translated.
-     *
      * echo FormBuilder::label('username', 'Username');
      *
-     * @param string $name
-     * @param string $display
-     * @param array  $attributes
+     * @param string      $name
+     * @param string|null $display
+     * @param array       $attributes
      *
      * @return string
-     * @uses HtmlBuilder->attributes
      */
     public function label($name, $display = null, $attributes = array())
     {
@@ -325,20 +329,10 @@ class FormBuilder
     /**
      * Generates an opening HTML form tag.
      *
-     * // FormBuilder will submit back to the current page using POST
-     * echo FormBuilder::open();
-     *
-     * // FormBuilder will submit to 'search' using GET
-     * echo FormBuilder::open('search', array('method' => 'get'));
-     *
-     * // When "file" inputs are present, you must include the "enctype"
-     * echo FormBuilder::open(null, array('enctype' => 'multipart/form-data'));
-     *
      * @param mixed $action     form action, defaults to the current request URI, or [Request] class to use
      * @param array $attributes html attributes
      *
      * @return string
-     * @uses HtmlBuilder->attributes
      */
     public function open($action = null, $attributes = array())
     {
@@ -349,6 +343,13 @@ class FormBuilder
         return '<form action="' . $action . '"' . $this->html->attributes($attributes) . '>';
     }
 
+    /**
+     * Generate opening tag for table
+     *
+     * @param array $attributes
+     *
+     * @return string
+     */
     public function openTable($attributes = array())
     {
         $this->use_table = true;
@@ -357,6 +358,14 @@ class FormBuilder
         return '<table' . $this->html->attributes($attributes) . '>';
     }
 
+    /**
+     * Create output with label and field.
+     *
+     * @param string $label
+     * @param string $field
+     *
+     * @return string
+     */
     public function output($label, $field)
     {
         $output_return = $this->outputLabel($label);
@@ -365,8 +374,13 @@ class FormBuilder
         return $output_return;
     }
 
-    // ____________PRIVATE FUNCTIONS____________
-
+    /**
+     * Create output field
+     *
+     * @param $field
+     *
+     * @return string
+     */
     public function outputField($field)
     {
         if ($this->use_table) {
@@ -376,6 +390,13 @@ class FormBuilder
         }
     }
 
+    /**
+     * Create label field.
+     *
+     * @param $label
+     *
+     * @return string
+     */
     public function outputLabel($label)
     {
         if ($this->use_table) {
@@ -388,14 +409,11 @@ class FormBuilder
     /**
      * Creates a password form input.
      *
-     * echo FormBuilder::password('password');
-     *
      * @param string $name       input name
      * @param array  $attributes html attributes
      *
      * @internal param string $value input value
      * @return string
-     * @uses     $this->input
      */
     public function password($name, $attributes = array())
     {
@@ -407,16 +425,12 @@ class FormBuilder
     /**
      * Creates a radio form input.
      *
-     * echo FormBuilder::radio('like_cats', 1, $cats);
-     * echo FormBuilder::radio('like_cats', 0, ! $cats);
-     *
-     * @param string  $name       input name
-     * @param string  $value      input value
-     * @param boolean $checked    checked status
-     * @param array   $attributes html attributes
+     * @param string      $name       input name
+     * @param string|null $value      input value
+     * @param boolean     $checked    checked status
+     * @param array       $attributes html attributes
      *
      * @return string
-     * @uses $this->input
      */
     public function radio($name, $value = null, $checked = false, $attributes = array())
     {
@@ -430,6 +444,16 @@ class FormBuilder
         return $this->input($name, $value, $attributes);
     }
 
+    /**
+     * Create select form inout
+     *
+     * @param string $name
+     * @param array  $options
+     * @param null   $selected
+     * @param array  $attributes
+     *
+     * @return string
+     */
     public function select($name, array $options = array(), $selected = null, $attributes = array())
     {
         $attributes['id'] = $this->getIdAttribute($name, $attributes);
@@ -461,14 +485,12 @@ class FormBuilder
     /**
      * Creates a submit form input.
      *
-     * echo FormBuilder::submit(null, 'Login');
-     *
      * @param string $name       input name
      * @param string $value      input value
      * @param array  $attributes html attributes
+     * @param bool   $use_option_name
      *
      * @return string
-     * @uses FormBuilder::input
      */
     public function submit($name, $value, $attributes = array(), $use_option_name = false)
     {
@@ -477,6 +499,15 @@ class FormBuilder
         return '<p class="submit">' . $this->input($name, $value, $attributes, $use_option_name) . '</p>';
     }
 
+    /**
+     * Creates a text form input
+     *
+     * @param string      $name
+     * @param string|null $value
+     * @param array       $attributes
+     *
+     * @return string
+     */
     public function text($name, $value = null, $attributes = array())
     {
         $attributes['type'] = 'text';
@@ -487,16 +518,11 @@ class FormBuilder
     /**
      * Creates a textarea form input.
      *
-     * echo FormBuilder::textarea('about', $about);
-     *
      * @param string $name       textarea name
      * @param string $body       textarea body
      * @param array  $attributes html attributes
      *
-     * @internal param bool $double_encode encode existing HTML characters
-     *
      * @return string
-     * @uses     HtmlBuilder->attributes
      */
     public function textarea($name, $body = '', $attributes = array())
     {
@@ -567,9 +593,6 @@ class FormBuilder
 
         return '<option' . $this->html->attributes($options) . '>' . $display . '</option>';
     }
-    // __________________________________________
-    // ____________Setter and Getters____________
-    // __________________________________________
 
     /**
      * Create an option group form element.
