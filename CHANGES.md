@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.3.2
+* Preparation for new development cycle.
+
 ### 1.3.1
 * Don't use option name by default for the submit method.
 
