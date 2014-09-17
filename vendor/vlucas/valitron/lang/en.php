@@ -8,8 +8,8 @@ return array(
     'numeric'       => "must be numeric",
     'integer'       => "must be an integer (0-9)",
     'length'        => "must be longer than %d",
-    'min'           => "must be greater than %s",
-    'max'           => "must be less than %s",
+    'min'           => "must be at least than %s",
+    'max'           => "must be no more than %s",
     'in'            => "contains invalid value",
     'notIn'         => "contains invalid value",
     'ip'            => "is not a valid IP address",
@@ -29,5 +29,6 @@ return array(
     'lengthBetween' => "must be between %d and %d characters",
     'creditCard'    => "must be a valid credit card number",
     "lengthMin"     => "must contain greater than %d characters",
-    "lengthMax"     => "must contain less than %d characters"
+    "lengthMax"     => "must contain less than %d characters",
+    "instanceOf"    => "must be an instance of '%s'"
 );

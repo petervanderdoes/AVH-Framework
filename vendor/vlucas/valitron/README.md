@@ -69,6 +69,23 @@ if($v->validate()) {
 }
 ```
 
+You may use dot syntax to access members of multi-dimensional arrays,
+and an asterisk to validate each member of an array:
+
+```php
+$v = new Valitron\Validator(array('settings' => array(
+    array('threshold' => 50),
+    array('threshold' => 90)
+)));
+$v->rule('max', 'settings.*.threshold', 100);
+if($v->validate()) {
+    echo "Yay! We're all good!";
+} else {
+    // Errors
+    print_r($v->errors());
+}
+```
+
 Setting language and language dir globally:
 
 ```php
@@ -92,6 +109,7 @@ V::lang('ar');
  * `accepted` - Checkbox or Radio must be accepted (yes, on, 1, true)
  * `numeric` - Must be numeric
  * `integer` - Must be integer number
+ * `array` - Must be array
  * `length` - String must be certain length
  * `lengthBetween` - String must be between given lengths
  * `lengthMin` - String must be greater than given length
@@ -106,7 +124,7 @@ V::lang('ar');
  * `urlActive` - Valid URL with active DNS record
  * `alpha` - Alphabetic characters only
  * `alphaNum` - Alphabetic and numeric characters only
- * `slug` - URL slug characters (a-z, 0-9, -, _)
+ * `slug` - URL slug characters (a-z, 0-9, -, \_)
  * `regex` - Field matches given regex pattern
  * `date` - Field is a valid date
  * `dateFormat` - Field is a valid date in the given format
@@ -114,7 +132,13 @@ V::lang('ar');
  * `dateAfter` - Field is a valid date and is after the given date
  * `contains` - Field is a string and contains the given string
  * `creditCard` - Field is a valid credit card number
+ * `instanceOf` - Field contains an instance of the given class
 
+**NOTE**: If you are comparing floating-point numbers with min/max validators, you
+should install the [BCMath](http://us3.php.net/manual/en/book.bc.php)
+extension for greater accuracy and reliability. The extension is not required
+for Valitron to work, but Valitron will use it if available, and it is highly
+recommended.
 
 ## Credit Card Validation usage
 
