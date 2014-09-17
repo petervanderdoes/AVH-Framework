@@ -238,7 +238,7 @@ class HtmlBuilder
      * @param string $key
      * @param string $value
      *
-     * @return string
+     * @return string|null
      */
     protected function attributeElement($key, $value)
     {
