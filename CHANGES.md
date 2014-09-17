@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.4.0-dev.1
+### 1.3.2
 * Preparation for new development cycle.
 
 ### 1.3.1
