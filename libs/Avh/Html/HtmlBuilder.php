@@ -113,6 +113,18 @@ class HtmlBuilder
     }
 
     /**
+     * Create a closing tag for the given element.
+     *
+     * @param string $element
+     *
+     * @return string
+     */
+    public function closeElement($element)
+    {
+        return '</' . $element . '>';
+    }
+
+    /**
      * Create a opening tag for the given element.
      *
      * @param string $element
@@ -125,7 +137,7 @@ class HtmlBuilder
     {
         $return = '<' . $element . $this->attributes($attributes) . '>';
         if ($closetag) {
-            $return .= '</' . $element . '>';
+            $return .= $this->closeElement($element);
         }
 
         return $return;
@@ -238,7 +250,7 @@ class HtmlBuilder
      * @param string $key
      * @param string $value
      *
-     * @return string
+     * @return string|null
      */
     protected function attributeElement($key, $value)
     {

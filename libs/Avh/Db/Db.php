@@ -51,7 +51,6 @@ final class Db
 
     /**
      * Show column query
-     *
      * Generates a platform-specific query string so that the column names can be fetched
      *
      * @access public

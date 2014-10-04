@@ -41,21 +41,6 @@ class NamespacedAttributeBag extends AttributeBag
     /**
      * {@inheritdoc}
      */
-    public function has($name)
-    {
-        $attributes = $this->resolveAttributePath($name);
-        $name = $this->resolveKey($name);
-
-        if (null === $attributes) {
-            return false;
-        }
-
-        return array_key_exists($name, $attributes);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function get($name, $default = null)
     {
         $attributes = $this->resolveAttributePath($name);
@@ -71,11 +56,16 @@ class NamespacedAttributeBag extends AttributeBag
     /**
      * {@inheritdoc}
      */
-    public function set($name, $value)
+    public function has($name)
     {
-        $attributes = & $this->resolveAttributePath($name, true);
+        $attributes = $this->resolveAttributePath($name);
         $name = $this->resolveKey($name);
-        $attributes[$name] = $value;
+
+        if (null === $attributes) {
+            return false;
+        }
+
+        return array_key_exists($name, $attributes);
     }
 
     /**
@@ -84,7 +74,7 @@ class NamespacedAttributeBag extends AttributeBag
     public function remove($name)
     {
         $retval = null;
-        $attributes = & $this->resolveAttributePath($name);
+        $attributes = &$this->resolveAttributePath($name);
         $name = $this->resolveKey($name);
         if (null !== $attributes && array_key_exists($name, $attributes)) {
             $retval = $attributes[$name];
@@ -95,18 +85,27 @@ class NamespacedAttributeBag extends AttributeBag
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function set($name, $value)
+    {
+        $attributes = &$this->resolveAttributePath($name, true);
+        $name = $this->resolveKey($name);
+        $attributes[$name] = $value;
+    }
+
+    /**
      * Resolves a path in attributes property and returns it as a reference.
-     *
      * This method allows structured namespacing of session attributes.
      *
-     * @param string  $name         Key name
-     * @param bool    $writeContext Write context, default false
+     * @param string $name         Key name
+     * @param bool   $writeContext Write context, default false
      *
      * @return array
      */
     protected function &resolveAttributePath($name, $writeContext = false)
     {
-        $array = & $this->attributes;
+        $array = &$this->attributes;
         $name = (strpos($name, $this->namespaceCharacter) === 0) ? substr($name, 1) : $name;
 
         // Check if there is anything to do, else return
@@ -125,14 +124,14 @@ class NamespacedAttributeBag extends AttributeBag
             return $array;
         }
 
-        unset($parts[count($parts)-1]);
+        unset($parts[count($parts) - 1]);
 
         foreach ($parts as $part) {
             if (null !== $array && !array_key_exists($part, $array)) {
                 $array[$part] = $writeContext ? array() : null;
             }
 
-            $array = & $array[$part];
+            $array = &$array[$part];
         }
 
         return $array;
@@ -140,7 +139,6 @@ class NamespacedAttributeBag extends AttributeBag
 
     /**
      * Resolves the key from the name.
-     *
      * This is the last part in a dot separated string.
      *
      * @param string $name
@@ -150,7 +148,7 @@ class NamespacedAttributeBag extends AttributeBag
     protected function resolveKey($name)
     {
         if (false !== $pos = strrpos($name, $this->namespaceCharacter)) {
-            $name = substr($name, $pos+1);
+            $name = substr($name, $pos + 1);
         }
 
         return $name;

@@ -49,7 +49,6 @@ final class Common
      * @param  string $directory
      *
      * @return string
-     *
      */
     public static function getBaseDirectory($directory)
     {

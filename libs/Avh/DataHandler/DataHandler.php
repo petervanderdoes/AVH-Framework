@@ -32,6 +32,11 @@ class DataHandler
         return $this->registry->get($key, $default);
     }
 
+    public function has($key)
+    {
+        return $this->registry->has($key);
+    }
+
     /**
      * Save data to the registry
      */
@@ -40,10 +45,5 @@ class DataHandler
         $this->registry->set($key, $value);
 
         return $this;
-    }
-
-    public function has($key)
-    {
-        return $this->registry->has($key);
     }
 }

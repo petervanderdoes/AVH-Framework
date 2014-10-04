@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.3.4
+* Preparation for new development cycle.
+
 ### 1.3.3
 * Preparation for new development cycle.
 

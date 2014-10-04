@@ -5,7 +5,6 @@ use Avh\Utility\Common;
 
 /**
  * AVH_UR_PluginController
- *
  * A parent class for WordPress plugins.
  * Author: Peter van der Does
  * Original Author: Emmanuel GEORJON
@@ -13,7 +12,6 @@ use Avh\Utility\Common;
 
 /**
  * Class PluginController
- *
  * Provide some functions to create a WordPress plugin
  */
 class PluginController
@@ -33,8 +31,9 @@ class PluginController
 
     /**
      * Class contructor
+
      *
-     * @return object
+*@return object
      */
     public function __construct($settings, $options)
     {
@@ -50,8 +49,9 @@ class PluginController
 
     /**
      * Class destructor
+
      *
-     * @return boolean true
+*@return boolean true
      */
     public function __destruct()
     {
@@ -107,8 +107,9 @@ class PluginController
 
     /**
      * Sets up basic plugin needs.
+
      *
-     * @action init
+*@action init
      */
     public function actionInit()
     {

@@ -540,19 +540,27 @@ class FormBuilder
         return '<textarea' . $this->html->attributes($attributes) . '>' . esc_textarea($body) . '</textarea>';
     }
 
-    protected function getCharset($charset)
+    /**
+     * Get the charset, if it's null get the info as set in WordPress.
+     *
+     * @param string|null $charset
+     *
+     * @return string|void
+     */
+    protected function getCharset($charset = null)
     {
         return $charset !== null ? $charset : get_bloginfo('charset', 'display');
     }
 
     /**
      * Parse the form action method.
+     * Defaults to 'POST'
      *
-     * @param  string $method
+     * @param string $method
      *
      * @return string
      */
-    protected function getMethod($method)
+    protected function getMethod($method = 'POST')
     {
         $method = strtoupper($method);
 
