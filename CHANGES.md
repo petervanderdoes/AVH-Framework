@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.3.4-rc.1
+### 1.3.4
 * Preparation for new development cycle.
 
 ### 1.3.3
