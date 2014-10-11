@@ -186,7 +186,7 @@ class HtmlBuilder
         $attributes['src'] = $url;
         $attributes['alt'] = $alt;
 
-        return '<img' . $this->attributes($attributes) . ' />';
+        return '<img' . $this->attributes($attributes) . '>';
     }
 
     /**
