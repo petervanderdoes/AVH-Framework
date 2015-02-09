@@ -3,18 +3,6 @@
 ### 1.4.0-dev.1
 * Preparation for new development cycle.
 
-### 1.3.5
-* Preparation for new development cycle.
-
-### 1.3.4
-* Preparation for new development cycle.
-
-### 1.3.3
-* Preparation for new development cycle.
-
-### 1.3.2
-* Preparation for new development cycle.
-
 ### 1.3.1
 * Don't use option name by default for the submit method.
 
