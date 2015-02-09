@@ -1,5 +1,7 @@
 {
-	"name" : "AVH Framework",
+  "name" : "AVH/Framework",
+  "type": "library",
+  "description": "A Frameowrk to be used with WordPress.",
 	"require" : {
 		"patchwork/utf8" : "~1.1",
 		"php" : ">=5.3.2",
