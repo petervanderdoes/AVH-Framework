@@ -250,13 +250,13 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     public function getOption($options = null)
     {
-        $filtered = $this->array_filter_merge($options);
+        $filtered = $this->arrayFilterMerge($options);
 
         /*
          * If the option contains variable option keys, make sure we don't remove those settings - even if the defaults are not complete yet. Unfortunately this means we also won't be removing the settings for post types or taxonomies which are no longer in the WP install, but rather that than the other way around
          */
         if (isset($this->variable_array_key_patterns)) {
-            $filtered = $this->retain_variable_keys($options, $filtered);
+            $filtered = $this->retainVariableKeys($options, $filtered);
         }
 
         return $filtered;
@@ -355,7 +355,7 @@ abstract class OptionsAbstract implements OptionsInterface
 
         /* Retain the values for variable array keys even when the post type/taxonomy is not yet registered */
         if (isset($this->variable_array_key_patterns)) {
-            $clean = $this->retain_variable_keys($option_value, $clean);
+            $clean = $this->retainVariableKeys($option_value, $clean);
         }
 
         $this->removeDefaultFilters();
@@ -378,7 +378,7 @@ abstract class OptionsAbstract implements OptionsInterface
      *
      * @return array Combined and filtered options array.
      */
-    protected function array_filter_merge($options = null)
+    protected function arrayFilterMerge($options = null)
     {
         $defaults = $this->getDefaults();
 
@@ -405,7 +405,7 @@ abstract class OptionsAbstract implements OptionsInterface
      * @return string Pattern if it conforms, original array key if it doesn't or if the option
      *         does not have variable array keys
      */
-    protected function get_switch_key($key)
+    protected function getSwitchKey($key)
     {
         if (!isset($this->variable_array_key_patterns) || (!is_array($this->variable_array_key_patterns) || $this->variable_array_key_patterns === array())
         ) {
@@ -434,7 +434,7 @@ abstract class OptionsAbstract implements OptionsInterface
      *
      * @return array
      */
-    protected function retain_variable_keys($dirty, $clean)
+    protected function retainVariableKeys($dirty, $clean)
     {
         if ((is_array($this->variable_array_key_patterns) && $this->variable_array_key_patterns !== array()) && (is_array($dirty) && $dirty !== array())
         ) {
