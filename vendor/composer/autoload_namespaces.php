@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Valitron' => array($vendorDir . '/vlucas/valitron/src'),
-    'Symfony\\Component\\Security\\Core\\' => array($vendorDir . '/symfony/security-core'),
     'Symfony\\Component\\HttpKernel\\' => array($vendorDir . '/symfony/http-kernel'),
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
@@ -16,13 +15,6 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Patchwork' => array($vendorDir . '/patchwork/utf8/class'),
     'Normalizer' => array($vendorDir . '/patchwork/utf8/class'),
-    'Illuminate\\Support' => array($vendorDir . '/illuminate/support'),
-    'Illuminate\\Session' => array($vendorDir . '/illuminate/session'),
-    'Illuminate\\Http' => array($vendorDir . '/illuminate/http'),
-    'Illuminate\\Filesystem' => array($vendorDir . '/illuminate/filesystem'),
-    'Illuminate\\Encryption' => array($vendorDir . '/illuminate/encryption'),
-    'Illuminate\\Cookie' => array($vendorDir . '/illuminate/cookie'),
-    'Illuminate\\Container' => array($vendorDir . '/illuminate/container'),
-    'Illuminate\\Cache' => array($vendorDir . '/illuminate/cache'),
+    'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
     'Carbon' => array($vendorDir . '/nesbot/carbon/src'),
 );
