@@ -1,15 +1,15 @@
 {
   "name" : "avh/framework",
   "type": "library",
-  "description": "A Frameowrk to be used with WordPress.",
+  "description": "A Framework to be used with WordPress.",
 	"require" : {
 		"patchwork/utf8" : "~1.1",
-		"php" : ">=5.3.2",
+		"php" : ">=5.4",
 		"vlucas/valitron" : ">=1.1.5",
-		"illuminate/container" : "~4.2",
-		"illuminate/http" : "~4.2",
-		"illuminate/session" : "~4.2",
-		"illuminate/filesystem" : "~4.2"
+		"illuminate/container" : "~5.0",
+		"illuminate/http" : "~5.0",
+		"illuminate/session" : "~5.0",
+		"illuminate/filesystem" : "~5.0"
 	},
 	"repositories" : [{
 			"type" : "git",
