@@ -1,5 +1,5 @@
 {
-  "name" : "AVH/Framework",
+  "name" : "avh/framework",
   "type": "library",
   "description": "A Frameowrk to be used with WordPress.",
 	"require" : {
