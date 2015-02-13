@@ -147,49 +147,6 @@
         ]
     },
     {
-        "name": "illuminate/container",
-        "version": "v4.2.16",
-        "version_normalized": "4.2.16.0",
-        "target-dir": "Illuminate/Container",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/illuminate/container.git",
-            "reference": "8db091c1b4e503ef8dcd4586d5c63e3997bc4e89"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/container/zipball/8db091c1b4e503ef8dcd4586d5c63e3997bc4e89",
-            "reference": "8db091c1b4e503ef8dcd4586d5c63e3997bc4e89",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "time": "2014-12-17 20:39:51",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "4.2-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Illuminate\\Container": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Taylor Otwell",
-                "email": "taylorotwell@gmail.com"
-            }
-        ]
-    },
-    {
         "name": "symfony/http-foundation",
         "version": "v2.5.10",
         "version_normalized": "2.5.10.0",
@@ -443,56 +400,6 @@
         "homepage": "http://symfony.com"
     },
     {
-        "name": "illuminate/support",
-        "version": "v4.2.16",
-        "version_normalized": "4.2.16.0",
-        "target-dir": "Illuminate/Support",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/illuminate/support.git",
-            "reference": "015f51f4d8cb3d9a29e7fe7932843acf15232941"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/support/zipball/015f51f4d8cb3d9a29e7fe7932843acf15232941",
-            "reference": "015f51f4d8cb3d9a29e7fe7932843acf15232941",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "require-dev": {
-            "jeremeamia/superclosure": "~1.0.1",
-            "patchwork/utf8": "1.1.*"
-        },
-        "time": "2014-12-19 18:02:33",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "4.2-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Illuminate\\Support": ""
-            },
-            "files": [
-                "Illuminate/Support/helpers.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Taylor Otwell",
-                "email": "taylorotwell@gmail.com"
-            }
-        ]
-    },
-    {
         "name": "symfony/finder",
         "version": "v2.5.10",
         "version_normalized": "2.5.10.0",
@@ -655,9 +562,102 @@
         "homepage": "http://symfony.com"
     },
     {
+        "name": "illuminate/container",
+        "version": "v4.2.17",
+        "version_normalized": "4.2.17.0",
+        "target-dir": "Illuminate/Container",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/illuminate/container.git",
+            "reference": "bf0be54be5f10cfa66deba5666db68922452d587"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/illuminate/container/zipball/bf0be54be5f10cfa66deba5666db68922452d587",
+            "reference": "bf0be54be5f10cfa66deba5666db68922452d587",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "time": "2015-01-29 16:04:27",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Illuminate\\Container": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com"
+            }
+        ]
+    },
+    {
+        "name": "illuminate/support",
+        "version": "v4.2.17",
+        "version_normalized": "4.2.17.0",
+        "target-dir": "Illuminate/Support",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/illuminate/support.git",
+            "reference": "db61f3f6d507ce417ca993e1f93585db7efd8b12"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/illuminate/support/zipball/db61f3f6d507ce417ca993e1f93585db7efd8b12",
+            "reference": "db61f3f6d507ce417ca993e1f93585db7efd8b12",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "jeremeamia/superclosure": "~1.0.1",
+            "patchwork/utf8": "~1.1"
+        },
+        "time": "2015-01-27 20:51:43",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Illuminate\\Support": ""
+            },
+            "files": [
+                "Illuminate/Support/helpers.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com"
+            }
+        ]
+    },
+    {
         "name": "illuminate/encryption",
-        "version": "v4.2.16",
-        "version_normalized": "4.2.16.0",
+        "version": "v4.2.17",
+        "version_normalized": "4.2.17.0",
         "target-dir": "Illuminate/Encryption",
         "source": {
             "type": "git",
@@ -701,18 +701,18 @@
     },
     {
         "name": "illuminate/cookie",
-        "version": "v4.2.16",
-        "version_normalized": "4.2.16.0",
+        "version": "v4.2.17",
+        "version_normalized": "4.2.17.0",
         "target-dir": "Illuminate/Cookie",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/cookie.git",
-            "reference": "8af60e23dece40ef10616bb680e0d2fd016485e5"
+            "reference": "795df2200edf414fb9b6d0d10963e0c44c1d4a22"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/cookie/zipball/8af60e23dece40ef10616bb680e0d2fd016485e5",
-            "reference": "8af60e23dece40ef10616bb680e0d2fd016485e5",
+            "url": "https://api.github.com/repos/illuminate/cookie/zipball/795df2200edf414fb9b6d0d10963e0c44c1d4a22",
+            "reference": "795df2200edf414fb9b6d0d10963e0c44c1d4a22",
             "shasum": ""
         },
         "require": {
@@ -722,7 +722,7 @@
             "symfony/http-foundation": "2.5.*",
             "symfony/http-kernel": "2.5.*"
         },
-        "time": "2014-09-20 14:17:30",
+        "time": "2015-01-15 07:24:16",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -748,18 +748,18 @@
     },
     {
         "name": "illuminate/cache",
-        "version": "v4.2.16",
-        "version_normalized": "4.2.16.0",
+        "version": "v4.2.17",
+        "version_normalized": "4.2.17.0",
         "target-dir": "Illuminate/Cache",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/cache.git",
-            "reference": "4a4de659df13626aacc0222c90456c27e27e40f4"
+            "reference": "ceff0e3eadcdacdeb9de3e36b201dcecf00f97d6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/cache/zipball/4a4de659df13626aacc0222c90456c27e27e40f4",
-            "reference": "4a4de659df13626aacc0222c90456c27e27e40f4",
+            "url": "https://api.github.com/repos/illuminate/cache/zipball/ceff0e3eadcdacdeb9de3e36b201dcecf00f97d6",
+            "reference": "ceff0e3eadcdacdeb9de3e36b201dcecf00f97d6",
             "shasum": ""
         },
         "require": {
@@ -773,7 +773,7 @@
             "illuminate/filesystem": "4.2.*",
             "illuminate/redis": "4.2.*"
         },
-        "time": "2014-12-19 22:32:25",
+        "time": "2015-01-12 15:54:26",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -799,18 +799,18 @@
     },
     {
         "name": "illuminate/session",
-        "version": "v4.2.16",
-        "version_normalized": "4.2.16.0",
+        "version": "v4.2.17",
+        "version_normalized": "4.2.17.0",
         "target-dir": "Illuminate/Session",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/session.git",
-            "reference": "594669be24b366e78a679f5ffb537fa93b9c19e9"
+            "reference": "fc68ff6cc89fd4da50b51e763797f020ec9d5025"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/session/zipball/594669be24b366e78a679f5ffb537fa93b9c19e9",
-            "reference": "594669be24b366e78a679f5ffb537fa93b9c19e9",
+            "url": "https://api.github.com/repos/illuminate/session/zipball/fc68ff6cc89fd4da50b51e763797f020ec9d5025",
+            "reference": "fc68ff6cc89fd4da50b51e763797f020ec9d5025",
             "shasum": ""
         },
         "require": {
@@ -826,7 +826,7 @@
         "require-dev": {
             "illuminate/console": "4.2.*"
         },
-        "time": "2014-10-15 09:31:37",
+        "time": "2015-01-27 20:51:43",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -852,18 +852,18 @@
     },
     {
         "name": "illuminate/http",
-        "version": "v4.2.16",
-        "version_normalized": "4.2.16.0",
+        "version": "v4.2.17",
+        "version_normalized": "4.2.17.0",
         "target-dir": "Illuminate/Http",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/http.git",
-            "reference": "7e8c78311101c0c51941c2b770b7a7a50f12620c"
+            "reference": "bb20b2fd25d21f35dd3604ff5bfe3d81f2b27564"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/http/zipball/7e8c78311101c0c51941c2b770b7a7a50f12620c",
-            "reference": "7e8c78311101c0c51941c2b770b7a7a50f12620c",
+            "url": "https://api.github.com/repos/illuminate/http/zipball/bb20b2fd25d21f35dd3604ff5bfe3d81f2b27564",
+            "reference": "bb20b2fd25d21f35dd3604ff5bfe3d81f2b27564",
             "shasum": ""
         },
         "require": {
@@ -873,7 +873,7 @@
             "symfony/http-foundation": "2.5.*",
             "symfony/http-kernel": "2.5.*"
         },
-        "time": "2014-12-17 20:39:51",
+        "time": "2015-01-21 13:36:52",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -899,18 +899,18 @@
     },
     {
         "name": "illuminate/filesystem",
-        "version": "v4.2.16",
-        "version_normalized": "4.2.16.0",
+        "version": "v4.2.17",
+        "version_normalized": "4.2.17.0",
         "target-dir": "Illuminate/Filesystem",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/filesystem.git",
-            "reference": "bf8e1443b956e2b87dc71f40035380fbc790f612"
+            "reference": "9127fb58eb6b721d98d2f7077df6cb8004da24c0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/filesystem/zipball/bf8e1443b956e2b87dc71f40035380fbc790f612",
-            "reference": "bf8e1443b956e2b87dc71f40035380fbc790f612",
+            "url": "https://api.github.com/repos/illuminate/filesystem/zipball/9127fb58eb6b721d98d2f7077df6cb8004da24c0",
+            "reference": "9127fb58eb6b721d98d2f7077df6cb8004da24c0",
             "shasum": ""
         },
         "require": {
@@ -918,7 +918,7 @@
             "php": ">=5.4.0",
             "symfony/finder": "2.5.*"
         },
-        "time": "2014-10-10 14:30:55",
+        "time": "2014-12-29 18:11:33",
         "type": "library",
         "extra": {
             "branch-alias": {
