@@ -49,9 +49,10 @@ before_script:
     - sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
     - sed -i "s/yourusernamehere/travis/" wp-tests-config.php
     - sed -i "s/yourpasswordhere//" wp-tests-config.php
-    - cd "/tmp/wordpress/src/wp-content/mu-plugins/$PLUGIN_SLUG"
 # Comment out the echo as this interferes with Sessions.
     - sed -i '61 s/^/\/\/ /' tests/phpunit/includes/bootstrap.php
+    - cd "/tmp/wordpress/src/wp-content/mu-plugins/$PLUGIN_SLUG"
+
 
 script: phpunit --coverage-clover=coverage.clover
 
