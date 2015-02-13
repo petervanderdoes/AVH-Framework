@@ -67,10 +67,10 @@ class HtmlBuilderTest extends WP_UnitTestCase
         $html3 = $this->htmlBuilder->image('/foo', 'Title');
         $html4 = $this->htmlBuilder->image('/foo', 'Title', array('class' => 'class1'));
 
-        $this->assertEquals('<img src="http://example.org/wp-content/plugins/foo/" />', $html1);
+        $this->assertEquals('<img src="http://example.org/wp-content/plugins/foo/"/>', $html1);
         $this->assertEquals('<img src="http://foo.com" />', $html2);
-        $this->assertEquals('<img src="http://example.org/wp-content/plugins/foo" alt="Title" />', $html3);
-        $this->assertEquals('<img src="http://example.org/wp-content/plugins/foo" alt="Title" class="class1" />', $html4);
+        $this->assertEquals('<img src="http://example.org/wp-content/plugins/foo" alt="Title"/>', $html3);
+        $this->assertEquals('<img src="http://example.org/wp-content/plugins/foo" alt="Title" class="class1"/>', $html4);
 
     }
 }
