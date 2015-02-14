@@ -1,5 +1,4 @@
 <?php
-
 namespace Avh\DataHandler;
 
 class DataHandler

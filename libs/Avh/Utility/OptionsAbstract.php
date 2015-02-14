@@ -451,4 +451,3 @@ abstract class OptionsAbstract implements OptionsInterface
         return $clean;
     }
 }
-

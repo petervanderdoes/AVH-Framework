@@ -3,16 +3,8 @@ namespace Avh\Utility;
 
 abstract class ShortcodesAbstract
 {
-    private $shortcode_map;
     private $shortcode_controller;
-
-    /**
-     * @param mixed $shortcode_controller
-     */
-    public function setShortcodeController($shortcode_controller)
-    {
-        $this->shortcode_controller = $shortcode_controller;
-    }
+    private $shortcode_map;
 
     /**
      * Method that's always called for the shortcode
@@ -40,5 +32,13 @@ abstract class ShortcodesAbstract
     {
         $this->shortcode_map[$tag] = $class;
         add_shortcode($tag, array($this, 'bootstrap'));
+    }
+
+    /**
+     * @param mixed $shortcode_controller
+     */
+    public function setShortcodeController($shortcode_controller)
+    {
+        $this->shortcode_controller = $shortcode_controller;
     }
 }
