@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.4.0-rc.1
+### 1.4.0
 * Update with composer.
 * Upgrade Illuminate classes to 1.5
 * Add option to get all data in the Datahandler class.
