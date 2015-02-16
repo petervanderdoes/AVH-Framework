@@ -45,4 +45,13 @@ class DataHandler
 
         return $this;
     }
+
+    /**
+     * Gett all data
+     *
+     * @return array
+     */
+    public function all() {
+        return $this->registry->all();
+    }
 }
