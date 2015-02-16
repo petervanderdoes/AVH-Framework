@@ -2,6 +2,8 @@
 
 ### 1.4.0-rc.1
 * Update with composer.
+* Upgrade Illuminate classes to 1.5
+* Add option to get all data in the Datahandler class.
 
 ### 1.3.1
 * Don't use option name by default for the submit method.
