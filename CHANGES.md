@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.4.0-dev.19
+### 1.4.0-rc.1
 * Update with composer.
 
 ### 1.3.1
