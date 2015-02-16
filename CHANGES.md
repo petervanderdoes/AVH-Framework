@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.5.0-dev.1
+* Preparation for new development cycle.
+
 ### 1.4.0
 * Update with composer.
 * Upgrade Illuminate classes to 1.5
