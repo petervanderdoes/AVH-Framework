@@ -31,9 +31,8 @@ class PluginController
 
     /**
      * Class contructor
-
      *
-*@return object
+     * @return object
      */
     public function __construct($settings, $options)
     {
@@ -49,9 +48,8 @@ class PluginController
 
     /**
      * Class destructor
-
      *
-*@return boolean true
+     * @return boolean true
      */
     public function __destruct()
     {
@@ -107,9 +105,8 @@ class PluginController
 
     /**
      * Sets up basic plugin needs.
-
      *
-*@action init
+     * @action init
      */
     public function actionInit()
     {

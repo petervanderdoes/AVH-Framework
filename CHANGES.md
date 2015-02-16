@@ -1,16 +1,9 @@
 # Changelog
 
-### 1.3.5
-* Preparation for new development cycle.
-
-### 1.3.4
-* Preparation for new development cycle.
-
-### 1.3.3
-* Preparation for new development cycle.
-
-### 1.3.2
-* Preparation for new development cycle.
+### 1.4.0
+* Update with composer.
+* Upgrade Illuminate classes to 1.5
+* Add option to get all data in the Datahandler class.
 
 ### 1.3.1
 * Don't use option name by default for the submit method.

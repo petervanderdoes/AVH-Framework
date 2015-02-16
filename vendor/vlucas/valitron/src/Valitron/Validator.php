@@ -357,7 +357,12 @@ class Validator
             $params[0] = array_keys($params[0]);
         }
 
-        return in_array($value, $params[0]);
+        $strict = false;
+        if (isset($params[1])) {
+            $strict = $params[1];
+        }
+
+        return in_array($value, $params[0], $strict);
     }
 
     /**
@@ -992,7 +997,7 @@ class Validator
                 $i = 1;
                 foreach ($params as $k => $v) {
                     $tag = '{field'. $i .'}';
-                    $label = isset($params[$k]) && !is_array($params[$k]) && isset($this->_labels[$params[$k]]) ? $this->_labels[$params[$k]] : $tag;
+                    $label = isset($params[$k]) && (is_numeric($params[$k]) || is_string($params[$k])) && isset($this->_labels[$params[$k]]) ? $this->_labels[$params[$k]] : $tag;
                     $msg = str_replace($tag, $label, $msg);
                     $i++;
                 }

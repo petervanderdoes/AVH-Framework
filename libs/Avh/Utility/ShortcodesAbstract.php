@@ -3,6 +3,7 @@ namespace Avh\Utility;
 
 abstract class ShortcodesAbstract
 {
+    private $shortcode_controller;
     private $shortcode_map;
 
     /**
@@ -19,8 +20,8 @@ abstract class ShortcodesAbstract
         $method = $this->shortcode_map[$tag];
         ob_start();
         $html = '';
-        if (is_callable(array($this, $method))) {
-            $html = $this->$method($atts, $content, $tag);
+        if (is_callable(array($this->shortcode_controller, $method))) {
+            $html = $this->shortcode_controller->$method($atts, $content, $tag);
             $html .= ob_get_clean();
         }
 
@@ -31,5 +32,13 @@ abstract class ShortcodesAbstract
     {
         $this->shortcode_map[$tag] = $class;
         add_shortcode($tag, array($this, 'bootstrap'));
+    }
+
+    /**
+     * @param mixed $shortcode_controller
+     */
+    public function setShortcodeController($shortcode_controller)
+    {
+        $this->shortcode_controller = $shortcode_controller;
     }
 }

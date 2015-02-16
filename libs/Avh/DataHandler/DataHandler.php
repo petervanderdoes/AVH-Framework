@@ -1,5 +1,4 @@
 <?php
-
 namespace Avh\DataHandler;
 
 class DataHandler
@@ -45,5 +44,14 @@ class DataHandler
         $this->registry->set($key, $value);
 
         return $this;
+    }
+
+    /**
+     * Gett all data
+     *
+     * @return array
+     */
+    public function all() {
+        return $this->registry->all();
     }
 }

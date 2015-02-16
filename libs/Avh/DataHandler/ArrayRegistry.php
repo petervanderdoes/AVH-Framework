@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Avh\DataHandler;
 
 class ArrayRegistry implements RegistrableInterface
