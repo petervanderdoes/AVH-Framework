@@ -143,8 +143,8 @@ abstract class OptionsAbstract implements OptionsInterface
      * Clean out old/renamed values within the option
      *
      * @param mixed $option_value
-     * @param mixed $current_version
-     * @param mixed $all_old_option_values
+     * @param mixed|null $current_version
+     * @param mixed|null $all_old_option_values
      *
      * @return mixed|void
      */
@@ -165,14 +165,13 @@ abstract class OptionsAbstract implements OptionsInterface
     abstract public function handleTranslateDefaults();
 
     /**
-     * All concrete classes must contain a validateOption() method which validates all
-     * values within the option
+     *  validate all values within the option
      *
-     * @param mixed $dirty
-     * @param mixed $clean
-     * @param mixed $old
+     * @param array $dirty
+     * @param array $clean
+     * @param array $old
      *
-     * @return void
+     * @return array
      */
     abstract protected function validateOption($dirty, $clean, $old);
 
