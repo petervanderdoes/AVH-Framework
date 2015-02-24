@@ -14,6 +14,9 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class IsJpegValidator extends ConstraintValidator
 {
+    /** @var  \Symfony\Component\Validator\Context\ExecutionContextInterface */
+    protected $context;
+
     /**
      * @inheritdoc
      */
