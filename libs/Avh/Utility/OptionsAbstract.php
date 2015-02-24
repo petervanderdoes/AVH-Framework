@@ -152,11 +152,15 @@ abstract class OptionsAbstract implements OptionsInterface
 
     /**
      * Add additional defaults once all post_types and taxonomies have been registered
+     *
+     * @return void
      */
     abstract public function handleEnrichDefaults();
 
     /**
      * Translate default values if needed.
+     *
+     * @return void
      */
     abstract public function handleTranslateDefaults();
 
@@ -168,7 +172,7 @@ abstract class OptionsAbstract implements OptionsInterface
      * @param mixed $clean
      * @param mixed $old
      *
-     * @return
+     * @return void
      */
     abstract protected function validateOption($dirty, $clean, $old);
 
@@ -304,9 +308,7 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     public function registerSetting()
     {
-        //if (WPSEO_Options::grant_access()) {
         register_setting($this->group_name, $this->option_name);
-        //}
     }
 
     /**
@@ -373,7 +375,7 @@ abstract class OptionsAbstract implements OptionsInterface
      * @todo [JRF] - shouldn't this be a straight array merge ? at the end of the day, the validation
      *       removes any invalid keys on save
      *
-     * @param array $options (Optional) Current options
+     * @param array|null $options (Optional) Current options
      *                       - if not set, the option defaults for the $option_key will be returned.
      *
      * @return array Combined and filtered options array.
@@ -387,9 +389,6 @@ abstract class OptionsAbstract implements OptionsInterface
         }
 
         $options = (array) $options;
-        /*
-         * $filtered = array(); if ( $defaults !== array() ) { foreach ( $defaults as $key => $default_value ) { // @todo should this walk through array subkeys ? $filtered[$key] = ( isset( $options[$key] ) ? $options[$key] : $default_value ); } }
-         */
         $filtered = array_merge($defaults, $options);
 
         return $filtered;

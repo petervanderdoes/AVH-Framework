@@ -44,7 +44,7 @@ if (!function_exists('avh_array_get')) {
      */
     function avh_array_get($array, $key, $default = null)
     {
-        if (is_null($key)) {
+        if ($key === null) {
             return $array;
         }
 

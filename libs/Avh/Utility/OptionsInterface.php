@@ -58,11 +58,15 @@ interface OptionsInterface
 
     /**
      * Add additional defaults once all post_types and taxonomies have been registered
+     *
+     * @return void
      */
     public function handleEnrichDefaults();
 
     /**
      * Translate default values if needed.
+     *
+     * @return void
      */
     public function handleTranslateDefaults();
 

@@ -108,7 +108,7 @@ class HtmlBuilder
         $compiled = '';
         foreach ($attributes as $key => $value) {
             $element = $this->attributeElement($key, $value);
-            if (!is_null($element)) {
+            if ($element !== null) {
                 $compiled .= ' ' . $element;
             }
         }
@@ -262,7 +262,7 @@ class HtmlBuilder
             $key = $value;
         }
 
-        if (!is_null($value)) {
+        if ($value !== null) {
             return $key . '="' . esc_attr($value) . '"';
         }
 
