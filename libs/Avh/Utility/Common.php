@@ -1,6 +1,11 @@
 <?php
 namespace Avh\Utility;
 
+/**
+ * Class Common
+ *
+ * @package Avh\Utility
+ */
 final class Common
 {
     /**
@@ -38,6 +43,11 @@ final class Common
         }
     }
 
+    /**
+     * Uninstall the plugin
+     *
+     * @param string $plugin
+     */
     public static function doUninstall($plugin)
     {
         do_action('avh_uninstall_' . plugin_basename($plugin));
@@ -76,7 +86,9 @@ final class Common
      * HexIntStr        => 0xC0A8FF6D            => 0    => 0.0.0.0
      * HexInt            => 3232300909 => 3232300909    => 192.168.255.109
      *
-     * @param string|numeric $ip
+     * @param string|float $ip
+     *
+     * @return null|string
      */
     public static function getIp2long($ip)
     {

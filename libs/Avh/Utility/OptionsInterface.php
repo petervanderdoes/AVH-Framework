@@ -1,6 +1,11 @@
 <?php
 namespace Avh\Utility;
 
+/**
+ * Interface OptionsInterface
+ *
+ * @package Avh\Utility
+ */
 interface OptionsInterface
 {
     /**
@@ -13,7 +18,8 @@ interface OptionsInterface
     /**
      * Retrieve the real old value (unmerged with defaults), clean and re-save the option
      *
-     * @param string|null $current_version (optional) Version from which to upgrade, if not set, version specific upgrades will be disregarded
+     * @param string|null $current_version (optional) Version from which to upgrade.
+     *                                     if not set, version specific upgrades will be disregarded
      *
      * @return void
      */

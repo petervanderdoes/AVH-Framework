@@ -4,6 +4,11 @@ namespace Avh\Network;
 use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
+/**
+ * @inheritdoc
+ *
+ * @package Avh\Network
+ */
 class Session extends \Symfony\Component\HttpFoundation\Session\Session
 {
     /**
@@ -44,9 +49,9 @@ class Session extends \Symfony\Component\HttpFoundation\Session\Session
      *            Session configuration options.
      * @param array $options
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
-        $default_options = array('name' => 'avh_' . COOKIEHASH);
+        $default_options = ['name' => 'avh_' . COOKIEHASH];
         $options = array_merge($default_options, $options);
         parent::__construct(new NativeSessionStorage($options), new NamespacedAttributeBag('avh_framework'));
     }

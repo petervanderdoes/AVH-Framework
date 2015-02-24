@@ -12,7 +12,7 @@ return array(
     'Avh\\DataHandler\\AttributeBagInterface' => $baseDir . '/libs/Avh/DataHandler/AttributeBagInterface.php',
     'Avh\\DataHandler\\DataHandler' => $baseDir . '/libs/Avh/DataHandler/DataHandler.php',
     'Avh\\DataHandler\\NamespacedAttributeBag' => $baseDir . '/libs/Avh/DataHandler/NamespacedAttributeBag.php',
-    'Avh\\DataHandler\\RegistrableInterface' => $baseDir . '/libs/Avh/DataHandler/RegisterableInterface.php',
+    'Avh\\DataHandler\\RegistrableInterface' => $baseDir . '/libs/Avh/DataHandler/RegistrableInterface.php',
     'Avh\\Db\\Db' => $baseDir . '/libs/Avh/Db/Db.php',
     'Avh\\Html\\FormBuilder' => $baseDir . '/libs/Avh/Html/FormBuilder.php',
     'Avh\\Html\\HtmlBuilder' => $baseDir . '/libs/Avh/Html/HtmlBuilder.php',

@@ -18,21 +18,22 @@ class PluginController
 {
     public static $base_url;
     protected $classes;
-    protected $hooks = array();
+    protected $hooks = [];
     protected $options;
     protected $options_page_id = '';
-    protected $pages = array();
+    protected $pages = [];
     protected $pluginfile = '';
     protected $requirements_error_msg = '';
     protected $settings;
     protected $textdomain = '';
-    protected $tinyMCE_buttons = array();
+    protected $tinyMCE_buttons = [];
     protected $update_notice = '';
 
     /**
      * Class contructor
      *
-     * @return object
+     * @param mixed $settings
+     * @param mixed $options
      */
     public function __construct($settings, $options)
     {
@@ -49,7 +50,6 @@ class PluginController
     /**
      * Class destructor
      *
-     * @return boolean true
      */
     public function __destruct()
     {
@@ -61,7 +61,7 @@ class PluginController
      */
     public function actionInPluginUpdateMessage()
     {
-        $response = wp_remote_get($this->settings->plugin_readme_url, array('user-agent' => 'WordPress/' . Common::getWordpressVersion() . ' ' . $this->settings->plugin_name . '/' . $this->settings->plugin_version));
+        $response = wp_remote_get($this->settings->plugin_readme_url, ['user-agent' => 'WordPress/' . Common::getWordpressVersion() . ' ' . $this->settings->plugin_name . '/' . $this->settings->plugin_version]);
         if (!is_wp_error($response) || is_array($response)) {
             $response_data = $response['body'];
             $matches = null;
@@ -117,17 +117,21 @@ class PluginController
         // Register Styles and Scripts
 
         $style = $this->getStyleName();
-        wp_register_style($style . '-css', $this->settings->plugin_url . '/css/' . $style . '.css', array(), $this->settings->plugin_version, 'screen');
+        wp_register_style($style . '-css', $this->settings->plugin_url . '/css/' . $style . '.css', [], $this->settings->plugin_version, 'screen');
     }
 
     /**
      * Add a menu and a page
+     *
+     * @param array $args
+     *
+     * @return bool
      */
     public function addPage(array $args)
     {
 
         // @formatter:off
-        $default_args = array(
+        $default_args = [
             'id' => '',
             'parent_id' => '',
             'type' => 'options',
@@ -141,7 +145,7 @@ class PluginController
             'shortname' => null,
             'icon_url' => null,
             'position' => null
-        );
+        ];
         // @formatter:on
 
         $values = wp_parse_args($args, $default_args);
@@ -161,6 +165,8 @@ class PluginController
      * Add a TinyMCE button
      *
      * @param string $button_name
+     * @param string $tinymce_plugin_path
+     * @param string $js_file_name
      */
     public function addTinyMceButton($button_name, $tinymce_plugin_path, $js_file_name = 'editor_plugin.js')
     {
@@ -175,7 +181,7 @@ class PluginController
      *
      * @param array $plugin_array
      *
-     * @return $plugin_array
+     * @return array $plugin_array
      */
     public function addTinyMcePlugin(array $plugin_array)
     {
@@ -198,7 +204,7 @@ class PluginController
 
             // Create the menu
             if ($page['type'] == 'menu') {
-                $hook = add_menu_page(__($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']), $page['icon_url'], $page['position']);
+                $hook = add_menu_page(__($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, [$this, $page['display_callback']], $page['icon_url'], $page['position']);
             } else {
                 $hook = $this->adminMenuSubMenu($id, $page);
             }
@@ -208,15 +214,15 @@ class PluginController
 
             // Add load, and print_scripts functions (attached to the hook)
             if ($page['load_callback'] !== false) {
-                add_action('load-' . $hook, array($this, $page['load_callback']));
+                add_action('load-' . $hook, [$this, $page['load_callback']]);
             }
             if ($page['load_scripts'] !== false) {
-                add_action('admin_print_scripts-' . $hook, array($this, $page['load_scripts']));
+                add_action('admin_print_scripts-' . $hook, [$this, $page['load_scripts']]);
             }
 
             // Add the link into the plugin page
             if ($this->options_page_id == $id) {
-                add_filter('plugin_action_links_' . plugin_basename($this->pluginfile), array($this, 'filterPluginActions'));
+                add_filter('plugin_action_links_' . plugin_basename($this->pluginfile), [$this, 'filterPluginActions']);
             }
         }
     }
@@ -265,7 +271,7 @@ class PluginController
      *
      * @param string $links
      *
-     * @return none
+     * @return string
      */
     public function filterPluginActions($links)
     {
@@ -289,12 +295,12 @@ class PluginController
      */
     public function load()
     {
-        add_action('init', array($this, 'actionInit'));
+        add_action('init', [$this, 'actionInit']);
 
         if (is_admin()) {
-            register_deactivation_hook($this->pluginfile, array($this, 'deactivation'));
-            register_activation_hook($this->pluginfile, array($this, 'installPlugin'));
-            add_action('in_plugin_update_message-' . basename($this->pluginfile), array($this, 'actionInPluginUpdateMessage'));
+            register_deactivation_hook($this->pluginfile, [$this, 'deactivation']);
+            register_activation_hook($this->pluginfile, [$this, 'installPlugin']);
+            add_action('in_plugin_update_message-' . basename($this->pluginfile), [$this, 'actionInPluginUpdateMessage']);
         }
     }
 
@@ -324,6 +330,13 @@ class PluginController
         $this->update_notice = $msg;
     }
 
+    /**
+     * Update the TinyMceVersion
+     *
+     * @param integer $version
+     *
+     * @return mixed
+     */
     public function tinyMceVersion($version)
     {
         return ++$version;
@@ -346,11 +359,12 @@ class PluginController
     /**
      * Gets the javascript name.
      *
-     * @param string $style
-     *            If left empty the style name resolves to admin or public, depending on whether the function
-     *            is called while in admin
+     * @param string $script
      *
      * @return string
+     * @internal param string $style If left empty the style name resolves to admin or public, depending on whether the function
+     * If left empty the style name resolves to admin or public, depending on whether the function is called while in admin
+     *
      */
     protected function getJsName($script = '')
     {
@@ -417,15 +431,16 @@ class PluginController
     /**
      * Add a submenu
      *
-     * @param array $page
-     * @param array $page_list
+     * @param string $id
+     * @param array  $page
      *
-     * @return Ambigous <string, boolean>
+     * @return string|boolean
+     *
      */
     private function adminMenuSubMenu($id, $page)
     {
         // @formatter:off
-        $page_list = array(
+        $page_list = [
             'dashboard' => 'index.php',
             'posts' => 'edit.php',
             'options' => 'options-general.php',
@@ -437,14 +452,14 @@ class PluginController
             'links' => 'link-manager.php',
             'pages' => 'edit.php?post_type=page',
             'comments' => 'edit-comments.php'
-        );
+        ];
         // @formatter:on
 
         if ($page['type'] != 'submenu') {
             $page['parent_id'] = $page_list[$page['type']];
         }
 
-        $hook = add_submenu_page($page['parent_id'], __($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, array($this, $page['display_callback']));
+        $hook = add_submenu_page($page['parent_id'], __($page['page_title'], $this->textdomain), __($page['menu_title'], $this->textdomain), $page['access_level'], $id, [$this, $page['display_callback']]);
 
         if (isset($this->pages[$page['parent_id']]) && $this->pages[$page['parent_id']]['shortname'] != '') {
             global $submenu;

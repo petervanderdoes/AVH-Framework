@@ -1,6 +1,11 @@
 <?php
 namespace Avh\Html;
 
+/**
+ * Class FormBuilder
+ *
+ * @package Avh\Html
+ */
 class FormBuilder
 {
     // @var Use tables to create FormBuilder
@@ -9,11 +14,16 @@ class FormBuilder
      *
      * @var array
      */
-    protected $labels = array();
+    protected $labels = [];
     private $html;
     private $option_name;
     private $use_table = false;
 
+    /**
+     * Constructor
+     *
+     * @param HtmlBuilder $html
+     */
     public function __construct(HtmlBuilder $html)
     {
         $this->html = $html;
@@ -31,7 +41,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function button($name, $body, $attributes = array())
+    public function button($name, $body, $attributes = [])
     {
         // Set the input name
         $attributes['name'] = $name;
@@ -50,7 +60,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function checkbox($name, $value = null, $checked = null, $attributes = array())
+    public function checkbox($name, $value = null, $checked = null, $attributes = [])
     {
         $attributes['type'] = 'checkbox';
 
@@ -75,7 +85,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function checkboxes($name, $options, $attributes = array())
+    public function checkboxes($name, $options, $attributes = [])
     {
         $attributes['type'] = 'checkbox';
 
@@ -89,7 +99,7 @@ class FormBuilder
                 $attr['value'] = null;
             }
             $label_field = $this->label($value, $attr['text']);
-            $input_field = $this->input(array($name => $value), $attr['value'], $attributes);
+            $input_field = $this->input([$name => $value], $attr['value'], $attributes);
             $output_field .= $input_field . $label_field . '<br>';
         }
         $return = $this->outputField($output_field);
@@ -140,10 +150,10 @@ class FormBuilder
      */
     public function fieldNonce($nonce, $referrer = true)
     {
-        $nonce_field = $this->hidden('_wpnonce', wp_create_nonce($nonce), array('id' => null));
+        $nonce_field = $this->hidden('_wpnonce', wp_create_nonce($nonce), ['id' => null]);
         if ($referrer) {
             $ref = $_SERVER['REQUEST_URI'];
-            $nonce_field .= $this->hidden('_wp_http_referer', $ref, array('id' => null));
+            $nonce_field .= $this->hidden('_wp_http_referer', $ref, ['id' => null]);
         }
 
         return $nonce_field;
@@ -158,7 +168,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function file($name, $attributes = array())
+    public function file($name, $attributes = [])
     {
         $attributes['type'] = 'file';
 
@@ -234,7 +244,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function hidden($name, $value = null, $attributes = array(), $use_option_name = false)
+    public function hidden($name, $value = null, $attributes = [], $use_option_name = false)
     {
         $attributes['type'] = 'hidden';
 
@@ -251,7 +261,7 @@ class FormBuilder
      * @internal param bool $index add index file to URL?
      * @return string
      */
-    public function image($name, $value, $attributes = array())
+    public function image($name, $value, $attributes = [])
     {
         $attributes['type'] = 'image';
 
@@ -271,7 +281,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function input($name, $value = null, $attributes = array(), $use_option_name = true)
+    public function input($name, $value = null, $attributes = [], $use_option_name = true)
     {
         // Set the input name
         if (isset($this->option_name) && $use_option_name) {
@@ -279,7 +289,7 @@ class FormBuilder
                 $attributes['name'] = $this->option_name . '[' . $name . ']';
                 $id = $name;
             } else {
-                $attributes['name'] = $this->option_name . '[' . key($name) . ']' . '[' . current($name) . ']';
+                $attributes['name'] = $this->option_name . '[' . key($name) . '][' . current($name) . ']';
                 $id = current($name);
             }
         } else {
@@ -311,7 +321,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function label($name, $display = null, $attributes = array())
+    public function label($name, $display = null, $attributes = [])
     {
         if ($display === null) {
             // Use the input name as the text
@@ -334,7 +344,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function open($action = null, $attributes = array())
+    public function open($action = null, $attributes = [])
     {
         $attributes['method'] = $this->getMethod(avh_array_get($attributes, 'method', 'post'));
 
@@ -350,10 +360,10 @@ class FormBuilder
      *
      * @return string
      */
-    public function openTable($attributes = array())
+    public function openTable($attributes = [])
     {
         $this->use_table = true;
-        $attributes = array_merge($attributes, array('class' => 'form-table'));
+        $attributes = array_merge($attributes, ['class' => 'form-table']);
 
         return '<table' . $this->html->attributes($attributes) . '>';
     }
@@ -415,7 +425,7 @@ class FormBuilder
      * @internal param string $value input value
      * @return string
      */
-    public function password($name, $attributes = array())
+    public function password($name, $attributes = [])
     {
         $attributes['type'] = 'password';
 
@@ -432,7 +442,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function radio($name, $value = null, $checked = false, $attributes = array())
+    public function radio($name, $value = null, $checked = false, $attributes = [])
     {
         $attributes['type'] = 'radio';
 
@@ -454,7 +464,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function select($name, array $options = array(), $selected = null, $attributes = array())
+    public function select($name, array $options = [], $selected = null, $attributes = [])
     {
         $attributes['id'] = $this->getIdAttribute($name, $attributes);
 
@@ -468,7 +478,7 @@ class FormBuilder
         // We will simply loop through the options and build an HTML value for each of
         // them until we have an array of HTML declarations. Then we will join them
         // all together into one single HTML element that can be put on the form.
-        $html = array();
+        $html = [];
 
         foreach ($options as $value => $display) {
             $html[] = $this->getSelectOption($display, $value, $selected);
@@ -492,7 +502,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function submit($name, $value, $attributes = array(), $use_option_name = false)
+    public function submit($name, $value, $attributes = [], $use_option_name = false)
     {
         $attributes['type'] = 'submit';
 
@@ -508,7 +518,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function text($name, $value = null, $attributes = array())
+    public function text($name, $value = null, $attributes = [])
     {
         $attributes['type'] = 'text';
 
@@ -524,7 +534,7 @@ class FormBuilder
      *
      * @return string
      */
-    public function textarea($name, $body = '', $attributes = array())
+    public function textarea($name, $body = '', $attributes = [])
     {
         // Set the input name
         $attributes['name'] = $name;
@@ -573,7 +583,7 @@ class FormBuilder
      * @param string $value
      * @param string $selected
      *
-     * @return string
+     * @return string|null
      */
     protected function getSelectedValue($value, $selected)
     {
@@ -597,7 +607,7 @@ class FormBuilder
     {
         $selected = $this->getSelectedValue($value, $selected);
 
-        $options = array('value' => $value, 'selected' => $selected);
+        $options = ['value' => $value, 'selected' => $selected];
 
         return '<option' . $this->html->attributes($options) . '>' . $display . '</option>';
     }
@@ -613,7 +623,7 @@ class FormBuilder
      */
     protected function optionGroup($list, $label, $selected)
     {
-        $html = array();
+        $html = [];
 
         foreach ($list as $value => $display) {
             $html[] = $this->option($display, $value, $selected);
@@ -633,7 +643,7 @@ class FormBuilder
     {
         $segments = explode('x', $attributes['size']);
 
-        return array_merge($attributes, array('cols' => $segments[0], 'rows' => $segments[1]));
+        return array_merge($attributes, ['cols' => $segments[0], 'rows' => $segments[1]]);
     }
 
     /**

@@ -1,16 +1,21 @@
 <?php
 namespace Avh\DataHandler;
 
+/**
+ * Class ArrayRegistry
+ *
+ * @package Avh\DataHandler
+ */
 class ArrayRegistry implements RegistrableInterface
 {
-    protected $data = array();
+    protected $data = [];
 
     /**
      * Clear the array registry
      */
     public function clear()
     {
-        $this->data = array();
+        $this->data = [];
     }
 
     /**

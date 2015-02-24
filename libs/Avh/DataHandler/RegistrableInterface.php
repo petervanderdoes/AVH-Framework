@@ -1,6 +1,11 @@
 <?php
 namespace Avh\DataHandler;
 
+/**
+ * Interface RegistrableInterface
+ *
+ * @package Avh\DataHandler
+ */
 interface RegistrableInterface
 {
     /**

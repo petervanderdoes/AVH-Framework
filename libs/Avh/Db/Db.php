@@ -1,6 +1,11 @@
 <?php
 namespace Avh\Db;
 
+/**
+ * Class Db
+ *
+ * @package Avh\Db
+ */
 final class Db
 {
     /**
@@ -37,7 +42,7 @@ final class Db
 
             $result = $wpdb->get_results($sql, ARRAY_A);
 
-            $return = array();
+            $return = [];
             foreach ($result as $row) {
                 if (isset($row['Field'])) {
                     $return[] = $row['Field'];

@@ -1,6 +1,5 @@
 <?php
 if (!function_exists('avh_starts_with')) {
-
     /**
      * Determine if a string starts with a given needle.
      *
@@ -16,7 +15,6 @@ if (!function_exists('avh_starts_with')) {
 }
 
 if (!function_exists('avh_is_valid_url')) {
-
     /**
      * Determine if the given path is a valid URL.
      *
@@ -26,7 +24,7 @@ if (!function_exists('avh_is_valid_url')) {
      */
     function avh_is_valid_url($path)
     {
-        if (avh_starts_with($path, array('#', '//', 'mailto:', 'tel:'))) {
+        if (avh_starts_with($path, ['#', '//', 'mailto:', 'tel:'])) {
             return true;
         }
 
@@ -35,7 +33,6 @@ if (!function_exists('avh_is_valid_url')) {
 }
 
 if (!function_exists('avh_array_get')) {
-
     /**
      * Get an item from an array using "dot" notation.
      *

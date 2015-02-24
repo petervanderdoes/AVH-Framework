@@ -108,17 +108,17 @@ abstract class OptionsAbstract implements OptionsInterface
         /*
          * The option validation routines remove the default filters to prevent failing to insert an option if it's new. Let's add them back afterwards.
          */
-        add_action('add_option', array($this, 'addDefaultFilters')); // adding back after INSERT
+        add_action('add_option', [$this, 'addDefaultFilters']); // adding back after INSERT
 
-        add_action('update_option', array($this, 'addDefaultFilters'));
+        add_action('update_option', [$this, 'addDefaultFilters']);
 
         /*
          * Make sure the option will always get validated, independently of registerSetting() (only available on back-end)
          */
-        add_filter('sanitize_option_' . $this->option_name, array($this, 'validate'));
+        add_filter('sanitize_option_' . $this->option_name, [$this, 'validate']);
 
         /* Register our option for the admin pages */
-        add_action('admin_init', array($this, 'registerSetting'));
+        add_action('admin_init', [$this, 'registerSetting']);
 
         /* Set option group name if not given */
         if (!isset($this->group_name) || $this->group_name === '') {
@@ -126,7 +126,7 @@ abstract class OptionsAbstract implements OptionsInterface
         }
 
         /* Translate some defaults as early as possible - textdomain is loaded in init on priority 1 */
-        add_action('init', array($this, 'handleTranslateDefaults'), 2);
+        add_action('init', [$this, 'handleTranslateDefaults'], 2);
 
         /**
          * Enrich defaults once custom post types and taxonomies have been registered
@@ -135,7 +135,7 @@ abstract class OptionsAbstract implements OptionsInterface
          * @todo - [JRF/testers] verify that none of the options which are only available after
          *       enrichment are used before the enriching
          */
-        add_action('init', array($this, 'handleEnrichDefaults'), 99);
+        add_action('init', [$this, 'handleEnrichDefaults'], 99);
     }
 
 // ********** Start  Abstract Methods **********
@@ -183,11 +183,11 @@ abstract class OptionsAbstract implements OptionsInterface
     public function addDefaultFilters()
     {
         // Don't change, needs to check for false as could return prio 0 which would evaluate to false
-        if (has_filter('default_option_' . $this->option_name, array($this, 'getDefaults')) === false) {
-            add_filter('default_option_' . $this->option_name, array($this, 'getDefaults'));
+        if (has_filter('default_option_' . $this->option_name, [$this, 'getDefaults']) === false) {
+            add_filter('default_option_' . $this->option_name, [$this, 'getDefaults']);
         }
-        if (has_filter('default_site_option_' . $this->option_name, array($this, 'getDefaults')) === false) {
-            add_filter('default_site_option_' . $this->option_name, array($this, 'getDefaults'));
+        if (has_filter('default_site_option_' . $this->option_name, [$this, 'getDefaults']) === false) {
+            add_filter('default_site_option_' . $this->option_name, [$this, 'getDefaults']);
         }
     }
 
@@ -199,11 +199,11 @@ abstract class OptionsAbstract implements OptionsInterface
     public function addOptionFilters()
     {
         // Don't change, needs to check for false as could return prio 0 which would evaluate to false
-        if (has_filter('option_' . $this->option_name, array($this, 'getOption')) === false) {
-            add_filter('option_' . $this->option_name, array($this, 'getOption'));
+        if (has_filter('option_' . $this->option_name, [$this, 'getOption']) === false) {
+            add_filter('option_' . $this->option_name, [$this, 'getOption']);
         }
-        if (has_filter('site_option_' . $this->option_name, array($this, 'getOption')) === false) {
-            add_filter('site_option_' . $this->option_name, array($this, 'getOption'));
+        if (has_filter('site_option_' . $this->option_name, [$this, 'getOption']) === false) {
+            add_filter('site_option_' . $this->option_name, [$this, 'getOption']);
         }
     }
 
@@ -317,8 +317,8 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     public function removeDefaultFilters()
     {
-        remove_filter('default_option_' . $this->option_name, array($this, 'getDefaults'));
-        remove_filter('default_site_option_' . $this->option_name, array($this, 'getDefaults'));
+        remove_filter('default_option_' . $this->option_name, [$this, 'getDefaults']);
+        remove_filter('default_site_option_' . $this->option_name, [$this, 'getDefaults']);
     }
 
     /**
@@ -329,8 +329,8 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     public function removeOptionFilters()
     {
-        remove_filter('option_' . $this->option_name, array($this, 'getOption'));
-        remove_filter('site_option_' . $this->option_name, array($this, 'getOption'));
+        remove_filter('option_' . $this->option_name, [$this, 'getOption']);
+        remove_filter('site_option_' . $this->option_name, [$this, 'getOption']);
     }
 
     /**
@@ -345,11 +345,11 @@ abstract class OptionsAbstract implements OptionsInterface
         $clean = $this->getDefaults();
 
         /* Return the defaults if the new value is empty */
-        if (!is_array($option_value) || $option_value === array()) {
+        if (!is_array($option_value) || $option_value === []) {
             return $clean;
         }
 
-        $option_value = array_map(array(__CLASS__, 'trim_recursive'), $option_value);
+        $option_value = array_map([__CLASS__, 'trim_recursive'], $option_value);
         $old = get_option($this->option_name);
         $clean = $this->validateOption($option_value, $clean, $old);
 
@@ -407,7 +407,7 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected function getSwitchKey($key)
     {
-        if (!isset($this->variable_array_key_patterns) || (!is_array($this->variable_array_key_patterns) || $this->variable_array_key_patterns === array())
+        if (!isset($this->variable_array_key_patterns) || (!is_array($this->variable_array_key_patterns) || $this->variable_array_key_patterns === [])
         ) {
             return $key;
         }
@@ -436,7 +436,7 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected function retainVariableKeys($dirty, $clean)
     {
-        if ((is_array($this->variable_array_key_patterns) && $this->variable_array_key_patterns !== array()) && (is_array($dirty) && $dirty !== array())
+        if ((is_array($this->variable_array_key_patterns) && $this->variable_array_key_patterns !== []) && (is_array($dirty) && $dirty !== [])
         ) {
             foreach ($dirty as $key => $value) {
                 foreach ($this->variable_array_key_patterns as $pattern) {
