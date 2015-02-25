@@ -23,9 +23,11 @@ abstract class ShortcodesAbstract
     public function bootstrap($atts, $content, $tag)
     {
         $method = $this->shortcode_map[$tag];
-        ob_start();
+
         $html = '';
         if (is_callable([$this->shortcode_controller, $method])) {
+            // In case the shortcode echo the output instead of returning the output
+            ob_start();
             $html = $this->shortcode_controller->$method($atts, $content, $tag);
             $html .= ob_get_clean();
         }
