@@ -8,6 +8,8 @@ namespace Avh\Utility;
  */
 abstract class ShortcodesAbstract
 {
+    /** @var \Illuminate\Container\Container */
+    private $container;
     private $shortcode_controller;
     private $shortcode_map;
 
@@ -22,13 +24,20 @@ abstract class ShortcodesAbstract
      */
     public function bootstrap($atts, $content, $tag)
     {
-        $method = $this->shortcode_map[$tag];
+        $method = $this->shortcode_map[$tag]['method'];
+        $container_name = $this->shortcode_map[$tag]['container_name'];
+
+        if ($container_name === null) {
+            $class = $this->shortcode_controller;
+        } else {
+            $class = $this->container->make($container_name);
+        }
 
         $html = '';
-        if (is_callable([$this->shortcode_controller, $method])) {
+        if (is_callable([$class, $method])) {
             // In case the shortcode echo the output instead of returning the output
             ob_start();
-            $html = $this->shortcode_controller->$method($atts, $content, $tag);
+            $html = $class->$method($atts, $content, $tag);
             $html .= ob_get_clean();
         }
 
@@ -39,12 +48,20 @@ abstract class ShortcodesAbstract
      * Register a shortcode
      *
      * @param string $tag
-     * @param string $class
+     * @param string $container_name
      */
-    public function register($tag, $class)
+    public function register($tag, $method, $container_name = null)
     {
-        $this->shortcode_map[$tag] = $class;
+        $this->shortcode_map[$tag] = ['container_name' => $container_name, 'method' => $method];
         add_shortcode($tag, [$this, 'bootstrap']);
+    }
+
+    /**
+     * @param \Illuminate\Container\Container $container
+     */
+    public function setContainer($container)
+    {
+        $this->container = $container;
     }
 
     /**
