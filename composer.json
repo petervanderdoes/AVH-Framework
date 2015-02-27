@@ -1,46 +1,58 @@
 {
-  "name" : "avh/framework",
+  "name": "avh/framework",
   "type": "library",
   "description": "A Framework to be used with WordPress.",
-	"require" : {
-		"patchwork/utf8" : "~1.1",
-		"php" : ">=5.4",
-		"vlucas/valitron" : ">=1.1.5",
-		"illuminate/container" : "~5.0",
-		"illuminate/http" : "~5.0",
-		"illuminate/session" : "~5.0",
-		"illuminate/filesystem" : "~5.0"
-	},
-	"repositories" : [{
-			"type" : "git",
-			"url" : "https://github.com/petervanderdoes/AVH-Framework.git",
-			"name" : "master"
-		}
-	],
-	"authors" : [{
-			"name" : "Peter van der Does",
-			"email" : "peter@avirtualhome.com",
-			"homepage" : "http://blog.avirtualhome.com",
-			"role" : "Project Manager"
-		}
-	],
-	"support" : {
-		"source" : "https://github.com/petervanderdoes/AVH-Framework",
-		"issues" : "https://github.com/petervanderdoes/AVH-Framework/issues",
-		"wiki" : "https://github.com/petervanderdoes/AVH-Framework/wiki"
-	},
-	"keywords" : [
-		"framework"
-	],
-	"autoload" : {
-		"psr-4" : {
-			"Avh\\" : "libs/Avh"
-		},
-		"files" : [
-			"libs/Avh/Support/helpers.php",
-			"libs/Avh/Support/version.php"
-		]
-	},
-	"license" : "MIT",
-	"type" : "wordpress-plugin"
+  "require": {
+    "patchwork/utf8": "~1.1",
+    "php": ">=5.4",
+    "vlucas/valitron": ">=1.1.5",
+    "illuminate/container": "~5.0",
+    "illuminate/http": "~5.0",
+    "illuminate/session": "~5.0",
+    "illuminate/filesystem": "~5.0",
+    "illuminate/config": "~5.0",
+    "symfony/form": "~2.6",
+    "symfony/validator": "~2.6",
+    "symfony/config": "~2.6",
+    "symfony/translation": "~2.6",
+    "symfony/security-csrf": "~2.6",
+    "twig/twig": "~1.0",
+    "symfony/twig-bridge": "~2.6",
+    "ircmaxell/password-compat": "~1.0",
+    "egulias/email-validator": "~1.2"
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/petervanderdoes/AVH-Framework.git",
+      "name": "master"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Peter van der Does",
+      "email": "peter@avirtualhome.com",
+      "homepage": "http://blog.avirtualhome.com",
+      "role": "Project Manager"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/petervanderdoes/AVH-Framework",
+    "issues": "https://github.com/petervanderdoes/AVH-Framework/issues",
+    "wiki": "https://github.com/petervanderdoes/AVH-Framework/wiki"
+  },
+  "keywords": [
+    "framework"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Avh\\": "libs/Avh"
+    },
+    "files": [
+      "libs/Avh/Support/helpers.php",
+      "libs/Avh/Support/version.php"
+    ]
+  },
+  "license": "MIT",
+  "type": "wordpress-plugin"
 }

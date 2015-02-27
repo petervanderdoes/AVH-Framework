@@ -15,7 +15,7 @@ class HtmlBuilder
     /**
      * @var array preferred order of attributes
      */
-    private $attribute_order = array(
+    private $attribute_order = [
         'action',
         'method',
         'type',
@@ -44,8 +44,12 @@ class HtmlBuilder
         'checked',
         'readonly',
         'disabled'
-    );
+    ];
 
+    /**
+     * Constructor
+     *
+     */
     public function __construct()
     {
     }
@@ -61,7 +65,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function anchor($uri, $title = null, $attributes = array())
+    public function anchor($uri, $title = null, $attributes = [])
     {
         $url = $this->generateUrl($uri);
 
@@ -84,13 +88,13 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function attributes($attributes = array())
+    public function attributes($attributes = [])
     {
         if (empty($attributes)) {
             return '';
         }
 
-        $sorted = array();
+        $sorted = [];
         foreach ($this->attribute_order as $key) {
             if (isset($attributes[$key])) {
                 // Add the attribute to the sorted list
@@ -104,7 +108,7 @@ class HtmlBuilder
         $compiled = '';
         foreach ($attributes as $key => $value) {
             $element = $this->attributeElement($key, $value);
-            if (!is_null($element)) {
+            if ($element !== null) {
                 $compiled .= ' ' . $element;
             }
         }
@@ -133,7 +137,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function element($element, $attributes = array(), $closetag = false)
+    public function element($element, $attributes = [], $closetag = false)
     {
         $return = '<' . $element . $this->attributes($attributes) . '>';
         if ($closetag) {
@@ -174,7 +178,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function image($file, $alt = null, $attributes = array())
+    public function image($file, $alt = null, $attributes = [])
     {
         if (empty($file)) {
             throw new \InvalidArgumentException("File can not be empty");
@@ -200,7 +204,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function mailto($email, $title = null, $attributes = array())
+    public function mailto($email, $title = null, $attributes = [])
     {
         if ($title === null) {
             // Use the email address as the title
@@ -258,7 +262,7 @@ class HtmlBuilder
             $key = $value;
         }
 
-        if (!is_null($value)) {
+        if ($value !== null) {
             return $key . '="' . esc_attr($value) . '"';
         }
 

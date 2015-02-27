@@ -1,6 +1,11 @@
 <?php
 namespace Avh\DataHandler;
 
+/**
+ * Class DataHandler
+ *
+ * @package Avh\DataHandler
+ */
 class DataHandler
 {
     protected $registry;
@@ -16,6 +21,16 @@ class DataHandler
     }
 
     /**
+     * Get all data
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return $this->registry->all();
+    }
+
+    /**
      * Clear the registry
      */
     public function clear()
@@ -25,12 +40,24 @@ class DataHandler
 
     /**
      * Get data from the registry
+     *
+     * @param string     $key
+     * @param mixed|null $default
+     *
+     * @return mixed
      */
     public function get($key, $default = null)
     {
         return $this->registry->get($key, $default);
     }
 
+    /**
+     * Chekc if key exist in registry
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
     public function has($key)
     {
         return $this->registry->has($key);
@@ -38,20 +65,16 @@ class DataHandler
 
     /**
      * Save data to the registry
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return $this
      */
     public function set($key, $value)
     {
         $this->registry->set($key, $value);
 
         return $this;
-    }
-
-    /**
-     * Gett all data
-     *
-     * @return array
-     */
-    public function all() {
-        return $this->registry->all();
     }
 }

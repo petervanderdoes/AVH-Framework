@@ -117,7 +117,7 @@ class NamespacedAttributeBag extends AttributeBag
                 return $array;
             }
 
-            $array[$parts[0]] = array();
+            $array[$parts[0]] = [];
 
             return $array;
         }
@@ -126,7 +126,7 @@ class NamespacedAttributeBag extends AttributeBag
 
         foreach ($parts as $part) {
             if (null !== $array && !array_key_exists($part, $array)) {
-                $array[$part] = $writeContext ? array() : null;
+                $array[$part] = $writeContext ? [] : null;
             }
 
             $array = &$array[$part];

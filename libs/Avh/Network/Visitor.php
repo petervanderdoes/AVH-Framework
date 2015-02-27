@@ -1,6 +1,11 @@
 <?php
 namespace Avh\Network;
 
+/**
+ * Class Visitor
+ *
+ * @package Avh\Network
+ */
 final class Visitor
 {
     /**
@@ -10,8 +15,17 @@ final class Visitor
      */
     public static function getUserIp()
     {
-        $ip_addresses = array();
-        foreach (array('HTTP_CF_CONNECTING_IP', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $originating_IP_address) {
+        $ip_addresses = [];
+        foreach ([
+                     'HTTP_CF_CONNECTING_IP',
+                     'HTTP_CLIENT_IP',
+                     'HTTP_X_FORWARDED_FOR',
+                     'HTTP_X_FORWARDED',
+                     'HTTP_X_CLUSTER_CLIENT_IP',
+                     'HTTP_FORWARDED_FOR',
+                     'HTTP_FORWARDED',
+                     'REMOTE_ADDR'
+                 ] as $originating_IP_address) {
             if (array_key_exists($originating_IP_address, $_SERVER) === true) {
                 foreach (explode(',', $_SERVER[$originating_IP_address]) as $visitors_ip) {
                     $ip_addresses[] = str_replace(' ', '', $visitors_ip);
