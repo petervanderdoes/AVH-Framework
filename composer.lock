@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b7214bbe8dc8b04f38be13277b472e69",
+    "hash": "366745ef18a0008fd5c33faf574449a2",
     "packages": [
         {
             "name": "danielstjules/stringy",
@@ -232,6 +232,49 @@
                 "validator"
             ],
             "time": "2015-01-04 22:42:32"
+        },
+        {
+            "name": "illuminate/config",
+            "version": "v5.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/config.git",
+                "reference": "a4d8a7a57c1ca12feeef91a9482c397e28adc83b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/config/zipball/a4d8a7a57c1ca12feeef91a9482c397e28adc83b",
+                "reference": "a4d8a7a57c1ca12feeef91a9482c397e28adc83b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.0.*",
+                "illuminate/support": "5.0.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Config\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "The Illuminate Config package.",
+            "time": "2015-01-30 19:49:13"
         },
         {
             "name": "illuminate/container",

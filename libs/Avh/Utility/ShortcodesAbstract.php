@@ -8,10 +8,10 @@ namespace Avh\Utility;
  */
 abstract class ShortcodesAbstract
 {
-    /** @var \Illuminate\Container\Container */
     private $container;
     private $shortcode_controller;
     private $shortcode_map;
+    private $service_provider;
 
     /**
      * Method that's always called for the shortcode
@@ -57,7 +57,7 @@ abstract class ShortcodesAbstract
     }
 
     /**
-     * @param \Illuminate\Container\Container $container
+     * @param object $container
      */
     public function setContainer($container)
     {

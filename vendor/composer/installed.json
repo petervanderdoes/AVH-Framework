@@ -1900,5 +1900,50 @@
             "validation",
             "validator"
         ]
+    },
+    {
+        "name": "illuminate/config",
+        "version": "v5.0.4",
+        "version_normalized": "5.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/illuminate/config.git",
+            "reference": "a4d8a7a57c1ca12feeef91a9482c397e28adc83b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/illuminate/config/zipball/a4d8a7a57c1ca12feeef91a9482c397e28adc83b",
+            "reference": "a4d8a7a57c1ca12feeef91a9482c397e28adc83b",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/contracts": "5.0.*",
+            "illuminate/support": "5.0.*",
+            "php": ">=5.4.0"
+        },
+        "time": "2015-01-30 19:49:13",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "5.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Illuminate\\Config\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com"
+            }
+        ],
+        "description": "The Illuminate Config package."
     }
 ]
