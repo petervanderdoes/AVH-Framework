@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.4.2-dev.1
+* Preparation for new development cycle.
+
 ### 1.4.1
 * Preparation for new development cycle.
 
