@@ -1,5 +1,0 @@
-composer.json
-composer.lock
-phpunit.xml
-.travis.yml
-**/[Tt]ests/
