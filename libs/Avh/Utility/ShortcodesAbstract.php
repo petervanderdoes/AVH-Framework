@@ -11,7 +11,6 @@ abstract class ShortcodesAbstract
     private $container;
     private $shortcode_controller;
     private $shortcode_map;
-    private $service_provider;
 
     /**
      * Method that's always called for the shortcode
