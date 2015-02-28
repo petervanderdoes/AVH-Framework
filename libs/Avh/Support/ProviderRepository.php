@@ -8,7 +8,7 @@ class ProviderRepository
     /**
      * The application implementation.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var ApplicationContract
      */
     protected $app;
     /**
