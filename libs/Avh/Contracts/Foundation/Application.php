@@ -25,7 +25,7 @@ interface Application
      * Register a deferred provider and service.
      *
      * @param  string $provider
-     * @param  string $service
+     * @param  string|null $service
      *
      * @return void
      */

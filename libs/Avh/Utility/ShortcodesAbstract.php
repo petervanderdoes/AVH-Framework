@@ -11,7 +11,6 @@ abstract class ShortcodesAbstract
     private $container;
     private $shortcode_controller;
     private $shortcode_map;
-    private $service_provider;
 
     /**
      * Method that's always called for the shortcode
@@ -25,12 +24,12 @@ abstract class ShortcodesAbstract
     public function bootstrap($atts, $content, $tag)
     {
         $method = $this->shortcode_map[$tag]['method'];
-        $container_name = $this->shortcode_map[$tag]['container_name'];
+        $shortcode_controller = $this->shortcode_map[$tag]['shortcode_controller'];
 
-        if ($container_name === null) {
+        if ($shortcode_controller === null) {
             $class = $this->shortcode_controller;
         } else {
-            $class = $this->container->make($container_name);
+            $class = $this->container->make($shortcode_controller);
         }
 
         $html = '';
@@ -48,11 +47,11 @@ abstract class ShortcodesAbstract
      * Register a shortcode
      *
      * @param string $tag
-     * @param string $container_name
+     * @param string $shortcode_controller
      */
-    public function register($tag, $method, $container_name = null)
+    public function register($tag, $method, $shortcode_controller = null)
     {
-        $this->shortcode_map[$tag] = ['container_name' => $container_name, 'method' => $method];
+        $this->shortcode_map[$tag] = ['shortcode_controller' => $shortcode_controller, 'method' => $method];
         add_shortcode($tag, [$this, 'bootstrap']);
     }
 

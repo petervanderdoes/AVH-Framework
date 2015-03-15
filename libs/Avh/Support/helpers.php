@@ -63,3 +63,16 @@ if (!function_exists('avh_array_get')) {
         return $array;
     }
 }
+
+if (!function_exists('avh_get_array_value')) {
+    function avh_get_array_value($array, $key, $default = '')
+    {
+        if (!array_key_exists($key, $array)) {
+            $return = $default;
+        } else {
+            $return = $array[$key];
+        }
+
+        return $return;
+    }
+}
