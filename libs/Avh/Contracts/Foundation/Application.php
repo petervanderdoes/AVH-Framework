@@ -1,7 +1,7 @@
 <?php
 namespace Avh\Contracts\Foundation;
 
-interface Application
+interface ApplicationInterface
 {
     /**
      * Register a service provider with the application.

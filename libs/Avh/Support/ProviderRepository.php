@@ -1,6 +1,6 @@
 <?php namespace Avh\Support;
 
-use Avh\Contracts\Foundation\Application as ApplicationContract;
+use Avh\Contracts\Foundation\ApplicationInterface;
 use Illuminate\Filesystem\Filesystem;
 
 class ProviderRepository
@@ -27,11 +27,11 @@ class ProviderRepository
     /**
      * Create a new service repository instance.
      *
-     * @param  ApplicationContract $app
-     * @param  \Illuminate\Filesystem\Filesystem            $files
-     * @param  string                                       $manifestPath
+     * @param  ApplicationInterface              $app
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  string                            $manifestPath
      */
-    public function __construct(ApplicationContract $app, Filesystem $files, $manifestPath)
+    public function __construct(ApplicationInterface $app, Filesystem $files, $manifestPath)
     {
         $this->app = $app;
         $this->files = $files;
