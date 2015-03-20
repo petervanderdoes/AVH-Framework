@@ -46,8 +46,6 @@ namespace Avh\Utility;
  * - If an option needs specific actions different from defined in this abstract class, you can just overrule
  * a method by defining it in the concrete class.
  *
- * @todo - [JRF => testers] double check that validation will not cause errors when called from upgrade routine
- *       (some of the WP functions may not yet be available)
  */
 
 abstract class OptionsAbstract implements OptionsInterface
@@ -132,8 +130,6 @@ abstract class OptionsAbstract implements OptionsInterface
          * Enrich defaults once custom post types and taxonomies have been registered
          * which is normally done on the init action.
          *
-         * @todo - [JRF/testers] verify that none of the options which are only available after
-         *       enrichment are used before the enriching
          */
         add_action('init', [$this, 'handleEnrichDefaults'], 99);
     }
@@ -142,7 +138,7 @@ abstract class OptionsAbstract implements OptionsInterface
     /**
      * Clean out old/renamed values within the option
      *
-     * @param mixed $option_value
+     * @param mixed      $option_value
      * @param mixed|null $current_version
      * @param mixed|null $all_old_option_values
      *
@@ -268,15 +264,6 @@ abstract class OptionsAbstract implements OptionsInterface
     /**
      * Clean and re-save the option
      *
-     * @todo [JRF/whomever] Figure out a way to show settings error during/after the upgrade - maybe
-     *       something along the lines of:
-     *       -> add them to a property in this class
-     *       -> if that property isset at the end of the routine and add_settings_error function does not exist,
-     *       save as transient (or update the transient if one already exists)
-     *       -> next time an admin is in the WP back-end, show the errors and delete the transient or only delete it
-     *       once the admin has dismissed the message (add ajax function)
-     *       Important: all validation routines which add_settings_errors would need to be changed for this to work
-     *
      * @param array|boolean $option_value          Option value to be imported
      * @param string|null   $current_version       (optional) Version from which to upgrade, if not set, version specific
      *                                             upgrades will be disregarded
@@ -371,11 +358,8 @@ abstract class OptionsAbstract implements OptionsInterface
      * Helper method - Combines a fixed array of default values with an options array
      * while filtering out any keys which are not in the defaults array.
      *
-     * @todo [JRF] - shouldn't this be a straight array merge ? at the end of the day, the validation
-     *       removes any invalid keys on save
-     *
      * @param array|null $options (Optional) Current options
-     *                       - if not set, the option defaults for the $option_key will be returned.
+     *                            - if not set, the option defaults for the $option_key will be returned.
      *
      * @return array Combined and filtered options array.
      */
@@ -405,7 +389,9 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected function getSwitchKey($key)
     {
-        if (!isset($this->variable_array_key_patterns) || (!is_array($this->variable_array_key_patterns) || $this->variable_array_key_patterns === [])
+        if (!isset($this->variable_array_key_patterns) || (!is_array(
+                    $this->variable_array_key_patterns
+                ) || $this->variable_array_key_patterns === [])
         ) {
             return $key;
         }
@@ -434,7 +420,9 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected function retainVariableKeys($dirty, $clean)
     {
-        if ((is_array($this->variable_array_key_patterns) && $this->variable_array_key_patterns !== []) && (is_array($dirty) && $dirty !== [])
+        if ((is_array($this->variable_array_key_patterns) && $this->variable_array_key_patterns !== []) && (is_array(
+                    $dirty
+                ) && $dirty !== [])
         ) {
             foreach ($dirty as $key => $value) {
                 foreach ($this->variable_array_key_patterns as $pattern) {
