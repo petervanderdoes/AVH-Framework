@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Avh\\Contracts\\Foundation\\Application' => $baseDir . '/libs/Avh/Contracts/Foundation/Application.php',
+    'Avh\\Contracts\\Foundation\\ApplicationInterface' => $baseDir . '/libs/Avh/Contracts/Foundation/Application.php',
     'Avh\\Db\\Db' => $baseDir . '/libs/Avh/Db/Db.php',
     'Avh\\Html\\FormBuilder' => $baseDir . '/libs/Avh/Html/FormBuilder.php',
     'Avh\\Html\\HtmlBuilder' => $baseDir . '/libs/Avh/Html/HtmlBuilder.php',
