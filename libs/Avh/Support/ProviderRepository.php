@@ -93,7 +93,7 @@ class ProviderRepository
     /**
      * Load the service provider manifest JSON file.
      *
-     * @return array
+     * @return array|null
      */
     public function loadManifest()
     {
@@ -105,6 +105,7 @@ class ProviderRepository
 
             return array_merge(['when' => []], $manifest);
         }
+        return null;
     }
 
     /**
