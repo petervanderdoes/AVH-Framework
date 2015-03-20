@@ -3,18 +3,23 @@
 use Avh\Contracts\Foundation\ApplicationInterface;
 use Illuminate\Filesystem\Filesystem;
 
+/**
+ * Class ProviderRepository
+ *
+ * @author    Peter van der Does
+ * @copyright Copyright (c) 2015, AVH Software
+ * @package   Avh\Support
+ */
 class ProviderRepository
 {
     /**
      * The application implementation.
      *
-     * @var ApplicationContract
      */
     protected $app;
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
     /**
