@@ -1,20 +1,25 @@
 <?php namespace Avh\Support;
 
-use Avh\Contracts\Foundation\Application as ApplicationContract;
+use Avh\Contracts\Foundation\ApplicationInterface;
 use Illuminate\Filesystem\Filesystem;
 
+/**
+ * Class ProviderRepository
+ *
+ * @author    Peter van der Does
+ * @copyright Copyright (c) 2015, AVH Software
+ * @package   Avh\Support
+ */
 class ProviderRepository
 {
     /**
      * The application implementation.
      *
-     * @var ApplicationContract
      */
     protected $app;
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
     /**
@@ -27,11 +32,11 @@ class ProviderRepository
     /**
      * Create a new service repository instance.
      *
-     * @param  ApplicationContract $app
-     * @param  \Illuminate\Filesystem\Filesystem            $files
-     * @param  string                                       $manifestPath
+     * @param  ApplicationInterface              $app
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  string                            $manifestPath
      */
-    public function __construct(ApplicationContract $app, Filesystem $files, $manifestPath)
+    public function __construct(ApplicationInterface $app, Filesystem $files, $manifestPath)
     {
         $this->app = $app;
         $this->files = $files;
@@ -88,7 +93,7 @@ class ProviderRepository
     /**
      * Load the service provider manifest JSON file.
      *
-     * @return array
+     * @return array|null
      */
     public function loadManifest()
     {
@@ -100,6 +105,7 @@ class ProviderRepository
 
             return array_merge(['when' => []], $manifest);
         }
+        return null;
     }
 
     /**

@@ -65,6 +65,15 @@ if (!function_exists('avh_array_get')) {
 }
 
 if (!function_exists('avh_get_array_value')) {
+    /**
+     * Get the value of the array[key], and if it does not exist, return the given default value.
+     *
+     * @param array  $array
+     * @param string $key
+     * @param string $default
+     *
+     * @return string
+     */
     function avh_get_array_value($array, $key, $default = '')
     {
         if (!array_key_exists($key, $array)) {

@@ -181,7 +181,7 @@ class HtmlBuilder
     public function image($file, $alt = null, $attributes = [])
     {
         if (empty($file)) {
-            throw new \InvalidArgumentException("File can not be empty");
+            throw new \InvalidArgumentException('File can not be empty');
         }
 
         $url = $this->generateUrl($file);
