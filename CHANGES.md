@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.4.4-rc.1
+### 1.4.4
 * Preparation for new development cycle.
 
 ### 1.4.0
