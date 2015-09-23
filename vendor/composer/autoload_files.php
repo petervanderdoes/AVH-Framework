@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    $vendorDir . '/symfony/intl/Symfony/Component/Intl/Resources/stubs/functions.php',
+    $vendorDir . '/symfony/intl/Resources/stubs/functions.php',
     $vendorDir . '/danielstjules/stringy/src/Create.php',
     $vendorDir . '/illuminate/support/helpers.php',
     $vendorDir . '/ircmaxell/password-compat/lib/password.php',
