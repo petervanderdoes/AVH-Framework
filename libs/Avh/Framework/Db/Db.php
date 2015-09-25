@@ -1,10 +1,10 @@
 <?php
-namespace Avh\Db;
+namespace Avh\Framework\Db;
 
 /**
  * Class Db
  *
- * @package Avh\Db
+ * @package Avh\Framework\Db
  */
 final class Db
 {

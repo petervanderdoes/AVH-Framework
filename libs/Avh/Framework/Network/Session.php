@@ -1,5 +1,5 @@
 <?php
-namespace Avh\Network;
+namespace Avh\Framework\Network;
 
 use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 /**
  * @inheritdoc
  *
- * @package Avh\Network
+ * @package Avh\Framework\Network
  */
 class Session extends \Symfony\Component\HttpFoundation\Session\Session
 {

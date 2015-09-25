@@ -1,6 +1,6 @@
 <?php
 
-namespace Avh\Validator\Constraints;
+namespace Avh\Framework\Validator\Constraints;
 
 use Symfony\Component\HttpFoundation\File\File as FileObject;
 use Symfony\Component\Validator\Constraint;
@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 /**
  * Class IsJpegValidator
  *
- * @package Avh\Validator\Constraints
+ * @package Avh\Framework\Validator\Constraints
  */
 class IsJpegValidator extends ConstraintValidator
 {

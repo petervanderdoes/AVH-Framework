@@ -1,10 +1,10 @@
 <?php
-namespace Avh\Utility;
+namespace Avh\Framework\Utility;
 
 /**
  * Interface OptionsInterface
  *
- * @package Avh\Utility
+ * @package Avh\Framework\Utility
  */
 interface OptionsInterface
 {

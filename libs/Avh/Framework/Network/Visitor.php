@@ -1,10 +1,10 @@
 <?php
-namespace Avh\Network;
+namespace Avh\Framework\Network;
 
 /**
  * Class Visitor
  *
- * @package Avh\Network
+ * @package Avh\Framework\Network
  */
 final class Visitor
 {

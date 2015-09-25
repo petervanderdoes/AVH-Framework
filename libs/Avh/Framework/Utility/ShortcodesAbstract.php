@@ -1,10 +1,10 @@
 <?php
-namespace Avh\Utility;
+namespace Avh\Framework\Utility;
 
 /**
  * Class ShortcodesAbstract
  *
- * @package Avh\Utility
+ * @package Avh\Framework\Utility
  */
 abstract class ShortcodesAbstract
 {

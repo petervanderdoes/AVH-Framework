@@ -1,10 +1,10 @@
 <?php
-namespace Avh\Mail;
+namespace Avh\Framework\Mail;
 
 /**
  * Class Mailer
  *
- * @package Avh\Mail
+ * @package Avh\Framework\Mail
  */
 class Mailer
 {
