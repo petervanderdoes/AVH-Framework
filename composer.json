@@ -4,20 +4,20 @@
   "description": "A Framework to be used with WordPress.",
   "require": {
     "patchwork/utf8": "~1.1",
-    "php": ">=5.4",
+    "php": ">=5.5",
     "vlucas/valitron": ">=1.1.5",
-    "illuminate/container": "~5.0",
-    "illuminate/http": "~5.0",
-    "illuminate/session": "~5.0",
-    "illuminate/filesystem": "~5.0",
-    "illuminate/config": "~5.0",
-    "symfony/form": "~2.6",
-    "symfony/validator": "~2.6",
-    "symfony/config": "~2.6",
-    "symfony/translation": "~2.6",
-    "symfony/security-csrf": "~2.6",
+    "illuminate/container": "5.1.*",
+    "illuminate/http": "5.1.*",
+    "illuminate/session": "5.1.*",
+    "illuminate/filesystem": "5.1.*",
+    "illuminate/config": "5.1.*",
+    "symfony/form": "2.7.*",
+    "symfony/validator": "2.7.*",
+    "symfony/config": "2.7.*",
+    "symfony/translation": "2.7.*",
+    "symfony/security-csrf": "2.7.*",
     "twig/twig": "~1.0",
-    "symfony/twig-bridge": "~2.6",
+    "symfony/twig-bridge": "2.7.*",
     "ircmaxell/password-compat": "~1.0",
     "egulias/email-validator": "~1.2"
   },
@@ -46,11 +46,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "Avh\\": "libs/Avh"
+      "Avh\\Framework\\": "libs/Avh/Framework"
     },
     "files": [
-      "libs/Avh/Support/helpers.php",
-      "libs/Avh/Support/version.php"
+      "libs/Avh/Framework/Support/helpers.php",
+      "libs/Avh/Framework/Support/version.php"
     ]
   },
   "license": "MIT",
