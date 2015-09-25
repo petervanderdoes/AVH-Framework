@@ -1,5 +1,8 @@
 # Changelog
 
+### 2.0.1-dev.1
+* Preparation for new development cycle.
+
 ### 2.0.0
 * Namespace update
 
