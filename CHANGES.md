@@ -1,10 +1,7 @@
 # Changelog
 
-### 1.4.5-dev.7
-* Preparation for new development cycle.
-
-### 1.4.4
-* Preparation for new development cycle.
+### 2.0.0
+* Namespace update
 
 ### 1.4.0
 * Update with composer.
