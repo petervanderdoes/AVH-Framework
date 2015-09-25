@@ -46,11 +46,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "Avh\\": "libs/Avh"
+      "Avh\\Framework\\": "libs/Avh/Framework"
     },
     "files": [
-      "libs/Avh/Support/helpers.php",
-      "libs/Avh/Support/version.php"
+      "libs/Avh/Framework/Support/helpers.php",
+      "libs/Avh/Framework/Support/version.php"
     ]
   },
   "license": "MIT",

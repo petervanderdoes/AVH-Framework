@@ -1,6 +1,6 @@
-<?php namespace Avh\Support;
+<?php namespace Avh\Framework\Support;
 
-use Avh\Contracts\Foundation\ApplicationInterface;
+use Avh\Framework\Contracts\Foundation\ApplicationInterface;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -8,7 +8,7 @@ use Illuminate\Filesystem\Filesystem;
  *
  * @author    Peter van der Does
  * @copyright Copyright (c) 2015, AVH Software
- * @package   Avh\Support
+ * @package   Avh\Framework\Support
  */
 class ProviderRepository
 {

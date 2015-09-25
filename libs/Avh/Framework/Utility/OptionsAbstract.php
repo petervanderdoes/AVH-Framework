@@ -1,5 +1,5 @@
 <?php
-namespace Avh\Utility;
+namespace Avh\Framework\Utility;
 
 /**
  * Original code by Yoast.

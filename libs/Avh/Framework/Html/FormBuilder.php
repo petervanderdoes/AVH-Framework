@@ -1,10 +1,10 @@
 <?php
-namespace Avh\Html;
+namespace Avh\Framework\Html;
 
 /**
  * Class FormBuilder
  *
- * @package Avh\Html
+ * @package Avh\Framework\Html
  */
 class FormBuilder
 {

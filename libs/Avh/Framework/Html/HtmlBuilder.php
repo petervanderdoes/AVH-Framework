@@ -1,5 +1,5 @@
 <?php
-namespace Avh\Html;
+namespace Avh\Framework\Html;
 
 /**
  * HTML helper class.

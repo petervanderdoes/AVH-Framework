@@ -1,10 +1,10 @@
 <?php
-namespace Avh\Utility;
+namespace Avh\Framework\Utility;
 
 /**
  * Class Common
  *
- * @package Avh\Utility
+ * @package Avh\Framework\Utility
  */
 final class Common
 {

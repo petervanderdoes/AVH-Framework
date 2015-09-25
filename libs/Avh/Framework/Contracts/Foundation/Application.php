@@ -1,5 +1,5 @@
 <?php
-namespace Avh\Contracts\Foundation;
+namespace Avh\Framework\Contracts\Foundation;
 
 interface ApplicationInterface
 {
