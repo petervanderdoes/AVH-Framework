@@ -1,10 +1,7 @@
 # Changelog
 
 ### 2.0.0-rc.1
-* Preparation for new development cycle.
-
-### 1.4.4
-* Preparation for new development cycle.
+* Namespace update
 
 ### 1.4.0
 * Update with composer.
