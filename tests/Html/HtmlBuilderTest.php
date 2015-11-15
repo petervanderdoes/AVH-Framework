@@ -18,7 +18,7 @@ class HtmlBuilderTest extends WP_UnitTestCase
     {
         $container = new Container();
 
-        $this->htmlBuilder = $container->make('Avh\Html\HtmlBuilder');
+        $this->htmlBuilder = $container->make('Avh\Framework\Html\HtmlBuilder');
         parent::setUp();
     }
 

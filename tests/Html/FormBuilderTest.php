@@ -19,7 +19,7 @@ class FormBuilderTest extends WP_UnitTestCase
     {
         $container = new Container();
 
-        $this->formBuilder = $container->make('Avh\Html\FormBuilder');
+        $this->formBuilder = $container->make('Avh\Framework\Html\FormBuilder');
         parent::setUp();
     }
 
