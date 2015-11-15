@@ -27,9 +27,11 @@ env:
 matrix:
   include:
     - php: "5.5"
-      env: WP_VERSION=4.1
+      env: WP_VERSION=4.3.1
     - php: "5.6"
-      env: WP_VERSION=4.1
+      env: WP_VERSION=4.3.1
+    - php: "7"
+      env: WP_VERSION=4.3.1
 
 
 # Clones WordPress and configures our testing environment.
