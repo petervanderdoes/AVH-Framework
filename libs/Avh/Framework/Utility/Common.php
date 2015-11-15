@@ -20,7 +20,11 @@ final class Common
     public static function addUninstallHook($file, $callback)
     {
         if (is_array($callback) && is_object($callback[0])) {
-            _doing_it_wrong(__FUNCTION__, __('Only a static class method or function can be used in an uninstall hook.'), '3.1');
+            _doing_it_wrong(
+                __FUNCTION__,
+                __('Only a static class method or function can be used in an uninstall hook.'),
+                '3.1'
+            );
 
             return;
         }
@@ -138,5 +142,16 @@ final class Common
         }
 
         return $is_php[$version];
+    }
+
+    public static function writeVarDump($var)
+    {
+        $output = var_export($var,true);
+        $outputFile = "/tmp/test.txt";
+        $fileHandle = fopen($outputFile, "a");
+        $boundary = "--------------- ";
+        fwrite($fileHandle, $boundary);
+        fwrite($fileHandle, $output);
+        fclose($fileHandle);
     }
 }
