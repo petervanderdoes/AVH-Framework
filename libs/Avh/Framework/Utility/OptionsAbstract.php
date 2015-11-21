@@ -337,7 +337,7 @@ abstract class OptionsAbstract implements OptionsInterface
             return $clean;
         }
 
-        $option_value = array_map([__CLASS__, 'trim_recursive'], $option_value);
+        $option_value = array_map(['\Avh\Framework\Utility\Common', 'trim_recursive'], $option_value);
         $old = get_option($this->option_name);
         $clean = $this->validateOption($option_value, $clean, $old);
 
@@ -350,8 +350,6 @@ abstract class OptionsAbstract implements OptionsInterface
 
         return $clean;
     }
-
-
 
 // **********  Start Protected Methods **********
     /**
