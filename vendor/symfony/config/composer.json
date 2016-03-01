@@ -19,11 +19,14 @@
         "php": ">=5.3.9",
         "symfony/filesystem": "~2.3"
     },
-    "require-dev": {
-        "symfony/phpunit-bridge": "~2.7"
+    "suggest": {
+        "symfony/yaml": "To use the yaml reference dumper"
     },
     "autoload": {
-        "psr-4": { "Symfony\\Component\\Config\\": "" }
+        "psr-4": { "Symfony\\Component\\Config\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "minimum-stability": "dev",
     "extra": {
