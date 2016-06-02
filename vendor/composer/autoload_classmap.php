@@ -1233,6 +1233,7 @@ return array(
     'Symfony\\Component\\Validator\\Violation\\ConstraintViolationBuilder' => $vendorDir . '/symfony/validator/Violation/ConstraintViolationBuilder.php',
     'Symfony\\Component\\Validator\\Violation\\ConstraintViolationBuilderInterface' => $vendorDir . '/symfony/validator/Violation/ConstraintViolationBuilderInterface.php',
     'Symfony\\Component\\Validator\\Violation\\LegacyConstraintViolationBuilder' => $vendorDir . '/symfony/validator/Violation/LegacyConstraintViolationBuilder.php',
+    'Symfony\\Polyfill\\Mbstring\\Mbstring' => $vendorDir . '/symfony/polyfill-mbstring/Mbstring.php',
     'Symfony\\Polyfill\\Php54\\Php54' => $vendorDir . '/symfony/polyfill-php54/Php54.php',
     'Symfony\\Polyfill\\Php55\\Php55' => $vendorDir . '/symfony/polyfill-php55/Php55.php',
     'Symfony\\Polyfill\\Php55\\Php55ArrayColumn' => $vendorDir . '/symfony/polyfill-php55/Php55ArrayColumn.php',
