@@ -14,10 +14,10 @@ class FormBuilder
      *
      * @var array
      */
-    protected $labels = [];
-    private $html;
-    private $option_name;
-    private $use_table = false;
+    protected $labels    = [];
+    private   $html;
+    private   $option_name;
+    private   $use_table = false;
 
     /**
      * Constructor
@@ -131,7 +131,6 @@ class FormBuilder
 
     /**
      * Delete the option_name property
-
      */
     public function deleteOptionName()
     {
@@ -287,14 +286,14 @@ class FormBuilder
         if (isset($this->option_name) && $use_option_name) {
             if (!is_array($name)) {
                 $attributes['name'] = $this->option_name . '[' . $name . ']';
-                $id = $name;
+                $id                 = $name;
             } else {
                 $attributes['name'] = $this->option_name . '[' . key($name) . '][' . current($name) . ']';
-                $id = current($name);
+                $id                 = current($name);
             }
         } else {
             $attributes['name'] = $name;
-            $id = $name;
+            $id                 = $name;
         }
 
         // Set the input value
@@ -363,7 +362,7 @@ class FormBuilder
     public function openTable($attributes = [])
     {
         $this->use_table = true;
-        $attributes = array_merge($attributes, ['class' => 'form-table']);
+        $attributes      = array_merge($attributes, ['class' => 'form-table']);
 
         return '<table' . $this->html->attributes($attributes) . '>';
     }

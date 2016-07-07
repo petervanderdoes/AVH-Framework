@@ -17,11 +17,11 @@ final class Security
      *
      * @return string The one use form token
      */
-    public static function createNonce($action = -1)
+    public static function createNonce($action = - 1)
     {
         $tick = wp_nonce_tick();
 
-        return substr(wp_hash($tick . $action, 'nonce'), -12, 10);
+        return substr(wp_hash($tick . $action, 'nonce'), - 12, 10);
     }
 
     /**
@@ -36,14 +36,16 @@ final class Security
      *
      * @return integer|false Whether the nonce check passed or failed.
      */
-    public static function verifyNonce($nonce, $action = -1)
+    public static function verifyNonce($nonce, $action = - 1)
     {
         $return = false;
-        $tick = wp_nonce_tick();
+        $tick   = wp_nonce_tick();
         // Nonce generated 0-12 hours ago
-        if (substr(wp_hash($tick . $action, 'nonce'), -12, 10) == $nonce) {
+        if (substr(wp_hash($tick . $action, 'nonce'), - 12, 10) == $nonce) {
             $return = 1;
-        } elseif (substr(wp_hash(($tick - 1) . $action, 'nonce'), -12, 10) == $nonce) { // Nonce generated 12-24 hours ago
+        } elseif (substr(wp_hash(($tick - 1) . $action, 'nonce'), - 12, 10) ==
+                  $nonce
+        ) { // Nonce generated 12-24 hours ago
             $return = 2;
         }
 

@@ -30,7 +30,10 @@ class IsJpegValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_scalar($value) && !$value instanceof FileObject && !(is_object($value) && method_exists($value, '__toString'))) {
+        if (!is_scalar($value) &&
+            !$value instanceof FileObject &&
+            !(is_object($value) && method_exists($value, '__toString'))
+        ) {
             throw new UnexpectedTypeException($value, 'string');
         }
 
@@ -39,7 +42,7 @@ class IsJpegValidator extends ConstraintValidator
         }
 
         $uploaded_file_name = $value->getRealPath();
-        $image_mime_type = exif_imagetype($uploaded_file_name);
+        $image_mime_type    = exif_imagetype($uploaded_file_name);
         if ($image_mime_type == IMAGETYPE_JPEG) {
             return;
         }
