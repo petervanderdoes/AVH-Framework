@@ -23,7 +23,7 @@ abstract class ShortcodesAbstract
      */
     public function bootstrap($atts, $content, $tag)
     {
-        $method = $this->shortcode_map[$tag]['method'];
+        $method               = $this->shortcode_map[$tag]['method'];
         $shortcode_controller = $this->shortcode_map[$tag]['shortcode_controller'];
 
         if ($shortcode_controller === null) {

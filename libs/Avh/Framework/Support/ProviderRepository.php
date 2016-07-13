@@ -38,8 +38,8 @@ class ProviderRepository
      */
     public function __construct(ApplicationInterface $app, Filesystem $files, $manifestPath)
     {
-        $this->app = $app;
-        $this->files = $files;
+        $this->app          = $app;
+        $this->files        = $files;
         $this->manifestPath = $manifestPath;
     }
 
@@ -105,6 +105,7 @@ class ProviderRepository
 
             return array_merge(['when' => []], $manifest);
         }
+
         return null;
     }
 
@@ -130,11 +131,8 @@ class ProviderRepository
      */
     public function writeManifest($manifest)
     {
-        $this->files->put(
-            $this->manifestPath,
-            json_encode($manifest, JSON_PRETTY_PRINT)
-        )
-        ;
+        $this->files->put($this->manifestPath,
+                          json_encode($manifest, JSON_PRETTY_PRINT));
 
         return $manifest;
     }
@@ -207,12 +205,10 @@ class ProviderRepository
         $app = $this->app;
 
         $app->make('events')
-            ->listen(
-                $events,
-                function () use ($app, $provider) {
+            ->listen($events,
+                function() use ($app, $provider) {
                     $app->register($provider);
-                }
-            )
+                })
         ;
     }
 }

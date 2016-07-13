@@ -52,7 +52,7 @@ class Session extends \Symfony\Component\HttpFoundation\Session\Session
     public function __construct(array $options = [])
     {
         $default_options = ['name' => 'avh_' . COOKIEHASH];
-        $options = array_merge($default_options, $options);
+        $options         = array_merge($default_options, $options);
         parent::__construct(new NativeSessionStorage($options), new NamespacedAttributeBag('avh_framework', '.'));
     }
 }

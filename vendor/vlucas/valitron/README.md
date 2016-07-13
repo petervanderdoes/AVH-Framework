@@ -133,6 +133,7 @@ V::lang('ar');
  * `contains` - Field is a string and contains the given string
  * `creditCard` - Field is a valid credit card number
  * `instanceOf` - Field contains an instance of the given class
+ * `optional` - Value does not need to be included in data array. If it is however, it must pass validation.
 
 **NOTE**: If you are comparing floating-point numbers with min/max validators, you
 should install the [BCMath](http://us3.php.net/manual/en/book.bc.php)
@@ -182,7 +183,7 @@ case of an error. The callback provided should return boolean true or
 false.
 
 ```php
-Valitron\Validator::addRule('alwaysFail', function($field, $value, array $params) {
+Valitron\Validator::addRule('alwaysFail', function($field, $value, array $params, array $fields) {
     return false;
 }, 'Everything you do is wrong. You fail.');
 ```

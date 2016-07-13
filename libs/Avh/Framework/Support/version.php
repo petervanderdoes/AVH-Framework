@@ -1,2 +1,2 @@
 <?php
-define('AVH_FRAMEWORK', '1.1.0-dev.17');
+define('AVH_FRAMEWORK', '2.0.1');

@@ -186,7 +186,7 @@ class Validator
      */
     protected function validateAccepted($field, $value)
     {
-        $acceptable = array('yes', 'on', 1, true);
+        $acceptable = array('yes', 'on', 1, '1', true);
 
         return $this->validateRequired($field, $value) && in_array($value, $acceptable, true);
     }
@@ -244,7 +244,7 @@ class Validator
             return $length >= $params[0] && $length <= $params[1];
         }
         // Length same
-        return $length == $params[0];
+        return ($length !== false) && $length == $params[0];
     }
 
     /**
@@ -259,7 +259,7 @@ class Validator
     {
         $length = $this->stringLength($value);
 
-        return $length >= $params[0] && $length <= $params[1];
+        return ($length !== false) && $length >= $params[0] && $length <= $params[1];
     }
 
     /**
@@ -273,7 +273,9 @@ class Validator
      */
     protected function validateLengthMin($field, $value, $params)
     {
-        return $this->stringLength($value) >= $params[0];
+        $length = $this->stringLength($value);
+
+        return ($length !== false) && $length >= $params[0];
     }
 
     /**
@@ -287,18 +289,22 @@ class Validator
      */
     protected function validateLengthMax($field, $value, $params)
     {
-        return $this->stringLength($value) <= $params[0];
+        $length = $this->stringLength($value);
+
+        return ($length !== false) && $length <= $params[0];
     }
 
     /**
      * Get the length of a string
      *
      * @param  string $value
-     * @return int
+     * @return int|false
      */
     protected function stringLength($value)
     {
-        if (function_exists('mb_strlen')) {
+        if (!is_string($value)) {
+            return false;
+        } elseif (function_exists('mb_strlen')) {
             return mb_strlen($value);
         }
 
@@ -316,7 +322,9 @@ class Validator
      */
     protected function validateMin($field, $value, $params)
     {
-        if (function_exists('bccomp')) {
+        if (!is_numeric($value)) {
+            return false;
+        } elseif (function_exists('bccomp')) {
             return !(bccomp($params[0], $value, 14) == 1);
         } else {
             return $params[0] <= $value;
@@ -334,7 +342,9 @@ class Validator
      */
     protected function validateMax($field, $value, $params)
     {
-        if (function_exists('bccomp')) {
+        if (!is_numeric($value)) {
+            return false;
+        } elseif (function_exists('bccomp')) {
             return !(bccomp($value, $params[0], 14) == 1);
         } else {
             return $params[0] >= $value;
@@ -452,9 +462,9 @@ class Validator
     {
         foreach ($this->validUrlPrefixes as $prefix) {
             if (strpos($value, $prefix) !== false) {
-                $url = str_replace($prefix, '', strtolower($value));
-
-                return checkdnsrr($url);
+                $host = parse_url(strtolower($value), PHP_URL_HOST);
+                
+                return checkdnsrr($host, 'A') || checkdnsrr($host, 'AAAA') || checkdnsrr($host, 'CNAME');
             }
         }
 
@@ -721,6 +731,12 @@ class Validator
         return $isInstanceOf;
     }
 
+    //Validate optional field
+    protected function validateOptional($field, $value, $params) {
+        //Always return true
+        return true;
+    }
+
     /**
      *  Get array of fields and data
      *
@@ -858,7 +874,9 @@ class Validator
                  list($values, $multiple) = $this->getPart($this->_fields, explode('.', $field));
 
                 // Don't validate if the field is not required and the value is empty
-                if ($v['rule'] !== 'required' && !$this->hasRule('required', $field) && (! isset($values) || $values === '' || ($multiple && count($values) == 0))) {
+                if ($this->hasRule('optional', $field) && isset($values)) {
+                    //Continue with execution below if statement
+                } elseif ($v['rule'] !== 'required' && !$this->hasRule('required', $field) && (! isset($values) || $values === '' || ($multiple && count($values) == 0))) {
                     continue;
                 }
 
@@ -875,7 +893,7 @@ class Validator
 
                 $result = true;
                 foreach ($values as $value) {
-                    $result = $result && call_user_func($callback, $field, $value, $v['params']);
+                    $result = $result && call_user_func($callback, $field, $value, $v['params'], $this->_fields);
                 }
 
                 if (!$result) {
@@ -988,7 +1006,7 @@ class Validator
      * @param  array  $params
      * @return array
      */
-    private function checkAndSetLabel($field, $msg, $params)
+    protected function checkAndSetLabel($field, $msg, $params)
     {
         if (isset($this->_labels[$field])) {
             $msg = str_replace('{field}', $this->_labels[$field], $msg);

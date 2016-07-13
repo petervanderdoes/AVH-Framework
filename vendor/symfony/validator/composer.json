@@ -20,9 +20,9 @@
         "symfony/translation": "~2.4"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "~2.7",
+        "doctrine/common": "~2.3",
         "symfony/http-foundation": "~2.1",
-        "symfony/intl": "~2.4",
+        "symfony/intl": "~2.7.4|~2.8",
         "symfony/yaml": "~2.0,>=2.0.5",
         "symfony/config": "~2.2",
         "symfony/property-access": "~2.3",
@@ -43,7 +43,10 @@
         "symfony/expression-language": "For using the 2.4 Expression validator"
     },
     "autoload": {
-        "psr-4": { "Symfony\\Component\\Validator\\": "" }
+        "psr-4": { "Symfony\\Component\\Validator\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "minimum-stability": "dev",
     "extra": {

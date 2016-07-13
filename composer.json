@@ -1,6 +1,7 @@
 {
   "name": "avh/framework",
-  "type": "library",
+  "license": "MIT",
+  "type": "wordpress-plugin",
   "description": "A Framework to be used with WordPress.",
   "require": {
     "patchwork/utf8": "~1.1",
@@ -52,7 +53,5 @@
       "libs/Avh/Framework/Support/helpers.php",
       "libs/Avh/Framework/Support/version.php"
     ]
-  },
-  "license": "MIT",
-  "type": "wordpress-plugin"
+  }
 }

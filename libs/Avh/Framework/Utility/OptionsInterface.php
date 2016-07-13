@@ -74,9 +74,10 @@ interface OptionsInterface
      * Clean and re-save the option
      *
      * @param array|boolean $option_value          Option value to be imported
-     * @param string|null   $current_version       (optional) Version from which to upgrade, if not set, version specific
-     *                                             upgrades will be disregarded
-     * @param array|null    $all_old_option_values (optional) Only used when importing old options to have access to the real old values, in contrast to the saved ones
+     * @param string|null   $current_version       (optional) Version from which to upgrade, if not set, version
+     *                                             specific upgrades will be disregarded
+     * @param array|null    $all_old_option_values (optional) Only used when importing old options to have access to
+     *                                             the real old values, in contrast to the saved ones
      *
      * @return void
      */

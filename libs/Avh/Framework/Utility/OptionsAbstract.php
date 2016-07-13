@@ -92,8 +92,6 @@ abstract class OptionsAbstract implements OptionsInterface
 
     /**
      * Add all the actions and filters for the option
-
-
      */
     protected function __construct()
     {
@@ -209,7 +207,8 @@ abstract class OptionsAbstract implements OptionsInterface
     /**
      * Retrieve the real old value (unmerged with defaults), clean and re-save the option
      *
-     * @param string|null $current_version (optional) Version from which to upgrade, if not set, version specific upgrades will be disregarded
+     * @param string|null $current_version (optional) Version from which to upgrade, if not set, version specific
+     *                                     upgrades will be disregarded
      *
      * @return void
      */
@@ -265,9 +264,10 @@ abstract class OptionsAbstract implements OptionsInterface
      * Clean and re-save the option
      *
      * @param array|boolean $option_value          Option value to be imported
-     * @param string|null   $current_version       (optional) Version from which to upgrade, if not set, version specific
-     *                                             upgrades will be disregarded
-     * @param array|null    $all_old_option_values (optional) Only used when importing old options to have access to the real old values, in contrast to the saved ones
+     * @param string|null   $current_version       (optional) Version from which to upgrade, if not set, version
+     *                                             specific upgrades will be disregarded
+     * @param array|null    $all_old_option_values (optional) Only used when importing old options to have access to
+     *                                             the real old values, in contrast to the saved ones
      *
      * @return void
      */
@@ -337,9 +337,9 @@ abstract class OptionsAbstract implements OptionsInterface
             return $clean;
         }
 
-        $option_value = array_map([__CLASS__, 'trim_recursive'], $option_value);
-        $old = get_option($this->option_name);
-        $clean = $this->validateOption($option_value, $clean, $old);
+        $option_value = array_map(['\Avh\Framework\Utility\Common', 'trim_recursive'], $option_value);
+        $old          = get_option($this->option_name);
+        $clean        = $this->validateOption($option_value, $clean, $old);
 
         /* Retain the values for variable array keys even when the post type/taxonomy is not yet registered */
         if (isset($this->variable_array_key_patterns)) {
@@ -350,8 +350,6 @@ abstract class OptionsAbstract implements OptionsInterface
 
         return $clean;
     }
-
-
 
 // **********  Start Protected Methods **********
     /**
@@ -371,7 +369,7 @@ abstract class OptionsAbstract implements OptionsInterface
             return $defaults;
         }
 
-        $options = (array) $options;
+        $options  = (array) $options;
         $filtered = array_merge($defaults, $options);
 
         return $filtered;
@@ -389,9 +387,8 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected function getSwitchKey($key)
     {
-        if (!isset($this->variable_array_key_patterns) || (!is_array(
-                    $this->variable_array_key_patterns
-                ) || $this->variable_array_key_patterns === [])
+        if (!isset($this->variable_array_key_patterns) ||
+            (!is_array($this->variable_array_key_patterns) || $this->variable_array_key_patterns === [])
         ) {
             return $key;
         }
@@ -420,9 +417,8 @@ abstract class OptionsAbstract implements OptionsInterface
      */
     protected function retainVariableKeys($dirty, $clean)
     {
-        if ((is_array($this->variable_array_key_patterns) && $this->variable_array_key_patterns !== []) && (is_array(
-                    $dirty
-                ) && $dirty !== [])
+        if ((is_array($this->variable_array_key_patterns) && $this->variable_array_key_patterns !== []) &&
+            (is_array($dirty) && $dirty !== [])
         ) {
             foreach ($dirty as $key => $value) {
                 foreach ($this->variable_array_key_patterns as $pattern) {
