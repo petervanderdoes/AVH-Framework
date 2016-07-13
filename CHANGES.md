@@ -1,6 +1,6 @@
 # Changelog
 
-### 2.0.1-dev.9
+### 2.0.1-rc.1
 * Preparation for new development cycle.
 
 ### 2.0.0
